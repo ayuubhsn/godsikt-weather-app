@@ -1,12 +1,14 @@
 package com.example.IN2000_prosjekt.data
 
 import io.ktor.client.HttpClient
+import io.ktor.client.call.body
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
+import io.ktor.client.request.get
 import io.ktor.serialization.gson.gson
 import io.ktor.util.appendIfNameAbsent
 
-class DataSourceMetAlert(){
+class DataSourceMetAlert() {
     private val client = HttpClient() {
         defaultRequest {
             url("https://gw-uio.intark.uh-it.no/in2000/weatherapi")
@@ -17,7 +19,9 @@ class DataSourceMetAlert(){
         }
     }
 
-    suspend fun fetchMetAlert(){
-
+    suspend fun fetchMetAlert(latitude: String, longitude: String): MetAlertData {
+        val coordinates = "lat=$latitude&lon=$longitude"
+        val metAlertResponse = client.get("/metalerts/1.1/.json?$coordinates")
+        return metAlertResponse.body()
     }
 }
