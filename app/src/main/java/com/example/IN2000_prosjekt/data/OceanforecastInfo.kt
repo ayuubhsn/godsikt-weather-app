@@ -5,8 +5,8 @@ data class Data(
 )
 
 data class oceanForecastData(
-    val geometry: Geometry,
-    val properties: Properties,
+    val geometry: GeometryOceanforecast,
+    val properties: PropertiesOceanforecast,
     val type: String
 )
 data class Details(
@@ -20,7 +20,7 @@ data class Details(
 data class Instant(
     val details: Details
 )
-data class Geometry(
+data class GeometryOceanforecast(
     val coordinates: List<Double>,
     val type: String
 )
@@ -29,7 +29,7 @@ data class Meta(
     val updated_at: String
 )
 
-data class Properties(
+data class PropertiesOceanforecast(
     val meta: Meta,
     val timeseries: List<Timesery>
 )
