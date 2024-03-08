@@ -12,7 +12,9 @@ class DataSourceMetAlert() {
     private val client = HttpClient() {
         defaultRequest {
             url("https://gw-uio.intark.uh-it.no/in2000/weatherapi")
-            headers.appendIfNameAbsent("X-Gravitee-API-Key", "86d1e8ef-7703-4ded-b17a-f168226135cb")
+            headers.appendIfNameAbsent(
+                "X-Gravitee-API-Key",
+                "86d1e8ef-7703-4ded-b17a-f168226135cb")
         }
         install(ContentNegotiation) {
             gson()
