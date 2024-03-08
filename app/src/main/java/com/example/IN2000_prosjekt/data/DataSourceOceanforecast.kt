@@ -16,7 +16,7 @@ class DataSourceOceanforecast() {
             headers.appendIfNameAbsent(
                 "X-Gravitee-API-Key",
                 "86d1e8ef-7703-4ded-b17a-f168226135cb"
-            ) //appendifnameabsent passer på at det ikke legger til to header
+            )
         }
         install(ContentNegotiation) {
             gson()
