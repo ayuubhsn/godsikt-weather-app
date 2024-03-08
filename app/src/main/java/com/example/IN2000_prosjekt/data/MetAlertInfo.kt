@@ -7,7 +7,7 @@ data class MetAlertData(
     val type: String
 )
 data class GeometryMetAlert(
-    val coordinates: List<List<List<Double>>>,
+    val coordinates: List<List<List<Any>>>,
     val type: String
 )
 
