@@ -17,6 +17,7 @@ class DataSourceOceanforecast() {
         install(ContentNegotiation) {
             gson()
         }
+
     }
 
     suspend fun fetchOceanForecast(): oceanForecastData {
@@ -25,5 +26,15 @@ class DataSourceOceanforecast() {
         return oceanResponse.body<oceanForecastData>()
 
 
+<<<<<<< Updated upstream
     }
 }
+=======
+}
+suspend fun main(){
+    val oceanforecast:DataSourceOceanforecast= DataSourceOceanforecast()
+    println(oceanforecast.fetchOceanForecast())
+}
+
+
+>>>>>>> Stashed changes
