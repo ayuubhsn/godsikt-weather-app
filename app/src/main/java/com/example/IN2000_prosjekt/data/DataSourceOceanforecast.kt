@@ -7,6 +7,7 @@ import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.request.get
 import io.ktor.serialization.gson.gson
 import io.ktor.util.appendIfNameAbsent
+import kotlinx.coroutines.runBlocking
 
 class DataSourceOceanforecast() {
     private val client = HttpClient() {
