@@ -4,3 +4,4 @@ Navn på gruppemedlemmer:
 Ayuub
 Samatar
 Dichino
+Halo
