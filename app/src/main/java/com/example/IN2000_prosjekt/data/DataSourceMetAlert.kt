@@ -14,7 +14,8 @@ class DataSourceMetAlert() {
             url("https://gw-uio.intark.uh-it.no/in2000/weatherapi")
             headers.appendIfNameAbsent(
                 "X-Gravitee-API-Key",
-                "86d1e8ef-7703-4ded-b17a-f168226135cb")
+                "86d1e8ef-7703-4ded-b17a-f168226135cb"
+            )
         }
         install(ContentNegotiation) {
             gson()
@@ -24,6 +25,13 @@ class DataSourceMetAlert() {
     suspend fun fetchMetAlert(latitude: String, longitude: String): MetAlertData {
         val coordinates = "lat=$latitude&lon=$longitude"
         val metAlertResponse = client.get("/metalerts/1.1/.json?$coordinates")
+        return metAlertResponse.body()
+
+
+    }
+
+    suspend fun fetchMetAlertt(): MetAlertData {
+        val metAlertResponse = client.get("weatherapi/metalerts/2.0/current.json")
         return metAlertResponse.body()
     }
 }
