@@ -7,7 +7,6 @@ import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.request.get
 
 import io.ktor.serialization.gson.gson
-import kotlinx.coroutines.runBlocking
 
 class DataSourceHavvarsel {
     private val client = HttpClient() {
