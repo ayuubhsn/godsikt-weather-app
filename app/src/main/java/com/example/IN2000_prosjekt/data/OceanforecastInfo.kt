@@ -1,6 +1,6 @@
 package com.example.IN2000_prosjekt.data
 
-data class Data(
+data class DataO(
     val instant: Instant
 )
 
@@ -35,7 +35,7 @@ data class PropertiesOceanforecast(
 )
 
 data class Timesery(
-    val `data`: Data,
+    val `data`: DataO,
     val time: String
 )
 data class Units(
