@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">IN2000_prosjekt</string>
+    <string name="mapbox_access_token">sk.eyJ1IjoiYW5kZXJleXYiLCJhIjoiY2x0MXNiaDhlMTNwcTJybHo4emYyOTRlNyJ9.9zAUUDi2uJ63t05JV3Ed0w</string> //public token for MapBox
 </resources>
