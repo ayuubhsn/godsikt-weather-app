@@ -50,6 +50,10 @@ android {
 }
 
 dependencies {
+    implementation("com.mapbox.maps:android:11.2.1")//mapbox extension
+
+    implementation("com.mapbox.extension:maps-compose:11.2.1")//compose extension
+    //implementation("com.mapbox.mapboxsdk:mapbox-android-plugin-annotation-v11:11.2.0")
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
