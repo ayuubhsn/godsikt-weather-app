@@ -1,4 +1,4 @@
-package com.example.IN2000_prosjekt.ui.home
+package com.example.IN2000_prosjekt.ui.Screen
 
 import androidx.compose.ui.graphics.Color
 import com.example.IN2000_prosjekt.data.DataSourceMetAlert
