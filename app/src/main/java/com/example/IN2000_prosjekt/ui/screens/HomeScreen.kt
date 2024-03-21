@@ -1,5 +1,6 @@
 package com.example.IN2000_prosjekt.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,26 +24,38 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.IN2000_prosjekt.R
 
 
 @Composable
 fun HomeScreen(navController: NavController){
-    Box(
+    val image = painterResource(R.drawable.sailboat)
+    Column(
         modifier = Modifier
-            //.fillMaxSize()
+            .fillMaxSize()
             .padding(16.dp),
-        contentAlignment = Alignment.BottomCenter
+        verticalArrangement = Arrangement.SpaceAround,
+        horizontalAlignment =  Alignment.CenterHorizontally
     ){
         Text(
             text = "Velkommen til Trygg Sjø",
             fontSize = 24.sp,
             fontWeight = FontWeight.Medium,
-            modifier = Modifier.align(Alignment.TopCenter)
+
+        )
+        Image(
+            painter = image,
+            contentDescription = "sailboat",
+            contentScale = ContentScale.Fit,
+            alpha = 2F
+
         )
         Row (
             modifier = Modifier.fillMaxWidth(),
@@ -50,7 +63,7 @@ fun HomeScreen(navController: NavController){
         ){
             //knapp 1
             Button(
-                onClick = { navController.navigate("MapScreen") },
+                onClick ={ navController.navigate("MapScreen") },
                 colors = ButtonDefaults.buttonColors(Color(0xFF000080))
             ) {
                 Text(text = "Kart")
@@ -70,3 +83,12 @@ fun HomeScreen(navController: NavController){
         }
     }
 }
+
+@Preview(showBackground = true)
+@Composable
+fun preview(){
+    //HomeScreen()
+
+}
+
+
