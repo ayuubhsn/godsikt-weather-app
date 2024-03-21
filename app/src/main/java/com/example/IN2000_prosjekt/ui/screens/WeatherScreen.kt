@@ -1,8 +1,6 @@
 package com.example.IN2000_prosjekt.ui.screens
 
-import android.os.Build
-import android.util.Log
-import androidx.annotation.RequiresApi
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,32 +9,34 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.IN2000_prosjekt.data.DataSourceMetAlert
-import com.example.IN2000_prosjekt.data.DataSourceOceanforecast
+import androidx.navigation.NavController
 import com.example.IN2000_prosjekt.model.weather.WeatherInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun WeatherCard(map:Map<String,String>){
 
@@ -46,11 +46,10 @@ fun WeatherCard(map:Map<String,String>){
         modifier = Modifier.fillMaxSize()
     ){
         Card(modifier = Modifier
-            .height(250.dp)
-            .width(350.dp),
+            .height(270.dp)
+            .width(370.dp),
             shape = RoundedCornerShape(8.dp),
-            elevation = CardDefaults.cardElevation(4.dp)
-            ,
+            elevation = CardDefaults.cardElevation(4.dp),
             colors = CardDefaults.cardColors(containerColor = Color.White)
 
         ) {
@@ -212,25 +211,38 @@ fun WeatherCard(map:Map<String,String>){
 
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
-@Preview
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WeatherScreen(){
+fun WeatherScreen(navController: NavController){
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Home") },
+                navigationIcon = {
+                    IconButton(onClick = { navController.navigateUp() }) {
+                        Icon(Icons.Filled.ArrowBack, contentDescription = "Tilbake")
+                    }
+                }
+            )
+        }
+    ) {
+        val weatherInfo = WeatherInfo()
+        val weatherMapState = remember { mutableStateOf<Map<String, String>>(emptyMap()) }
 
-    val weatherInfo = WeatherInfo()
-    val weatherMapState = remember { mutableStateOf<Map<String, String>>(emptyMap()) }
-
-    LaunchedEffect(Dispatchers.IO){
-        weatherMapState.value = withContext(Dispatchers.IO){
-            weatherInfo.updateWeatherInfo()
+        LaunchedEffect(Dispatchers.IO){
+            weatherMapState.value = withContext(Dispatchers.IO){
+                weatherInfo.updateWeatherInfo()
+            }
+        }
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            WeatherCard(weatherMapState.value)
         }
     }
-    Log.i("Weather", weatherMapState.value.toString())
-
-
-    WeatherCard(weatherMapState.value)
-
-
 }
 
 

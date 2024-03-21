@@ -20,7 +20,7 @@ import com.mapbox.geojson.Point
 import com.mapbox.maps.extension.compose.MapboxMap
 import com.mapbox.maps.extension.compose.animation.viewport.MapViewportState
 
-class MapScreen {
+
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
@@ -65,4 +65,3 @@ class MapScreen {
     fun showMapPreview(){
     //    showMap(modifier = Modifier)
     }
-}
