@@ -2,34 +2,40 @@ package com.example.IN2000_prosjekt.data
 
 class WeatherRepository {
     val dataSourceMetAlert : DataSourceMetAlert = DataSourceMetAlert()
+    val dataSourceOceanforecast = DataSourceOceanforecast()
 
-    fun getTemprature(lat: String,lan :String) : Float{
-        dataSourceMetAlert.fetchMetAlert() //mer senere for rikitg variabel
+    suspend fun getTemprature() : String?{
+        val tempratur = dataSourceOceanforecast.fetchOceanForecast()?.properties?.meta?.units?.sea_water_temperature.toString()
+        return  tempratur
     }
 
-    fun getSunset(lat:String, lan: String){
-        dataSourceMetAlert.fetchMetAlert() // skriv riktig sener for å hente riktig variabel
+    suspend fun CelingAboveSeawater():String?{
+        val CelingAboveSeawater =dataSourceMetAlert.fetchMetAlertt().features.getOrNull(0)?.properties?.eventAwarenessName.toString()
+        return CelingAboveSeawater
 }
 
-    fun getSunrise(lat:String, lan: String){
-        dataSourceMetAlert.fetchMetAlert() // skriv riktig sener for å hente riktig variabel
+    suspend fun sea_water_to_direction (): String?{
+        val sea_water_to_direction = dataSourceOceanforecast.fetchOceanForecast().properties.timeseries.getOrNull(0)?.data?.instant?.details?.sea_water_to_direction.toString()
+        return sea_water_to_direction
     }
 
 
 
-    fun getWindStrength(lat:String, lan: String){
-        dataSourceMetAlert.fetchMetAlert() // skriv riktig sener for å hente riktig variabel
+    suspend fun sea_water_speed(): String?{
+        val sea_water_speed = dataSourceOceanforecast.fetchOceanForecast()?.properties?.meta?.units?.sea_water_speed.toString()
+        return  sea_water_speed
     }
 
 
-    fun getWindDirection(lat:String, lan: String){
-        dataSourceMetAlert.fetchMetAlert() // skriv riktig sener for å hente riktig variabel
+    suspend fun certainty(): String?{
+        val certainty  = dataSourceMetAlert.fetchMetAlertt().features.getOrNull(0)?.properties?.certainty.toString()
+        return certainty
     }
 
 
-    fun getWaterDepth(lat:String, lan: String){
-        dataSourceMetAlert.fetchMetAlert() // skriv riktig sener for å hente riktig variabel
+    suspend fun eventAwarenessName(): String? {
+        val eventAwarenessName = dataSourceMetAlert.fetchMetAlertt().features.getOrNull(0)?.properties?.eventAwarenessName.toString()
+        return eventAwarenessName
     }
-
 
 }
