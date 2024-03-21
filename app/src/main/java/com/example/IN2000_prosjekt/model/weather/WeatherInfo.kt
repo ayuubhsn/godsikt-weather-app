@@ -4,7 +4,7 @@ import com.example.IN2000_prosjekt.data.WeatherRepository
 
 class WeatherInfo{
     var temperature : String = ""
-    var CelingAboveSeawater : String = ""
+    var Awareness_level : String = ""
     var sea_water_to_direction : String = ""
     var sea_water_speed : String = ""
     var certainty : String = ""
@@ -13,12 +13,12 @@ class WeatherInfo{
      var weathermap = mutableMapOf<String, String>()
 
     //update variables for chosen location
-    suspend fun updateWeatherInfo (lat : String,lan : String): MutableMap<String, String> {
+    suspend fun updateWeatherInfo (): MutableMap<String, String> {
         weathermap.clear()
         temperature = weatherRepository.getTemprature().toString()
         weathermap["Teampratur"] = temperature
-        CelingAboveSeawater = weatherRepository.CelingAboveSeawater().toString()
-        weathermap["Abovesea"] = CelingAboveSeawater
+        Awareness_level = weatherRepository.getAwareness_level().toString()
+        weathermap["Awareness_level"] = Awareness_level
         sea_water_to_direction = weatherRepository.sea_water_to_direction().toString()
         weathermap["waterDirection"] = weatherRepository.sea_water_to_direction()
         sea_water_speed = weatherRepository.sea_water_speed().toString()
@@ -31,8 +31,4 @@ class WeatherInfo{
 
     }
 }
-
-
-
-
 

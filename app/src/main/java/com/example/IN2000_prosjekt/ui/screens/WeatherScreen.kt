@@ -1,6 +1,7 @@
-package com.example.IN2000_prosjekt.ui.home
+package com.example.IN2000_prosjekt.ui.screens
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,10 +13,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -25,16 +29,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
+import com.example.IN2000_prosjekt.data.DataSourceMetAlert
+import com.example.IN2000_prosjekt.data.DataSourceOceanforecast
+import com.example.IN2000_prosjekt.model.weather.WeatherInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.time.format.TextStyle
 
 
 @RequiresApi(Build.VERSION_CODES.O)
-@Preview
 @Composable
-fun WeatherCard(){
+fun WeatherCard(map:Map<String,String>){
 
     Column(
         verticalArrangement = Arrangement.Center,
@@ -55,7 +59,7 @@ fun WeatherCard(){
                 Row {
                     Spacer(modifier = Modifier.height(8.dp))
                     Spacer(modifier = Modifier.width(10.dp))
-                    Text(text = "Havarsel", color = Color.Black, fontSize = 20.sp, fontWeight = FontWeight.Bold, )
+                    Text(text = "Værdata", color = Color.Black, fontSize = 20.sp, fontWeight = FontWeight.Bold, )
                 }
             }
             Spacer(modifier = Modifier.height(10.dp))
@@ -68,7 +72,7 @@ fun WeatherCard(){
 
                     Spacer(modifier = Modifier.width(27.dp))
 
-                    Text(text = "Høyde over havnivå", fontSize = 18.sp, color = Color.Gray)
+                    Text(text = "Oppmerksomhetsnivå", fontSize = 18.sp, color = Color.Gray)
                 }
             }
 
@@ -79,25 +83,31 @@ fun WeatherCard(){
                     Spacer(modifier = Modifier.height(12.dp))
                     Spacer(modifier = Modifier.width(20.dp))
 
-                    Text(text = "3.0", color = Color.Black, fontSize = 18.sp, style = androidx.compose.ui.text.TextStyle(
-                        shadow = Shadow(
-                            color = Color.Gray,
-                            blurRadius = 2f,
-                            offset = Offset(1f, 1f)
+                    val tempratur = map["Teampratur"]
+                    if (tempratur != null) {
+                        Text(text = tempratur, color = Color.Black, fontSize = 18.sp, style = androidx.compose.ui.text.TextStyle(
+                            shadow = Shadow(
+                                color = Color.Gray,
+                                blurRadius = 2f,
+                                offset = Offset(1f, 1f)
+                            )
                         )
-                    )
-                    )
+                        )
+                    }
 
                     Spacer(modifier = Modifier.height(20.dp))
                     Spacer(modifier = Modifier.width(160.dp))
+                    val awarnes = map["Awareness_level"]
 
-                    Text(text = "200", color = Color.Black, fontSize = 16.sp, style = androidx.compose.ui.text.TextStyle(
-                        shadow = Shadow(
-                            color = Color.Gray,
-                            blurRadius = 2f,
-                            offset = Offset(1f, 1f)
-                        )
-                    ))
+                    if (awarnes != null) {
+                        Text(text = awarnes, color = Color.Black, fontSize = 16.sp, style = androidx.compose.ui.text.TextStyle(
+                            shadow = Shadow(
+                                color = Color.Gray,
+                                blurRadius = 2f,
+                                offset = Offset(1f, 1f)
+                            )
+                        ))
+                    }
                 }
             }
 
@@ -122,25 +132,31 @@ fun WeatherCard(){
                 Row {
                     Spacer(modifier = Modifier.height(20.dp))
                     Spacer(modifier = Modifier.width(20.dp))
+                    val waterDirection = map["waterDirection"]
 
-                    Text(text = "103.3", color = Color.Black, fontSize = 16.sp, style = androidx.compose.ui.text.TextStyle(
-                        shadow = Shadow(
-                            color = Color.Gray,
-                            blurRadius = 2f,
-                            offset = Offset(1f, 1f)
-                        )
-                    ))
+                    if (waterDirection != null) {
+                        Text(text = waterDirection, color = Color.Black, fontSize = 16.sp, style = androidx.compose.ui.text.TextStyle(
+                            shadow = Shadow(
+                                color = Color.Gray,
+                                blurRadius = 2f,
+                                offset = Offset(1f, 1f)
+                            )
+                        ))
+                    }
 
                     Spacer(modifier = Modifier.height(20.dp))
                     Spacer(modifier = Modifier.width(160.dp))
+                    val seawaterSpeed = map["waterSpeed"]
 
-                    Text(text = "0.1", color = Color.Black, fontSize = 16.sp, style = androidx.compose.ui.text.TextStyle(
-                        shadow = Shadow(
-                            color = Color.Gray,
-                            blurRadius = 2f,
-                            offset = Offset(1f, 1f)
-                        )
-                    ))
+                    if (seawaterSpeed != null) {
+                        Text(text = seawaterSpeed, color = Color.Black, fontSize = 16.sp, style = androidx.compose.ui.text.TextStyle(
+                            shadow = Shadow(
+                                color = Color.Gray,
+                                blurRadius = 2f,
+                                offset = Offset(1f, 1f)
+                            )
+                        ))
+                    }
                 }
             }
             Spacer(modifier = Modifier.height(10.dp))
@@ -162,24 +178,30 @@ fun WeatherCard(){
                 Row {
                     Spacer(modifier = Modifier.height(20.dp))
                     Spacer(modifier = Modifier.width(20.dp))
-                    Text(text = "Likely", color = Color.Black, fontSize = 16.sp, style = androidx.compose.ui.text.TextStyle(
-                        shadow = Shadow(
-                            color = Color.Gray,
-                            blurRadius = 2f,
-                            offset = Offset(1f, 1f)
-                        )
-                    ))
+                    val certainty = map["ceartinty"]
+                    if (certainty != null) {
+                        Text(text = certainty, color = Color.Black, fontSize = 16.sp, style = androidx.compose.ui.text.TextStyle(
+                            shadow = Shadow(
+                                color = Color.Gray,
+                                blurRadius = 2f,
+                                offset = Offset(1f, 1f)
+                            )
+                        ))
+                    }
 
                     Spacer(modifier = Modifier.height(20.dp))
-                    Spacer(modifier = Modifier.width(120.dp))
+                    Spacer(modifier = Modifier.width(125.dp))
+                    val dangerevent = map["event"]
 
-                    Text(text = "Sterk ising på skip", color = Color.Black, fontSize = 16.sp, style = androidx.compose.ui.text.TextStyle(
-                        shadow = Shadow(
-                            color = Color.Gray,
-                            blurRadius = 2f,
-                            offset = Offset(1f, 1f)
-                        )
-                    ))
+                    if (dangerevent != null) {
+                        Text(text = dangerevent, color = Color.Black, fontSize = 16.sp, style = androidx.compose.ui.text.TextStyle(
+                            shadow = Shadow(
+                                color = Color.Gray,
+                                blurRadius = 2f,
+                                offset = Offset(1f, 1f)
+                            )
+                        ))
+                    }
                 }
             }
 
@@ -194,18 +216,19 @@ fun WeatherCard(){
 @Preview
 @Composable
 fun WeatherScreen(){
-    /*
+
     val weatherInfo = WeatherInfo()
-    var weathermap = mutableMapOf<String, String>()
+    val weatherMapState = remember { mutableStateOf<Map<String, String>>(emptyMap()) }
+
     LaunchedEffect(Dispatchers.IO){
-        weathermap = withContext(Dispatchers.IO){
+        weatherMapState.value = withContext(Dispatchers.IO){
             weatherInfo.updateWeatherInfo()
         }
     }
-    */
+    Log.i("Weather", weatherMapState.value.toString())
 
 
-    WeatherCard()
+    WeatherCard(weatherMapState.value)
 
 
 }
