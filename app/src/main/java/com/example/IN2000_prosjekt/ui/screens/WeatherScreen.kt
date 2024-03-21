@@ -46,7 +46,7 @@ fun WeatherCard(map:Map<String,String>){
         modifier = Modifier.fillMaxSize()
     ){
         Card(modifier = Modifier
-            .height(270.dp)
+            .height(300.dp)
             .width(370.dp),
             shape = RoundedCornerShape(8.dp),
             elevation = CardDefaults.cardElevation(4.dp),
@@ -203,6 +203,54 @@ fun WeatherCard(map:Map<String,String>){
                     }
                 }
             }
+
+            Spacer(modifier = Modifier.height(10.dp))
+            Column {
+
+                Row {
+
+                    Spacer(modifier = Modifier.width(12.dp))
+                    Text(text = "Salinity", fontSize = 18.sp,  color = Color.Gray)
+
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Spacer(modifier = Modifier.width(115.dp))
+
+                    Text(text = "Tke", fontSize = 18.sp,  color = Color.Gray)
+                }
+            }
+
+            Spacer(modifier = Modifier.height(10.dp))
+            Column {
+                Row {
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Spacer(modifier = Modifier.width(20.dp))
+                    val salinity = map["salinity"]
+                    if (salinity != null) {
+                        Text(text = salinity, color = Color.Black, fontSize = 16.sp, style = androidx.compose.ui.text.TextStyle(
+                            shadow = Shadow(
+                                color = Color.Gray,
+                                blurRadius = 2f,
+                                offset = Offset(1f, 1f)
+                            )
+                        ))
+                    }
+
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Spacer(modifier = Modifier.width(15.dp))
+                    val tke = map["tke"]
+
+                    if (tke != null) {
+                        Text(text = tke, color = Color.Black, fontSize = 16.sp, style = androidx.compose.ui.text.TextStyle(
+                            shadow = Shadow(
+                                color = Color.Gray,
+                                blurRadius = 2f,
+                                offset = Offset(1f, 1f)
+                            )
+                        ))
+                    }
+                }
+            }
+
 
 
         }
