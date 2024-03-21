@@ -10,6 +10,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.IN2000_prosjekt.ui.screens.HomeScreen
+import com.example.IN2000_prosjekt.ui.screens.MapScreen
 import com.example.IN2000_prosjekt.ui.theme.IN2000_prosjektTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,7 +27,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                   // Greeting("Android")
+                    Screen()
                 }
             }
         }
@@ -42,5 +48,21 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 fun GreetingPreview() {
     IN2000_prosjektTheme {
         Greeting("Android")
+    }
+}
+@Composable
+fun Screen() {
+    val navController = rememberNavController()
+    NavHost(
+        navController = navController,
+        startDestination = "HomeScreen") {
+
+        composable("HomeScreen") {
+            HomeScreen(navController)
+        }
+        composable("MapScreen") {
+            MapScreen().showMap(navController)
+        }
+
     }
 }
