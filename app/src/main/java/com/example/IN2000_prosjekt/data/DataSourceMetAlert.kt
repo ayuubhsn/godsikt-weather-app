@@ -22,14 +22,6 @@ class DataSourceMetAlert() {
         }
     }
 
-    suspend fun fetchMetAlert(latitude: String, longitude: String): MetAlertData {
-        val coordinates = "lat=$latitude&lon=$longitude"
-        val metAlertResponse = client.get("/metalerts/1.1/.json?$coordinates")
-        return metAlertResponse.body()
-
-
-    }
-
     suspend fun fetchMetAlertt(): MetAlertData {
         val metAlertResponse = client.get("weatherapi/metalerts/2.0/current.json")
         return metAlertResponse.body()

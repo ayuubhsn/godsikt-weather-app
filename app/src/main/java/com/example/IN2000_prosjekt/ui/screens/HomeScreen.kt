@@ -71,7 +71,7 @@ fun HomeScreen(navController: NavController){
 
             //knapp 2
             Button(
-                onClick = { navController.navigate("") },
+                onClick = { navController.navigate("WeatherScreen") },
                 colors = ButtonDefaults.buttonColors(Color(0xFF000080))
             ) {
                 Text(text = "API")
