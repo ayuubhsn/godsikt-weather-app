@@ -24,10 +24,10 @@ class DataSourceOceanforecast() {
         }
     }
 
-    suspend fun fetchOceanForecast(): oceanForecastData {
-        val oceanResponse = client.get("weatherapi/oceanforecast/2.0/complete?lat=60.10&lon=5")
+    suspend fun fetchOceanForecast(lat:String,lon:String): oceanForecastData {
+        val coordinates = "lat=$lat&lon=$lon"
+        val oceanResponse = client.get("weatherapi/oceanforecast/2.0/complete?$coordinates")
         return oceanResponse.body<oceanForecastData>()
-
     }
 
 }
