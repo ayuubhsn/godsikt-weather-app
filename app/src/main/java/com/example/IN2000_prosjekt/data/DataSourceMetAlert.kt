@@ -11,7 +11,7 @@ import io.ktor.util.appendIfNameAbsent
 class DataSourceMetAlert() {
     private val client = HttpClient() {
         defaultRequest {
-            url("https://gw-uio.intark.uh-it.no/in2000/weatherapi")
+            url("https://gw-uio.intark.uh-it.no/in2000/weatherapi/")
             headers.appendIfNameAbsent(
                 "X-Gravitee-API-Key",
                 "86d1e8ef-7703-4ded-b17a-f168226135cb"
@@ -21,9 +21,9 @@ class DataSourceMetAlert() {
             gson()
         }
     }
-
-    suspend fun fetchMetAlertt(): MetAlertData {
-        val metAlertResponse = client.get("weatherapi/metalerts/2.0/current.json")
+    suspend fun fetchMetAlert(lat :String, lon: String): MetAlertData {
+        val coordinates = "lat=$lat&lon=$lon"
+        val metAlertResponse = client.get("metalerts/2.0/all.json?$coordinates")
         return metAlertResponse.body()
     }
 }
