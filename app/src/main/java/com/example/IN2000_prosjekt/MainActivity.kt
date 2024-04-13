@@ -12,9 +12,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.IN2000_prosjekt.model.weather.MapViewModel
 import com.example.IN2000_prosjekt.ui.screens.HomeScreen
 import com.example.IN2000_prosjekt.ui.screens.WeatherScreen
 import com.example.IN2000_prosjekt.ui.screens.showMap
@@ -60,6 +62,8 @@ fun GreetingPreview() {
 @Composable
 fun Screen() {
     val navController = rememberNavController()
+    val mapViewModel = viewModel<MapViewModel>()
+
     NavHost(
         navController = navController,
         startDestination = "HomeScreen") {
@@ -68,11 +72,11 @@ fun Screen() {
             HomeScreen(navController)
         }
         composable("MapScreen") {
-            showMap(navController)
+            showMap(navController, mapViewModel)
         }
 
         composable("WeatherScreen"){
-            WeatherScreen(navController)
+            WeatherScreen(naavController)
         }
 
     }
