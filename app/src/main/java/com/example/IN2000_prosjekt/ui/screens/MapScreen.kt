@@ -1,5 +1,6 @@
 package com.example.IN2000_prosjekt.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -11,11 +12,14 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.IN2000_prosjekt.model.weather.MapViewModel
 import com.mapbox.geojson.Point
 import com.mapbox.maps.extension.compose.MapboxMap
 import com.mapbox.maps.extension.compose.animation.viewport.MapViewportState
@@ -24,7 +28,13 @@ import com.mapbox.maps.extension.compose.animation.viewport.MapViewportState
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun showMap(navController: NavController,modifier: Modifier = Modifier) {
+    fun showMap(
+        navController: NavController,
+        mapViewModel: MapViewModel,
+        modifier: Modifier = Modifier) {
+
+        val mapCoordinates by mapViewModel.mapClickedCoordinates.collectAsState()
+
         Column {
             // TopAppBar med tilbake-knapp
             TopAppBar(
@@ -48,14 +58,19 @@ import com.mapbox.maps.extension.compose.animation.viewport.MapViewportState
                         zoom(5.0)
                         center(
                             Point.fromLngLat(
-                                10.7522,
-                                59.9139
+                                mapCoordinates.currentScreenLat,
+                                mapCoordinates.currentScreenLong
                             )
                         ) //starter med koordinatene til OSLO
                         pitch(50.0) // vipper vinkelen på kartet
                         bearing(0.0) // bærer retningen kartet peker mot 0 er nord
                     }
                 },
+                onMapClickListener = {point ->
+                    Log.d("MapClickListener", "Latitude: ${point.latitude()}, Longitude: ${point.longitude()}")
+                    mapViewModel.updateCoordinates(point.latitude(), point.longitude())
+                    true
+                }
             )
         }
     }
