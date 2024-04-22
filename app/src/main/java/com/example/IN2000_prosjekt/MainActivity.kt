@@ -76,7 +76,7 @@ fun Screen() {
         }
 
         composable("WeatherScreen"){
-            WeatherScreen(naavController)
+            WeatherScreen(navController)
         }
 
     }
