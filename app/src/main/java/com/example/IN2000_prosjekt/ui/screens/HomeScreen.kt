@@ -31,11 +31,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.IN2000_prosjekt.MainActivity
 import com.example.IN2000_prosjekt.R
 
 
 @Composable
-fun HomeScreen(navController: NavController){
+fun HomeScreen(navController: NavController, activity: MainActivity){
     val image = painterResource(R.drawable.sailboat)
     Column(
         modifier = Modifier
@@ -63,10 +64,11 @@ fun HomeScreen(navController: NavController){
         ){
             //knapp 1
             Button(
-                onClick ={ navController.navigate("MapScreen") },
+                //onClick ={ navController.navigate("MapScreen") },
+                onClick ={ activity.checkAndRequestLocationPermissions() },
                 colors = ButtonDefaults.buttonColors(Color(0xFF000080))
             ) {
-                Text(text = "Kart")
+                Text(text = "Start")
             }
 
             //knapp 2
