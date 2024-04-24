@@ -1,7 +1,5 @@
 package com.example.IN2000_prosjekt.utils
 
-
-
 import android.app.Activity
 import android.util.Log
 
@@ -9,10 +7,7 @@ import com.mapbox.android.core.permissions.PermissionsListener
 import com.mapbox.android.core.permissions.PermissionsManager
 import com.example.IN2000_prosjekt.model.weather.MapViewModel
 
-
-
 class PermissionUserLocation(private val activity: Activity, private val mapViewModel: MapViewModel) {
-
     private val permissionsManager = PermissionsManager(object : PermissionsListener {
         override fun onExplanationNeeded(permissionsToExplain: List<String>) {
         }
