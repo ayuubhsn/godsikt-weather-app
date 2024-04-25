@@ -25,11 +25,17 @@ import com.example.IN2000_prosjekt.ui.screens.WeatherScreen
 import com.example.IN2000_prosjekt.ui.screens.showMap
 import com.example.IN2000_prosjekt.ui.theme.IN2000_prosjektTheme
 import android.Manifest
+import android.animation.ObjectAnimator
+import android.view.View
+import android.view.animation.OvershootInterpolator
 import androidx.activity.viewModels
 import androidx.compose.runtime.LaunchedEffect
+import androidx.core.animation.doOnEnd
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.IN2000_prosjekt.model.SplashScreenDelayer
 
 open class Event<out T>(private val content: T) {
 
@@ -98,9 +104,42 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    private val viewModel by viewModels<SplashScreenDelayer>()
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //splashScreen starts
+        installSplashScreen().apply {
+            setKeepOnScreenCondition{
+                !viewModel.isReady.value
+            }
+            setOnExitAnimationListener{screen ->
+                val zoomX = ObjectAnimator.ofFloat(
+                    screen.iconView,
+                    View.SCALE_X,
+                    0.4f,
+                    0.0f
+                )
+                zoomX.interpolator = OvershootInterpolator()
+                zoomX.duration = 500L
+                zoomX.doOnEnd {screen.remove()}
+
+                val zoomY = ObjectAnimator.ofFloat(
+                    screen.iconView,
+                    View.SCALE_Y,
+                    0.4f,
+                    0.0f
+                )
+                zoomY.interpolator = OvershootInterpolator()
+                zoomY.duration = 500L
+                zoomY.doOnEnd {screen.remove()}
+
+                zoomX.start()
+                zoomY.start()
+
+            }
+        }
         setContent {
             IN2000_prosjektTheme (darkTheme = true){
                 // A surface container using the 'background' color from the theme
