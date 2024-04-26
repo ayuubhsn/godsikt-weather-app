@@ -3,9 +3,6 @@ package com.example.IN2000_prosjekt.ui.screens
 import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -23,12 +20,17 @@ import com.example.IN2000_prosjekt.ui.navigationbar.NavigationMenu
 import com.mapbox.geojson.Point
 import com.mapbox.maps.CameraOptions
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Text
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.IN2000_prosjekt.R
 import com.example.IN2000_prosjekt.ui.map.MapboxUserLocation
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun showMap(
 navController: NavController,
@@ -45,6 +47,7 @@ modifier: Modifier = Modifier,) {
         Log.d("Mapscreen",it.toString())
         mapViewModel.setLastUserLocation(it)
     }
+
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -87,19 +90,61 @@ modifier: Modifier = Modifier,) {
             .offset(y = (-150).dp),
         contentAlignment = Alignment.BottomEnd
     ) {
-        FloatingActionButton(
-            onClick = { mapViewContainer.mapView?.mapboxMap?.setCamera(CameraOptions.Builder().center(mapViewModel.getLastUserLocation().value).build())
-                //mapViewContainer.mapView?.gestures?.focalPoint = mapBoxMapView!!.mapboxMap.pixelForCoordinate(
-            },
-            //backgroundColor = Color.Blue, // Customize FAB background color
-            contentColor = Color.White, // Customize FAB content color
-            modifier = Modifier
-                .size(60.dp) // Set size of the FAB
+        Column(
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalAlignment = Alignment.End
         ) {
-            Icon(
-                imageVector = Icons.Filled.Add,
-                contentDescription = null
-            )
+
+            // SOS button
+            val LighterRed = Color(0xFFCC444B)
+            FloatingActionButton(
+                onClick = {
+                    // SOS logic here
+                },
+                containerColor = LighterRed,
+                contentColor = Color.White,
+                modifier = Modifier
+                    .size(60.dp)
+            ) {
+                Text(
+                    text = "SOS",
+                    fontSize = 14.sp,
+                    color = Color.White
+                )
+            }
+
+            // map layer button
+            FloatingActionButton(
+                onClick = {
+                    //logic for changing map layer button
+                },
+                contentColor = Color.White,
+                modifier = Modifier
+                    .size(60.dp)
+            ) {
+                Icon(
+                    painterResource(id = R.drawable.depthicon),
+                    contentDescription = "MapLayer"
+                )
+            }
+
+
+            // Centering button
+            FloatingActionButton(
+                onClick = { mapViewContainer.mapView?.mapboxMap?.setCamera(CameraOptions.Builder().center(mapViewModel.getLastUserLocation().value).build())
+                    //mapViewContainer.mapView?.gestures?.focalPoint = mapBoxMapView!!.mapboxMap.pixelForCoordinate(
+                },
+                //backgroundColor = Color.Blue, // Customize FAB background color
+                contentColor = Color.White, // Customize FAB content color
+                modifier = Modifier
+                    .size(60.dp) // Set size of the FAB
+            ) {
+                Icon(
+                    painterResource(id = R.drawable.center),
+                    contentDescription = null
+                )
+            }
         }
     }
 }
+

@@ -1,6 +1,5 @@
 package com.example.IN2000_prosjekt.ui.navigationbar
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -21,37 +20,37 @@ fun NavigationMenu(
         NavigationBarItem(
             icon = {
                 Icon(
-                    painterResource(id = R.drawable.ic_launcher_foreground),
+                    painterResource(id = R.drawable.mapicon),
                     contentDescription = "Kart"
                 )
             },
             label = { Text("Kart") },
             selected = false,
-            onClick = { Log.d("Mapscreen", "Onclick in mapscreen") }
+            onClick = { navController.navigate("MapScreen")}
         )
 
         NavigationBarItem(
             icon = {
                 Icon(
-                    painterResource(id = R.drawable.ic_launcher_foreground),
+                    painterResource(id = R.drawable.signicon),
                     contentDescription = "Skilt"
                 )
             },
             label = { Text("Skilt") },
             selected = false,
-            onClick = { Log.d("Mapscreen", "Onclick in mapscreen") }
+            onClick = { navController.navigate("SignScreen") }
         )
 
         NavigationBarItem(
             icon = {
                 Icon(
-                    painterResource(id = R.drawable.ic_launcher_foreground),
-                    contentDescription = "Profil"
+                    painterResource(id = R.drawable.settingsicon),
+                    contentDescription = "Innstillinger"
                 )
             },
-            label = { Text("Profil") },
+            label = { Text("Innstillinger") },
             selected = false,
-            onClick = { navController.navigate("HomeScreen") }
+            onClick = { navController.navigate("SettingsScreen") }
         )
     }
 }
