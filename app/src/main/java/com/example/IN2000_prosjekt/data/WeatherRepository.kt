@@ -1,10 +1,7 @@
 package com.example.IN2000_prosjekt.data
 
-import DataSourceLocationforecast
-import android.util.Log
 import com.example.IN2000_prosjekt.ui.LocationInfo
 import com.example.IN2000_prosjekt.ui.MetAlert
-
 
 class WeatherRepository {
     val dataSourceMetAlert : DataSourceMetAlert = DataSourceMetAlert()
@@ -54,7 +51,6 @@ class WeatherRepository {
         return Tke
     }
 
-
     suspend fun getMetAlert(
         lat: String,
         lon: String
@@ -97,11 +93,6 @@ class WeatherRepository {
         val windLocation =
             locationForecast.properties.timeseries.getOrNull(0)?.data?.instant?.details?.wind_from_direction
 
-        Log.d("rep", "$rain")
-        Log.d("rep", "$wind")
-        Log.d("rep", "$temp")
-        Log.d("rep", "$windLocation")
-
 
         return LocationInfo(
             temperatureL = temp!!,
@@ -115,6 +106,3 @@ class WeatherRepository {
     }
 
 }
-
-
-

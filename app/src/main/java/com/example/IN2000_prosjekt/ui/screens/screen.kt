@@ -1,3 +1,5 @@
+package com.example.IN2000_prosjekt.ui.screens
+
 
 import android.util.Log
 import androidx.compose.foundation.Image
@@ -37,6 +39,7 @@ import androidx.compose.ui.unit.sp
 import com.example.IN2000_prosjekt.R
 import com.example.IN2000_prosjekt.model.weather.MapViewModel
 import com.example.IN2000_prosjekt.ui.AppUiState
+import com.example.IN2000_prosjekt.ui.AppViewModel
 import com.example.IN2000_prosjekt.ui.LocationInfo
 import com.example.IN2000_prosjekt.ui.MetAlert
 import com.example.IN2000_prosjekt.ui.components.fargeOppmerksomhet
@@ -52,7 +55,7 @@ import com.example.IN2000_prosjekt.ui.uistate.MapUIState
 
 
 @Composable
-fun WeatherScree(
+fun WeatherScreen(
     mapViewModel:MapViewModel,
     appViewModel:AppViewModel) {
 
@@ -118,20 +121,14 @@ fun WeatherBoxCard(locationInfo: LocationInfo, metAlertInfo: MetAlert, mapCoordi
                     ) {
                         WeatherBoxContent("Tåke", locationInfo.fog_area_fraction, R.drawable.t_ke)
                         WeatherBoxContent("Nedbør", locationInfo.precipitation_amount, R.drawable.rainy)
-                        Log.d("screen", "${locationInfo.precipitation_amount}")
-                        Log.d("screen", "${locationInfo.fog_area_fraction}")
-
                     }
                     Spacer(modifier = Modifier.height(10.dp))
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        WeatherBoxContent("Vind", locationInfo.wind_speed , R.drawable.wind)
+                        WeatherBoxContent("vind", locationInfo.wind_speed , R.drawable.wind)
                         WeatherBoxContent("Vind retning", locationInfo.wind_from_direction, R.drawable.t_ke)        //endre ikonet
-                        Log.d("screen", "${locationInfo.wind_speed}")
-                        Log.d("screen", "${locationInfo.wind_from_direction}")
-
                     }
                     Spacer(modifier = Modifier.height(10.dp))
                     WeatherBoxContentAlert(
@@ -139,12 +136,12 @@ fun WeatherBoxCard(locationInfo: LocationInfo, metAlertInfo: MetAlert, mapCoordi
                         metAlertInfo.riskMatrixColor
                     )
                     Spacer(modifier = Modifier.height(10.dp))
+                    Log.d("screen", "${locationInfo.wind_speed}")
                 }
             }
         }
     }
 }
-
 @Composable
 fun DisplayCoordinates(mapCoordinates: MapUIState.mapCoordinates) {
     Row(
@@ -221,7 +218,7 @@ fun WeatherBoxContent(title: String, data: Double, icon: Int) {
     Box(
         modifier = Modifier
             .background(DarkGreyColor, shape = RoundedCornerShape(11.dp))
-            .height(60.dp)
+            .height(80.dp)
             .width(150.dp)
             .padding(8.dp),
         contentAlignment = Alignment.Center
@@ -232,9 +229,7 @@ fun WeatherBoxContent(title: String, data: Double, icon: Int) {
                 .background(color = PurpleColor, shape = CircleShape)
                 .align(Alignment.CenterStart)
         ) {
-
             if (title == "Vind retning") {
-
                 Image(
                     painter = painterResource(id = windDirectionIcon(data)),
                     contentDescription = title,
@@ -255,30 +250,23 @@ fun WeatherBoxContent(title: String, data: Double, icon: Int) {
             }
         }
         Column(
-            verticalArrangement = Arrangement.Top,
+            verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(start = 48.dp, top = 12.dp)
         ) {
             Text(
-                modifier = Modifier
-                    .offset(x = (-20).dp),
                 text = title,
                 color = Color.White,
                 fontWeight = FontWeight.W300,
                 fontSize = 10.sp
             )
-            Spacer(modifier = Modifier.height(4.dp))
-
+            Spacer(modifier = Modifier.height(4.dp)) // Legg til litt mellomrom mellom tekstene
             if (title == "Vind retning") {
                 windDirectionText(data)
             } else {
-                Log.d("screen", "$data")
-
                 Text(
-                    modifier = Modifier
-                        .offset(x = (-20).dp),
                     text = when (title) {
                         "Vind" -> "$data m/s"
                         "Nedbør" -> "$data mm"
@@ -297,6 +285,7 @@ fun WeatherBoxContent(title: String, data: Double, icon: Int) {
 
 @Composable
 fun WeatherBoxContentAlert(info: String, backgroundColor: String) {
+
     Box(
         modifier = Modifier
             .background(DarkGreyColor, shape = RoundedCornerShape(11.dp))

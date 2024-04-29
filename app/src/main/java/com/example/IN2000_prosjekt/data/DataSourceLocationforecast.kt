@@ -1,6 +1,4 @@
-import com.example.IN2000_prosjekt.data.LocationforecastData
-
-
+package com.example.IN2000_prosjekt.data
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
