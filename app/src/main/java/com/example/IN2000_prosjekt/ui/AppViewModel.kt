@@ -1,9 +1,9 @@
+package com.example.IN2000_prosjekt.ui
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.IN2000_prosjekt.data.WeatherRepository
-import com.example.IN2000_prosjekt.ui.AppUiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -48,3 +48,4 @@ class AppViewModel :ViewModel() {
         }
     }
 }
+

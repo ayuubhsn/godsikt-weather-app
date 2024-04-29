@@ -28,4 +28,3 @@ sealed interface AppUiState {
     object Error : AppUiState
     object Loading : AppUiState
 }
-
