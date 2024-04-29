@@ -34,5 +34,8 @@ class MapViewModel : ViewModel() {
     fun getLastUserLocation(): MutableStateFlow<Point?>{
         return _lastUserLocation
     }
+    fun updateCoordinates(lat: Double, long: Double) {
+        _mapClickedCoordinatesUIState.value = MapUIState.mapCoordinates(lat, long)
+    }
 }
 
