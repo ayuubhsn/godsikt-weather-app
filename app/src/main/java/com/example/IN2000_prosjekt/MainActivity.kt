@@ -36,6 +36,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.IN2000_prosjekt.model.SplashScreenDelayer
+import com.example.IN2000_prosjekt.ui.AppViewModel
 
 open class Event<out T>(private val content: T) {
 
@@ -148,7 +149,10 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     // Greeting("Android")
-                    Screen(this)
+                   // Screen(this)
+                    val mapViewModel = MapViewModel()
+                    val appViewModel = AppViewModel()
+                    WeatherScreen(mapViewModel = mapViewModel, appViewModel =appViewModel )
                 }
             }
         }
