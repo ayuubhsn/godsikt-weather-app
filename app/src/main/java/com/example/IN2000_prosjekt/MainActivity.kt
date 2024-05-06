@@ -35,13 +35,20 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.room.Room
+import com.example.IN2000_prosjekt.data.SignDao
+import com.example.IN2000_prosjekt.data.SignDatabase
 import com.example.IN2000_prosjekt.model.SplashScreenDelayer
+import com.example.IN2000_prosjekt.model.signs.SignViewModel
 import com.example.IN2000_prosjekt.ui.AppViewModel
 import com.example.IN2000_prosjekt.ui.screens.settings.AboutDataSourcesScreen
 import com.example.IN2000_prosjekt.ui.screens.settings.AboutUsScreen
 import com.example.IN2000_prosjekt.ui.screens.settings.PrivacyInfoScreen
 import com.example.IN2000_prosjekt.ui.screens.settings.SettingsScreen
 import com.example.IN2000_prosjekt.ui.screens.settings.TermsAndConditionsScreen
+import com.example.IN2000_prosjekt.ui.screens.signs.CategoryScreen
+import com.example.IN2000_prosjekt.ui.screens.signs.SignDescriptionScreen
+import com.example.IN2000_prosjekt.ui.screens.signs.SignScreen
 
 open class Event<out T>(private val content: T) {
 
@@ -77,6 +84,15 @@ class SharedViewModel : ViewModel() {
 
 class MainActivity : ComponentActivity() {
     private val sharedViewModel: SharedViewModel by viewModels()
+
+    //creating new database og copies from oceanSign-database
+    private val db by lazy {
+        Room.databaseBuilder(
+            applicationContext,
+            SignDatabase ::class.java,
+            "oceanSigns.db"
+        ).createFromAsset("database/oceanSigns.db").build()
+    }
 
     // Register the permissions callback, which handles the user's response to the system permissions dialog.
     private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
@@ -154,7 +170,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     // Greeting("Android")
-                    Screen(this)
+                    Screen(this, db.dao)
                 }
             }
         }
@@ -178,19 +194,24 @@ fun GreetingPreview() {
 }
 
 @Composable
-fun Screen(activity : MainActivity) {
+fun Screen(activity : MainActivity,  signDao: SignDao) {
     val navController = rememberNavController()
     val mapViewModel = viewModel<MapViewModel>()
     val sharedViewModel: SharedViewModel = viewModel()
     val appViewModel: AppViewModel = viewModel<AppViewModel>()
+    val signViewModel: SignViewModel = SignViewModel(signDao)
+
 
     NavHost(
         navController = navController,
         startDestination = "HomeScreen") {
 
+        //start
         composable("HomeScreen") {
             HomeScreen(navController, activity)
         }
+
+        //map
         composable("MapScreen") {
             showMap(navController, mapViewModel, appViewModel, activity)
         }
@@ -198,6 +219,7 @@ fun Screen(activity : MainActivity) {
             WeatherScreen(mapViewModel = mapViewModel, appViewModel = appViewModel)
         }
 
+        //settings
         composable("SettingsScreen"){
             SettingsScreen(navController)
         }
@@ -212,6 +234,17 @@ fun Screen(activity : MainActivity) {
         }
         composable("TermsAndConditionsScreen"){
             TermsAndConditionsScreen(navController)
+        }
+
+        //signs
+        composable("CategoryScreen"){
+            CategoryScreen(navController, signViewModel)
+        }
+        composable("SignScreen"){
+            SignScreen(signViewModel, navController)
+        }
+        composable("SignDescriptionScreen"){
+            SignDescriptionScreen(signViewModel,navController)
         }
     }
 

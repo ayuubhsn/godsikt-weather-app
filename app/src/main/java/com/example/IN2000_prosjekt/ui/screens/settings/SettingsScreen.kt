@@ -166,7 +166,8 @@ fun SettingsScreen(
             }
             Spacer(modifier = Modifier.weight(1f))
             NavigationMenu(
-                navController = navController, Modifier.align(Alignment.CenterHorizontally))}
+                navController = navController, Modifier.align(Alignment.CenterHorizontally))
+        }
 
 
     }
