@@ -21,7 +21,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -33,6 +35,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -62,13 +65,69 @@ fun WeatherScreen(
     val appUiState by appViewModel.appUiState.collectAsState()
     val mapCoordinates by mapViewModel.mapClickedCoordinates.collectAsState()
 
+    //val userLocation = mapViewModel.getLastUserLocation()
+
+    Log.d("weatherscreen" , mapCoordinates.currentScreenLat.toString())
+    Log.d("weatherscreen" , mapCoordinates.currentScreenLong.toString())
+
     // Hent informasjon basert på koordinater når de endres
     LaunchedEffect(mapCoordinates) {
         mapCoordinates.let {
+            Log.d("weatherscreen", "getAll")
             appViewModel.getAll(mapCoordinates.currentScreenLat.toString(), mapCoordinates.currentScreenLong.toString())
         }
     }
 
+    when (appUiState){
+        is AppUiState.Loading ->{
+            Text(text = "vent")
+        }
+        is AppUiState.Error ->{
+            Text(text = "feil")
+        }
+        is AppUiState.Success->{
+            WeatherBoxCard(
+                (appUiState as AppUiState.Success).locationG,
+                (appUiState as AppUiState.Success).metAlertG,
+                mapCoordinates
+            )
+        }
+    }
+}
+
+@Composable
+fun WeatherCard(
+    mapViewModel:MapViewModel,
+    appViewModel:AppViewModel
+) {
+
+    val appUiState by appViewModel.appUiState.collectAsState()
+    val mapCoordinates by mapViewModel.mapClickedCoordinates.collectAsState()
+
+    //val userLocation = mapViewModel.getLastUserLocation()
+
+    Log.d("weatherscreen" , mapCoordinates.currentScreenLat.toString())
+    Log.d("weatherscreen" , mapCoordinates.currentScreenLong.toString())
+
+    // Hent informasjon basert på koordinater når de endres
+    LaunchedEffect(mapCoordinates) {
+        mapCoordinates.let {
+            Log.d("weatherscreen", "getAll")
+            appViewModel.getAll(mapCoordinates.currentScreenLat.toString(), mapCoordinates.currentScreenLong.toString())
+        }
+    }
+    /*
+    Card(
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+        ),
+        shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp), // Rounded corners only on top
+        modifier = Modifier
+            .height(400.dp)
+            .fillMaxWidth()
+    ) {
+
+     */
     when (appUiState){
         is AppUiState.Loading ->{
             Text(text = "vent")
@@ -93,15 +152,18 @@ fun WeatherBoxCard(locationInfo: LocationInfo, metAlertInfo: MetAlert, mapCoordi
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .offset(y = (-80).dp),
+        contentAlignment = Alignment.BottomCenter
     ) {
         Card(
+            shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp), // Rounded corners only on top
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
         ) {
             Column(
-                modifier = Modifier.background(AppBackground)
+                modifier = Modifier
+                    .background(AppBackground)
+                    .padding(16.dp)
             ) {
                 DisplayCoordinates(mapCoordinates = mapCoordinates)
                 Row(
@@ -153,7 +215,7 @@ fun DisplayCoordinates(mapCoordinates: MapUIState.mapCoordinates) {
         Spacer(modifier = Modifier.width(8.dp))
 
         Image(
-            painter = painterResource(id = R.drawable.location),
+            painter = painterResource(id = R.drawable.location_white),
             contentDescription = "posisjon",
             modifier = Modifier
                 .size(24.dp) // Juster størrelsen etter behov

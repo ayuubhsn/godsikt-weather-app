@@ -1,6 +1,7 @@
 package com.example.IN2000_prosjekt.ui.screens
 
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Icon
@@ -20,34 +21,70 @@ import com.example.IN2000_prosjekt.ui.navigationbar.NavigationMenu
 import com.mapbox.geojson.Point
 import com.mapbox.maps.CameraOptions
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.AlertDialog
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.BottomSheetScaffold
+import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberBottomSheetScaffoldState
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.IN2000_prosjekt.R
+import com.example.IN2000_prosjekt.ui.AppViewModel
+import com.example.IN2000_prosjekt.ui.map.MapboxPin
 import com.example.IN2000_prosjekt.ui.map.MapboxUserLocation
-
+import com.mapbox.maps.QueriedFeature
+import com.mapbox.maps.plugin.gestures.addOnMapClickListener
+import kotlinx.coroutines.launch
 
 @Composable
 fun showMap(
-navController: NavController,
-mapViewModel: MapViewModel,
-activity: MainActivity,
-modifier: Modifier = Modifier,) {
+    navController: NavController,
+    mapViewModel: MapViewModel,
+    appViewModel: AppViewModel,
+    activity: MainActivity,
+    modifier: Modifier = Modifier,) {
 
 
     //  val locationComponentEnabled by mapViewModel.locationComponentEnabled.collectAsState()
     val mapViewContainer = MapViewContainer()
     val mapCoordinates by mapViewModel.mapClickedCoordinates.collectAsState()
-    var mapIsReady = false
-    val userLocation = MapboxUserLocation{
-        Log.d("Mapscreen",it.toString())
-        mapViewModel.setLastUserLocation(it)
+    var isWeatherOpen by rememberSaveable {
+        mutableStateOf(false)
+    }
+    var isSOSOpen by rememberSaveable {
+        mutableStateOf(false)
+    }
+    var isInfoOpen by rememberSaveable {
+        mutableStateOf(false)
     }
 
+    val userLocation = MapboxUserLocation().apply{
+        onLastLocation = { point ->
+            // Handle the position change here
+            // For example, update your UI or perform other actions based on the new location
+            Log.d("UserLocation", "New position: $point")
+            mapViewModel.setLastUserLocation(point)
+        }
+    }
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -55,7 +92,7 @@ modifier: Modifier = Modifier,) {
         MapboxMapComponent(
             mapViewContainer = mapViewContainer,
             initialCameraOptions = CameraOptions.Builder()
-            .center(
+                .center(
                     Point.fromLngLat(
                         mapCoordinates.currentScreenLat,
                         mapCoordinates.currentScreenLong
@@ -67,15 +104,21 @@ modifier: Modifier = Modifier,) {
                 .build(),
             onMapReady = {
                 // This block will be executed once the map is ready
+
                 Log.d("MapboxMapComponent", "Map is ready!") // Log that the map is ready
-                mapIsReady = true
                 Log.d("Mapscreen" , "Map is ready")
                 val mapboxMap = mapViewContainer.mapView?.mapboxMap
+                mapViewContainer.mapView?.let { mapViewModel.setMapboxView(it) }
 
                 if (mapboxMap != null) {
                     addDybdedataLayer(mapboxMap)
                     Log.d("mapscreen", "mapboxmap if test check")
                     userLocation.initUserLocationComponent(mapViewContainer.mapView!!)
+                    MapboxPin(mapViewContainer.mapView!!, activity , R.drawable.location_blue) { point ->
+                        Log.d("MapScreen", "Map clicked at: ${point.longitude()}, ${point.latitude()}")
+                        isWeatherOpen=false
+                        mapViewModel.updateCoordinates(lat = point.latitude(), long = point.longitude())
+                    }
                 }
             }
         )
@@ -87,7 +130,7 @@ modifier: Modifier = Modifier,) {
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
-            .offset(y = (-150).dp),
+            .offset(y = (-100).dp),
         contentAlignment = Alignment.BottomEnd
     ) {
         Column(
@@ -99,7 +142,7 @@ modifier: Modifier = Modifier,) {
             val LighterRed = Color(0xFFCC444B)
             FloatingActionButton(
                 onClick = {
-                    // SOS logic here
+                    isSOSOpen = !isSOSOpen
                 },
                 containerColor = LighterRed,
                 contentColor = Color.White,
@@ -113,26 +156,44 @@ modifier: Modifier = Modifier,) {
                 )
             }
 
-            // map layer button
+            // Information button
             FloatingActionButton(
                 onClick = {
-                    //logic for changing map layer button
+                    isInfoOpen = !isInfoOpen
                 },
                 contentColor = Color.White,
                 modifier = Modifier
                     .size(60.dp)
             ) {
                 Icon(
-                    painterResource(id = R.drawable.depthicon),
-                    contentDescription = "MapLayer"
+                    painterResource(id = R.drawable.info_circle),
+                    contentDescription = "Weather information"
+                )
+            }
+
+            // Weather information button
+            FloatingActionButton(
+                onClick = {
+                    isWeatherOpen=true
+                },
+                contentColor = Color.White,
+                modifier = Modifier
+                    .size(60.dp)
+            ) {
+                Icon(
+                    painterResource(id = R.drawable.cloud_sunny),
+                    contentDescription = "Weather information"
                 )
             }
 
 
             // Centering button
             FloatingActionButton(
-                onClick = { mapViewContainer.mapView?.mapboxMap?.setCamera(CameraOptions.Builder().center(mapViewModel.getLastUserLocation().value).build())
-                    //mapViewContainer.mapView?.gestures?.focalPoint = mapBoxMapView!!.mapboxMap.pixelForCoordinate(
+                onClick = {
+                    mapViewModel.getMapboxView().value?.mapboxMap?.let {
+                        mapViewContainer.setCameraLocation(
+                            it, mapViewModel.getLastUserLocation().value)
+                    }
                 },
                 //backgroundColor = Color.Blue, // Customize FAB background color
                 contentColor = Color.White, // Customize FAB content color
@@ -146,5 +207,234 @@ modifier: Modifier = Modifier,) {
             }
         }
     }
+    if(isWeatherOpen){
+        WeatherCard(mapViewModel, appViewModel)
+    }
+    if (isSOSOpen) {
+        SOSCard(
+            onConfirm = {
+                // Handle confirmation action here
+                // For example, you can trigger a function to send SOS message
+            },
+            onClose = {
+                isSOSOpen = false // Close the SOS card
+            }
+        )
+    }
+    if (isInfoOpen) {
+        InformationCard(onClose = {
+            isInfoOpen = false // Close the information card
+        })
+    }
 }
 
+@Composable
+fun SOSCard(onConfirm: () -> Unit, onClose: () -> Unit) {
+    var showConfirmation by rememberSaveable { mutableStateOf(false) }
+
+    Card(
+        colors = CardDefaults.cardColors(
+            containerColor = Color(0xFF262626)
+        ),
+        modifier = Modifier
+            .padding(horizontal = 20.dp, vertical = 290.dp)
+            .fillMaxWidth(),
+        shape = RoundedCornerShape(8.dp),
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            if (showConfirmation) {
+                Text(
+                    text = "Kystvakten er varslet!",
+                    color = Color.White,
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Button(
+                    onClick = {
+                        onClose() // Close the card
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        contentColor = Color.White,
+                        containerColor = Color(0xFF6358DC)
+                    ),
+                    modifier = Modifier
+                        .width(120.dp)
+                        .padding(vertical = 8.dp)
+                ) {
+                    Text(text = "Lukk")
+                }
+            } else {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.warning_fill0_wght400_grad0_opsz24),
+                        contentDescription = "Warning",
+                        tint = Color.White,
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "ADVARSEL",
+                        color = Color.White
+                    )
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = "Bekreft at du ønsker å dele din GPS posisjon med kystvakten.",
+                    color = Color.White,
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Button(
+                        onClick = {
+                            onConfirm()
+                            showConfirmation = true // Show confirmation message
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            contentColor = Color.White,
+                            containerColor = Color.Red
+                        ),
+                        modifier = Modifier
+                            .width(120.dp)
+                            .padding(vertical = 8.dp)
+                    ) {
+                        Text(text = "BEKREFT")
+                    }
+                    Button(
+                        onClick = {
+                            onClose() // Close the card
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            contentColor = Color.White,
+                            containerColor = Color(0xFF6358DC).copy(alpha = 0.45f)
+                        ),
+                        modifier = Modifier
+                            .width(120.dp)
+                            .padding(vertical = 8.dp)
+                    ) {
+                        Text(text = "Avbryt")
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun InformationCard(onClose: () -> Unit) {
+    Card(
+        colors = CardDefaults.cardColors(
+            containerColor = Color(0xFF262626)
+        ),
+        modifier = Modifier
+            .padding(horizontal = 20.dp, vertical = 110.dp)
+            .fillMaxWidth(),
+        shape = RoundedCornerShape(8.dp),
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Text(
+                text = "App instrukser",
+                color = Color.White ,
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                text = "Her er alle knappene i appen og hva de gjør:",
+                color = Color.White
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            InformationItem(
+                icon = painterResource(id = R.drawable.sos_fill0_wght400_grad0_opsz24__1_),
+                description = "SOS tilkaller kystvakten i faresituasjoner"
+            )
+            HorizontalDivider(
+                thickness = 1.dp,
+                color = Color.White.copy(alpha = 0.25f)
+            )
+            InformationItem(
+                icon = painterResource(id = R.drawable.cloud_sunny),
+                description = "Viser til været i valgt lokasjon (trykk på kart)"
+            )
+            HorizontalDivider(
+                thickness = 1.dp,
+                color = Color.White.copy(alpha = 0.25f)
+            )
+            InformationItem(
+                icon = painterResource(id = R.drawable.center),
+                description = "Sentrerer kartet i forhold til posisjon"
+            )
+            HorizontalDivider(
+                thickness = 1.dp,
+                color = Color.White.copy(alpha = 0.25f)
+            )
+            InformationItem(
+                icon = painterResource(id = R.drawable.mapicon),
+                description = "Viser kartet"
+            )
+            HorizontalDivider(
+                thickness = 1.dp,
+                color = Color.White.copy(alpha = 0.25f)
+            )
+            InformationItem(
+                icon = painterResource(id = R.drawable.signicon),
+                description = "Viser viktige skilt og regler"
+            )
+            HorizontalDivider(
+                thickness = 1.dp,
+                color = Color.White.copy(alpha = 0.25f)
+            )
+            InformationItem(
+                icon = painterResource(id = R.drawable.settingsicon),
+                description = "Innstillinger for appen"
+            )
+            HorizontalDivider(
+                thickness = 1.dp,
+                color = Color.White.copy(alpha = 0.25f)
+            )
+            Button(
+                onClick = { onClose() },
+                colors = ButtonDefaults.buttonColors(
+                    contentColor = Color.White,
+                    containerColor = Color(0xFF6358DC)
+                ),
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            ) {
+                Text(text = "Lukk")
+            }
+        }
+    }
+}
+
+
+@Composable
+fun InformationItem(icon: Painter, description: String) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Icon(
+            painter = icon,
+            contentDescription = null,
+            modifier = Modifier.size(35.dp)
+        )
+        Spacer(modifier = Modifier.width(16.dp))
+        Text(
+            text = description,
+            fontSize = 16.sp,
+            color = Color.White,
+            modifier = Modifier.fillMaxWidth()
+        )
+    }
+}
