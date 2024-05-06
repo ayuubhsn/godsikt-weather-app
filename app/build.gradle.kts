@@ -50,16 +50,16 @@ android {
 }
 
 dependencies {
-    implementation("com.mapbox.maps:android:11.2.0")//mapbox extension
+    implementation("com.mapbox.maps:android:11.3.0")//mapbox extension
 
-    implementation("com.mapbox.extension:maps-compose:11.2.0")//compose extension
+    implementation("com.mapbox.extension:maps-compose:11.3.0")//compose extension
     //implementation("com.mapbox.mapboxsdk:mapbox-android-plugin-annotation-v11:11.2.0")
 
-    implementation("androidx.compose.ui:ui:1.4.0") // Adjust version as necessary
-    implementation("androidx.compose.material:material:1.4.0") // For material design components
-    implementation("androidx.compose.material:material-icons-core:1.4.0") // Core icons
-    implementation("androidx.compose.material:material-icons-extended:1.4.0") // Extended icons set
-    implementation("androidx.navigation:navigation-compose:2.5.2") // For navigation
+    implementation("androidx.compose.ui:ui:1.6.6") // Adjust version as necessary
+    implementation("androidx.compose.material:material:1.6.6") // For material design components
+    implementation("androidx.compose.material:material-icons-core:1.6.6") // Core icons
+    implementation("androidx.compose.material:material-icons-extended:1.6.6") // Extended icons set
+    implementation("androidx.navigation:navigation-compose:2.7.7") // For navigation
 
     implementation("androidx.compose.runtime:runtime-livedata:1.6.6")
     implementation("androidx.activity:activity-ktx:1.8.2")

@@ -1,5 +1,4 @@
 
-
 package com.example.IN2000_prosjekt.ui.map
 
 import android.util.Log
@@ -26,30 +25,10 @@ import com.mapbox.maps.plugin.locationcomponent.OnIndicatorPositionChangedListen
  * @param context The context, used for accessing resources.
  */
 
-class MapboxUserLocation(private val onLocationChange: (Point) -> Unit = {}){
+class MapboxUserLocation(){
 
-    var lastLocation: Point? = null
+    var onLastLocation: ((Point) -> Unit)? = null
     var mapBoxMapView: MapView? = null
-
-    public fun goToLocation(){
-        Log.d("goToLocation","goToLocation function")
-        // Handle the new position (e.g., update UI or map camera)
-        if(mapBoxMapView != null && lastLocation != null){
-            Log.d("goToLocation","goToLocation view and last location exists")
-            mapBoxMapView!!.mapboxMap.setCamera(CameraOptions.Builder().center(lastLocation).build())
-            mapBoxMapView!!.gestures.focalPoint = mapBoxMapView!!.mapboxMap.pixelForCoordinate(
-                lastLocation!!
-            )
-        }else{
-            if(mapBoxMapView == null){
-                Log.d("goToLocation","goToLocation mapboxmapview is not null")
-            }
-            if(lastLocation == null){
-                Log.d("goToLocation","goToLocation lastLocation is not null")
-            }
-            Log.d("goToLocation","goToLocation if test did not go through")
-        }
-    }
 
     public fun initUserLocationComponent(mapView: MapView) {
         Log.d("initUserLocation", "Enter")
@@ -98,8 +77,7 @@ class MapboxUserLocation(private val onLocationChange: (Point) -> Unit = {}){
             // Handle the new position (e.g., update UI or map camera)
             //mapView.mapboxMap.setCamera(CameraOptions.Builder().center(it).build())
             //mapView.gestures.focalPoint = mapView.mapboxMap.pixelForCoordinate(it)
-            lastLocation = it
-            onLocationChange.invoke(it)
+            onLastLocation?.invoke(it)
         })
 
         // Add listener for bearing changes

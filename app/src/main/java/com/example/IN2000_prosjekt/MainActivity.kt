@@ -149,10 +149,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     // Greeting("Android")
-                   // Screen(this)
-                    val mapViewModel = MapViewModel()
-                    val appViewModel = AppViewModel()
-                    WeatherScreen(mapViewModel = mapViewModel, appViewModel =appViewModel )
+                    Screen(this)
                 }
             }
         }
@@ -180,6 +177,7 @@ fun Screen(activity : MainActivity) {
     val navController = rememberNavController()
     val mapViewModel = viewModel<MapViewModel>()
     val sharedViewModel: SharedViewModel = viewModel()
+    val appViewModel: AppViewModel = viewModel<AppViewModel>()
 
     NavHost(
         navController = navController,
@@ -189,11 +187,10 @@ fun Screen(activity : MainActivity) {
             HomeScreen(navController, activity)
         }
         composable("MapScreen") {
-            showMap(navController, mapViewModel, activity)
+            showMap(navController, mapViewModel, appViewModel, activity)
         }
-
         composable("WeatherScreen"){
-            WeatherScreen(navController)
+            WeatherScreen(mapViewModel = mapViewModel, appViewModel = appViewModel)
         }
     }
 

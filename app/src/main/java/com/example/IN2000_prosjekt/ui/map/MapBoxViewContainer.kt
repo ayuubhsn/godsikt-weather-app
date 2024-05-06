@@ -8,9 +8,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
+import com.mapbox.geojson.Point
 import com.mapbox.maps.CameraOptions
 import com.mapbox.maps.MapView
-import com.mapbox.maps.Style
+import com.mapbox.maps.MapboxMap
 import com.mapbox.maps.extension.style.atmosphere.generated.atmosphere
 import com.mapbox.maps.extension.style.sources.generated.rasterDemSource
 import com.mapbox.maps.extension.style.style
@@ -19,7 +20,6 @@ import com.mapbox.maps.extension.style.layers.generated.skyLayer
 import com.mapbox.maps.extension.style.layers.properties.generated.ProjectionName
 import com.mapbox.maps.extension.style.layers.properties.generated.SkyType
 import com.mapbox.maps.extension.style.projection.generated.projection
-
 
 class MapViewContainer(initialMapView: MapView? = null, private val onMapReady: () -> Unit = {}) {
     private var _mapView: MapView? = initialMapView
@@ -39,6 +39,11 @@ class MapViewContainer(initialMapView: MapView? = null, private val onMapReady: 
 
     fun setMapViewInstance(mapView: MapView?) {
         this.mapView = mapView
+    }
+
+    fun setCameraLocation(mapboxmap: MapboxMap,point: Point?){
+        Log.d("MapViewController", "set camera location")
+        mapboxmap.setCamera(CameraOptions.Builder().center(point).build())
     }
 }
 
