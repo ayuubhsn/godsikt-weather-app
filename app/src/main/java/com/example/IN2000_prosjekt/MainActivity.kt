@@ -37,6 +37,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.IN2000_prosjekt.model.SplashScreenDelayer
 import com.example.IN2000_prosjekt.ui.AppViewModel
+import com.example.IN2000_prosjekt.ui.screens.settings.AboutDataSourcesScreen
+import com.example.IN2000_prosjekt.ui.screens.settings.AboutUsScreen
+import com.example.IN2000_prosjekt.ui.screens.settings.PrivacyInfoScreen
+import com.example.IN2000_prosjekt.ui.screens.settings.SettingsScreen
+import com.example.IN2000_prosjekt.ui.screens.settings.TermsAndConditionsScreen
 
 open class Event<out T>(private val content: T) {
 
@@ -191,6 +196,22 @@ fun Screen(activity : MainActivity) {
         }
         composable("WeatherScreen"){
             WeatherScreen(mapViewModel = mapViewModel, appViewModel = appViewModel)
+        }
+
+        composable("SettingsScreen"){
+            SettingsScreen(navController)
+        }
+        composable("AboutDataSourcesScreen"){
+            AboutDataSourcesScreen(navController)
+        }
+        composable("AboutUsScreen"){
+            AboutUsScreen(navController)
+        }
+        composable("PrivacyInfoScreen"){
+            PrivacyInfoScreen(navController)
+        }
+        composable("TermsAndConditionsScreen"){
+            TermsAndConditionsScreen(navController)
         }
     }
 
