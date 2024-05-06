@@ -37,6 +37,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.IN2000_prosjekt.model.SplashScreenDelayer
 import com.example.IN2000_prosjekt.ui.AppViewModel
+import com.example.IN2000_prosjekt.ui.screens.settings.AboutDataSourcesScreen
+import com.example.IN2000_prosjekt.ui.screens.settings.AboutUsScreen
+import com.example.IN2000_prosjekt.ui.screens.settings.PrivacyInfoScreen
+import com.example.IN2000_prosjekt.ui.screens.settings.SettingsScreen
+import com.example.IN2000_prosjekt.ui.screens.settings.TermsAndConditionsScreen
 
 open class Event<out T>(private val content: T) {
 
@@ -149,10 +154,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     // Greeting("Android")
-                   // Screen(this)
-                    val mapViewModel = MapViewModel()
-                    val appViewModel = AppViewModel()
-                    WeatherScreen(mapViewModel = mapViewModel, appViewModel =appViewModel )
+                    Screen(this)
                 }
             }
         }
@@ -180,6 +182,7 @@ fun Screen(activity : MainActivity) {
     val navController = rememberNavController()
     val mapViewModel = viewModel<MapViewModel>()
     val sharedViewModel: SharedViewModel = viewModel()
+    val appViewModel: AppViewModel = viewModel<AppViewModel>()
 
     NavHost(
         navController = navController,
@@ -189,11 +192,26 @@ fun Screen(activity : MainActivity) {
             HomeScreen(navController, activity)
         }
         composable("MapScreen") {
-            showMap(navController, mapViewModel, activity)
+            showMap(navController, mapViewModel, appViewModel, activity)
+        }
+        composable("WeatherScreen"){
+            WeatherScreen(mapViewModel = mapViewModel, appViewModel = appViewModel)
         }
 
-        composable("WeatherScreen"){
-            WeatherScreen(navController)
+        composable("SettingsScreen"){
+            SettingsScreen(navController)
+        }
+        composable("AboutDataSourcesScreen"){
+            AboutDataSourcesScreen(navController)
+        }
+        composable("AboutUsScreen"){
+            AboutUsScreen(navController)
+        }
+        composable("PrivacyInfoScreen"){
+            PrivacyInfoScreen(navController)
+        }
+        composable("TermsAndConditionsScreen"){
+            TermsAndConditionsScreen(navController)
         }
     }
 

@@ -19,13 +19,17 @@ class AppViewModel :ViewModel() {
     private val _appUistate: MutableStateFlow<AppUiState> = MutableStateFlow(AppUiState.Loading)
     val appUiState: StateFlow<AppUiState> = _appUistate.asStateFlow()
 
-    fun getAll(latitude: String, longitude: String) {
+    fun getAll(longitude: String, latitude: String) {
         viewModelScope.launch {
             try {
+                Log.d("getAll" , "getLocation")
                 val locationFCFetchDeferred = viewModelScope.async(Dispatchers.IO) {
+                    Log.d("getAll" , "getMetAlerts")
                     repo.getLocation( longitude,latitude)
                 }
                 val locationResult = locationFCFetchDeferred.await()
+
+                Log.d("getAll" , "getMetAlerts")
 
                 val metAlertFetchDeferred = viewModelScope.async(Dispatchers.IO) {
                     repo.getMetAlert(latitude,longitude)
