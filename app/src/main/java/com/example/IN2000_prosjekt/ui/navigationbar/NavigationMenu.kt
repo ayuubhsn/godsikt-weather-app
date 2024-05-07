@@ -38,7 +38,7 @@ fun NavigationMenu(
             },
             label = { Text("Skilt") },
             selected = false,
-            onClick = { navController.navigate("SignScreen") }
+            onClick = { navController.navigate("CategoryScreen") }
         )
 
         NavigationBarItem(
