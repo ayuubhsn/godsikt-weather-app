@@ -1,6 +1,7 @@
 package com.example.IN2000_prosjekt.ui.screens.settings
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -59,7 +60,7 @@ fun SettingsScreen(
                 .padding(10.dp)
                 .width(275.dp)
                 .height(45.dp)
-                .clickable { navController.navigate("AboutUsScreen")}
+                .clickable { navController.navigate("AboutUsScreen") }
 
             ){
               //her kan denne knappen sette
@@ -113,7 +114,7 @@ fun SettingsScreen(
                 .padding(10.dp)
                 .width(275.dp)
                 .height(45.dp)
-                .clickable {navController.navigate("TermsAndConditionsScreen")  }
+                .clickable { navController.navigate("TermsAndConditionsScreen") }
 
             ){
 
@@ -165,8 +166,12 @@ fun SettingsScreen(
 
             }
             Spacer(modifier = Modifier.weight(1f))
+
+        }
+        Box {
             NavigationMenu(
-                navController = navController, Modifier.align(Alignment.CenterHorizontally))
+                navController = navController,
+                modifier = Modifier.align(Alignment.BottomCenter))
         }
 
 
