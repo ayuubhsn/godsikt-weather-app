@@ -36,8 +36,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.room.Room
-import com.example.IN2000_prosjekt.data.SignDao
-import com.example.IN2000_prosjekt.data.SignDatabase
+import com.example.IN2000_prosjekt.data.signs.SignDao
+import com.example.IN2000_prosjekt.data.signs.SignDatabase
 import com.example.IN2000_prosjekt.model.SplashScreenDelayer
 import com.example.IN2000_prosjekt.model.signs.SignViewModel
 import com.example.IN2000_prosjekt.ui.AppViewModel

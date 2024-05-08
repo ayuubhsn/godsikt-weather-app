@@ -1,4 +1,4 @@
-package com.example.IN2000_prosjekt.data
+package com.example.IN2000_prosjekt.data.weather
 
 data class MetAlertData(
     val features: List<Feature>,
