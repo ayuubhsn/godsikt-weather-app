@@ -22,6 +22,7 @@ import com.mapbox.geojson.Point
 import com.mapbox.maps.CameraOptions
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.IconButton
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.Button
@@ -41,8 +42,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -137,24 +141,36 @@ fun showMap(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalAlignment = Alignment.End
         ) {
-
-            // SOS button
+            // SOS Button
             val LighterRed = Color(0xFFCC444B)
-            FloatingActionButton(
-                onClick = {
-                    isSOSOpen = !isSOSOpen
-                },
-                containerColor = LighterRed,
-                contentColor = Color.White,
+            Box(
                 modifier = Modifier
                     .size(60.dp)
+                    .clip(RoundedCornerShape(25))
+                    .background(LighterRed)
+                    .semantics {
+                        contentDescription = "Tilkalles redningstjenester"
+                    }
             ) {
-                Text(
-                    text = "SOS",
-                    fontSize = 14.sp,
-                    color = Color.White
-                )
+                IconButton(
+                    onClick = {
+                        isSOSOpen =!isSOSOpen
+                    },
+                    modifier = Modifier
+                        .size(48.dp)
+                        .align(Alignment.Center)
+                ) {
+                    Text(
+                        text = "SOS",
+                        fontSize = 14.sp,
+                        color = Color.White,
+
+                        )
+
+                }
             }
+
+
 
             // Information button
             FloatingActionButton(
