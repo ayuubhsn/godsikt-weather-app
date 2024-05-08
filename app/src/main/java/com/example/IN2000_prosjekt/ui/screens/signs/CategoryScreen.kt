@@ -60,8 +60,12 @@ fun CategoryScreen(
                 makeCategory(SignCategory(category), navController, signViewModel)
             }
             Spacer(modifier = Modifier.weight(1f))
+
+        }
+        Box {
             NavigationMenu(
-                navController = navController, Modifier.align(Alignment.CenterHorizontally))
+                navController = navController,
+                modifier = Modifier.align(Alignment.BottomCenter))
         }
     }
 }

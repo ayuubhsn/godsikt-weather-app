@@ -1,6 +1,6 @@
 package com.example.IN2000_prosjekt.model.signs
 
-import com.example.IN2000_prosjekt.data.getCategoryIcon
+import com.example.IN2000_prosjekt.model.components.getCategoryIcon
 
 class SignCategory(
     val category : SignCategories,
