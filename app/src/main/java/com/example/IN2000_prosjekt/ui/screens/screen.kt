@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -40,14 +41,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.IN2000_prosjekt.R
+import com.example.IN2000_prosjekt.model.components.fargeOppmerksomhet
+import com.example.IN2000_prosjekt.model.components.windDirectionIcon
+import com.example.IN2000_prosjekt.model.components.windDirectionText
 import com.example.IN2000_prosjekt.model.weather.MapViewModel
 import com.example.IN2000_prosjekt.ui.AppUiState
 import com.example.IN2000_prosjekt.ui.AppViewModel
 import com.example.IN2000_prosjekt.ui.LocationInfo
 import com.example.IN2000_prosjekt.ui.MetAlert
-import com.example.IN2000_prosjekt.ui.components.fargeOppmerksomhet
-import com.example.IN2000_prosjekt.ui.components.windDirectionIcon
-import com.example.IN2000_prosjekt.ui.components.windDirectionText
 import com.example.IN2000_prosjekt.ui.theme.AppBackground
 import com.example.IN2000_prosjekt.ui.theme.DarkGreyColor
 import com.example.IN2000_prosjekt.ui.theme.PurpleColor
@@ -189,7 +190,7 @@ fun WeatherBoxCard(locationInfo: LocationInfo, metAlertInfo: MetAlert, mapCoordi
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        WeatherBoxContent("vind", locationInfo.wind_speed , R.drawable.wind)
+                        WeatherBoxContent("Vind", locationInfo.wind_speed , R.drawable.wind)
                         WeatherBoxContent("Vind retning", locationInfo.wind_from_direction, R.drawable.t_ke)        //endre ikonet
                     }
                     Spacer(modifier = Modifier.height(10.dp))
@@ -225,14 +226,13 @@ fun DisplayCoordinates(mapCoordinates: MapUIState.mapCoordinates) {
 
         // Vis tekst
         Text(
-            text = "(Lat: ${mapCoordinates.currentScreenLat} x Lon: ${mapCoordinates.currentScreenLong})",
+            text = "${String.format("%.2f", mapCoordinates.currentScreenLat)}, ${String.format("%.2f", mapCoordinates.currentScreenLong)}",
             style = TextStyle(
-                fontSize = 12.sp,
+                fontSize = 15.sp,
                 fontWeight = FontWeight.W300,
                 color = Color.White
-            ),
-
             )
+        )
     }
 }
 
@@ -246,7 +246,7 @@ fun Weather(temp: Int, symbolCode: String?) {
         Text(
             text = "$temp°C",
             style = TextStyle(
-                fontSize = 40.sp,
+                fontSize = 60.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White
             ),
@@ -269,7 +269,7 @@ fun Weather(temp: Int, symbolCode: String?) {
             Image(
                 painter = painterResource(id = resourceId),
                 contentDescription = "Weather Icon",
-                modifier = Modifier.size(100.dp) // Juster størrelsen etter behov
+                modifier = Modifier.size(130.dp) // Juster størrelsen etter behov
             )
         }
     }
@@ -281,7 +281,7 @@ fun WeatherBoxContent(title: String, data: Double, icon: Int) {
         modifier = Modifier
             .background(DarkGreyColor, shape = RoundedCornerShape(11.dp))
             .height(80.dp)
-            .width(150.dp)
+            .width(185.dp)
             .padding(8.dp),
         contentAlignment = Alignment.Center
     ) {
@@ -320,9 +320,9 @@ fun WeatherBoxContent(title: String, data: Double, icon: Int) {
         ) {
             Text(
                 text = title,
-                color = Color.White,
-                fontWeight = FontWeight.W300,
-                fontSize = 10.sp
+                color = Color.Gray,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 15.sp
             )
             Spacer(modifier = Modifier.height(4.dp)) // Legg til litt mellomrom mellom tekstene
             if (title == "Vind retning") {
@@ -336,8 +336,8 @@ fun WeatherBoxContent(title: String, data: Double, icon: Int) {
                         else -> data.toString()
                     },
                     color = Color.White,
-                    fontWeight = FontWeight.W300,
-                    fontSize = 10.sp
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp
                 )
             }
         }
@@ -351,8 +351,8 @@ fun WeatherBoxContentAlert(info: String, backgroundColor: String) {
     Box(
         modifier = Modifier
             .background(DarkGreyColor, shape = RoundedCornerShape(11.dp))
-            .height(70.dp)
-            .width(300.dp)
+            .height(110.dp)
+            .width(380.dp)
             .padding(8.dp)
     ) {
         Row(
@@ -376,17 +376,19 @@ fun WeatherBoxContentAlert(info: String, backgroundColor: String) {
                 )
             }
             Spacer(modifier = Modifier.width(8.dp))
-            Column(
+
+            LazyColumn(
                 modifier = Modifier.weight(1f)
             ) {
-                Text(
+                item {
+                    Text(
                     text = info,
                     color = Color.White,
-                    fontWeight = FontWeight.W300,
-                    fontSize = 10.sp,
-                    maxLines = 2,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 15.sp,
                     overflow = TextOverflow.Ellipsis
-                )
+                ) }
+
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.example.IN2000_prosjekt.data
+package com.example.IN2000_prosjekt.data.weather
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -7,9 +7,8 @@ import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.request.get
 import io.ktor.serialization.gson.gson
 import io.ktor.util.appendIfNameAbsent
-import kotlinx.coroutines.runBlocking
 
-class DataSourceOceanforecast() {
+class DataSourceLocationforecast {
     private val client = HttpClient() {
         defaultRequest {
             url("https://gw-uio.intark.uh-it.no/in2000/")
@@ -24,10 +23,11 @@ class DataSourceOceanforecast() {
         }
     }
 
-    suspend fun fetchOceanForecast(lat:String,lon:String): oceanForecastData {
-        val coordinates = "lat=$lat&lon=$lon"
-        val oceanResponse = client.get("weatherapi/oceanforecast/2.0/complete?$coordinates")
-        return oceanResponse.body<oceanForecastData>()
+    suspend fun fetchLocationforecast(lat:String,lon:String): LocationforecastData {
+        var coordinates = "lat=$lat&lon=$lon"
+        val locationResponse = client.get("weatherapi/locationforecast/2.0/complete?$coordinates")
+        return locationResponse.body<LocationforecastData>()
     }
+
 
 }

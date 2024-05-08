@@ -1,11 +1,9 @@
 package com.example.IN2000_prosjekt.model.signs
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.IN2000_prosjekt.data.SignDao
-import com.example.IN2000_prosjekt.data.getPictureSign
+import com.example.IN2000_prosjekt.data.signs.SignDao
+import com.example.IN2000_prosjekt.model.components.getPictureSign
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 

@@ -1,4 +1,4 @@
-package com.example.IN2000_prosjekt.data
+package com.example.IN2000_prosjekt.data.signs
 
 import androidx.room.*
 import com.example.IN2000_prosjekt.model.signs.Sign

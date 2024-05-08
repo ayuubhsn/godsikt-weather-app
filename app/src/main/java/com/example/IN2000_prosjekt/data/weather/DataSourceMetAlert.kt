@@ -1,4 +1,4 @@
-package com.example.IN2000_prosjekt.data
+package com.example.IN2000_prosjekt.data.weather
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
