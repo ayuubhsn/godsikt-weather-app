@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">IN2000_prosjekt</string>
     <string name="mapbox_access_token">sk.eyJ1IjoiYW5kZXJleXYiLCJhIjoiY2x0MXNiaDhlMTNwcTJybHo4emYyOTRlNyJ9.9zAUUDi2uJ63t05JV3Ed0w</string> //public token for MapBox
+
+    //navbar strings
+    <string name="map_content_description">Kart</string>
+    <string name="map">Kart</string>
+    <string name="sign_content_description">Skilt</string>
+    <string name="sign">Skilt</string>
+    <string name="settings_content_description">Innstillinger</string>
+    <string name="settings">Innstillinger</string>
+
 </resources>
