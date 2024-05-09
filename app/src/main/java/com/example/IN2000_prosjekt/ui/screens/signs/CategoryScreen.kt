@@ -1,5 +1,6 @@
 package com.example.IN2000_prosjekt.ui.screens.signs
 
+import NavigationMenu
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -33,7 +34,6 @@ import androidx.navigation.NavController
 import com.example.IN2000_prosjekt.model.signs.SignCategories
 import com.example.IN2000_prosjekt.model.signs.SignCategory
 import com.example.IN2000_prosjekt.model.signs.SignViewModel
-import com.example.IN2000_prosjekt.ui.navigationbar.NavigationMenu
 
 @Composable
 fun CategoryScreen(
