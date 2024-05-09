@@ -1,4 +1,3 @@
-package com.example.IN2000_prosjekt.ui.navigationbar
 
 import androidx.compose.runtime.Composable
 import androidx.compose.material3.Icon
@@ -7,6 +6,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.example.IN2000_prosjekt.R
 
@@ -14,17 +14,16 @@ import com.example.IN2000_prosjekt.R
 fun NavigationMenu(
     navController: NavController,
     modifier: Modifier = Modifier) {
-    //var selectedItem by remember { mutableIntStateOf(0) }
 
     NavigationBar(modifier = modifier) {
         NavigationBarItem(
             icon = {
                 Icon(
                     painterResource(id = R.drawable.mapicon),
-                    contentDescription = "Kart"
+                    contentDescription = stringResource(R.string.map_content_description)
                 )
             },
-            label = { Text("Kart") },
+            label = { Text(stringResource(R.string.map)) },
             selected = false,
             onClick = { navController.navigate("MapScreen")}
         )
@@ -33,10 +32,10 @@ fun NavigationMenu(
             icon = {
                 Icon(
                     painterResource(id = R.drawable.signicon),
-                    contentDescription = "Skilt"
+                    contentDescription = stringResource(R.string.sign_content_description)
                 )
             },
-            label = { Text("Skilt") },
+            label = { Text(stringResource(R.string.sign)) },
             selected = false,
             onClick = { navController.navigate("CategoryScreen") }
         )
@@ -45,10 +44,10 @@ fun NavigationMenu(
             icon = {
                 Icon(
                     painterResource(id = R.drawable.settingsicon),
-                    contentDescription = "Innstillinger"
+                    contentDescription = stringResource(R.string.settings_content_description)
                 )
             },
-            label = { Text("Innstillinger") },
+            label = { Text(stringResource(R.string.settings)) },
             selected = false,
             onClick = { navController.navigate("SettingsScreen") }
         )
