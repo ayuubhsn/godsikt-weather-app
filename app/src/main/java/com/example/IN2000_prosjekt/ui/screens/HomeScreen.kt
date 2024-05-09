@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -38,6 +39,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.IN2000_prosjekt.MainActivity
 import com.example.IN2000_prosjekt.R
+import com.mapbox.maps.extension.style.expressions.dsl.generated.length
 
 
 @Composable
@@ -61,9 +63,28 @@ fun HomeScreen(navController: NavController, activity: MainActivity){
         )
         Text(
             modifier = Modifier
-                .offset(y = (screenHeight * -0.02).dp),
+                .offset(y = (screenHeight * -0.01).dp),
             text = "GOD SIKT",
             fontSize = 70.sp,
+            fontWeight = FontWeight.ExtraLight,
+        )
+        Text(
+            modifier = Modifier
+                .offset(y = (screenHeight * 0.01).dp),
+            text = "Tillattelsesbehov",
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Medium,
+        )
+        HorizontalDivider(
+            modifier = Modifier.fillMaxWidth(0.2f),
+            thickness = 1.dp,
+            color = Color.White.copy(alpha = 0.25f)
+
+        )
+        Text(
+            modifier = Modifier,
+            text = "Applikasjonen trenger plasseringstillatelse for å fungere",
+            fontSize = 14.sp,
             fontWeight = FontWeight.ExtraLight,
         )
         Row (
@@ -100,5 +121,3 @@ fun preview(){
     //HomeScreen()
 
 }
-
-

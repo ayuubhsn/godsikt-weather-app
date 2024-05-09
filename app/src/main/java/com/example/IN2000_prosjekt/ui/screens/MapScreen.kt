@@ -1,6 +1,8 @@
+
 package com.example.IN2000_prosjekt.ui.screens
 
 import NavigationMenu
+import android.content.res.Configuration
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -38,12 +40,15 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -57,8 +62,12 @@ import com.example.IN2000_prosjekt.ui.map.MapboxPin
 import com.example.IN2000_prosjekt.ui.map.MapboxUserLocation
 import com.mapbox.maps.QueriedFeature
 import com.mapbox.maps.plugin.gestures.addOnMapClickListener
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@OptIn(DelicateCoroutinesApi::class)
 @Composable
 fun showMap(
     navController: NavController,
@@ -66,6 +75,35 @@ fun showMap(
     appViewModel: AppViewModel,
     activity: MainActivity,
     modifier: Modifier = Modifier,) {
+
+
+    var lastOrientation by remember { mutableIntStateOf(Configuration.ORIENTATION_UNDEFINED) }
+    val configuration = LocalConfiguration.current
+
+    LaunchedEffect(configuration.orientation) {
+        if (lastOrientation != configuration.orientation) {
+            // Handle orientation change
+            lastOrientation = configuration.orientation
+            when (configuration.orientation) {
+                Configuration.ORIENTATION_LANDSCAPE -> {
+                    Log.d("Orientation", "landscape")
+                }
+                Configuration.ORIENTATION_PORTRAIT -> {
+                    Log.d("Orientation", "portrait")
+                }
+                Configuration.ORIENTATION_UNDEFINED -> {
+                    Log.d("Orientation", "undefined")
+                }
+            }
+        }
+    }
+
+    // UI that might depend on orientation
+    if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        // Landscape-specific UI
+    } else {
+        // Portrait-specific UI
+    }
 
 
     //  val locationComponentEnabled by mapViewModel.locationComponentEnabled.collectAsState()
@@ -86,6 +124,17 @@ fun showMap(
             // Handle the position change here
             // For example, update your UI or perform other actions based on the new location
             Log.d("UserLocation", "New position: $point")
+            // Ignore emulator position that is less than 0 (outside norway)
+            /*
+            if(point.longitude() > 5.0){
+                if(mapViewModel.getLastUserLocation().value == null){
+                    mapViewModel.getMapboxView().value?.mapboxMap?.let {
+                        mapViewContainer.setCameraLocation(
+                            it, point)
+                    }
+                }
+            }
+             */
             mapViewModel.setLastUserLocation(point)
         }
     }
@@ -98,11 +147,11 @@ fun showMap(
             initialCameraOptions = CameraOptions.Builder()
                 .center(
                     Point.fromLngLat(
-                        mapCoordinates.currentScreenLat,
-                        mapCoordinates.currentScreenLong
+                        8.3,
+                        62.0
                     )
                 ) // Example: New York City coordinates
-                .zoom(8.0)
+                .zoom(4.6)
                 .bearing(0.0)
                 .pitch(0.0)
                 .build(),
@@ -117,7 +166,9 @@ fun showMap(
                 if (mapboxMap != null) {
                     addDybdedataLayer(mapboxMap)
                     Log.d("mapscreen", "mapboxmap if test check")
+
                     userLocation.initUserLocationComponent(mapViewContainer.mapView!!)
+
                     MapboxPin(mapViewContainer.mapView!!, activity , R.drawable.location_blue) { point ->
                         Log.d("MapScreen", "Map clicked at: ${point.longitude()}, ${point.latitude()}")
                         isWeatherOpen=false
@@ -126,121 +177,123 @@ fun showMap(
                 }
             }
         )
-        NavigationMenu(
-            navController = navController,
-            modifier = Modifier.align(Alignment.BottomCenter))
-    }
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-            .offset(y = (-100).dp),
-        contentAlignment = Alignment.BottomEnd
-    ) {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalAlignment = Alignment.End
-        ) {
-            // SOS Button
-            val LighterRed = Color(0xFFCC444B)
-            Box(
-                modifier = Modifier
-                    .size(60.dp)
-                    .clip(RoundedCornerShape(25))
-                    .background(LighterRed)
-                    .semantics {
-                        contentDescription = "Tilkalles redningstjenester"
-                    }
-            ) {
-                IconButton(
-                    onClick = {
-                        isSOSOpen =!isSOSOpen
-                    },
-                    modifier = Modifier
-                        .size(48.dp)
-                        .align(Alignment.Center)
-                ) {
-                    Text(
-                        text = "SOS",
-                        fontSize = 14.sp,
-                        color = Color.White,
-
-                        )
-
-                }
-            }
-
-
-
-            // Information button
-            FloatingActionButton(
-                onClick = {
-                    isInfoOpen = !isInfoOpen
-                },
-                contentColor = Color.White,
-                modifier = Modifier
-                    .size(60.dp)
-            ) {
-                Icon(
-                    painterResource(id = R.drawable.info_circle),
-                    contentDescription = "Weather information"
-                )
-            }
-
-            // Weather information button
-            FloatingActionButton(
-                onClick = {
-                    isWeatherOpen=true
-                },
-                contentColor = Color.White,
-                modifier = Modifier
-                    .size(60.dp)
-            ) {
-                Icon(
-                    painterResource(id = R.drawable.cloud_sunny),
-                    contentDescription = "Weather information"
-                )
-            }
-
-
-            // Centering button
-            FloatingActionButton(
-                onClick = {
-                    mapViewModel.getMapboxView().value?.mapboxMap?.let {
-                        mapViewContainer.setCameraLocation(
-                            it, mapViewModel.getLastUserLocation().value)
-                    }
-                },
-                //backgroundColor = Color.Blue, // Customize FAB background color
-                contentColor = Color.White, // Customize FAB content color
-                modifier = Modifier
-                    .size(60.dp) // Set size of the FAB
-            ) {
-                Icon(
-                    painterResource(id = R.drawable.center),
-                    contentDescription = null
-                )
-            }
+        if(configuration.orientation == Configuration.ORIENTATION_PORTRAIT){
+            NavigationMenu(
+                navController = navController,
+                modifier = Modifier.align(Alignment.BottomCenter))
         }
     }
-    if(isWeatherOpen){
-        WeatherCard(mapViewModel, appViewModel)
-    }
-    if (isSOSOpen) {
-        SOSCard(
-            onConfirm = {
-                // Handle confirmation action here
-                // For example, you can trigger a function to send SOS message
-            },
-            onClose = {
-                isSOSOpen = false // Close the SOS card
+
+    if(configuration.orientation == Configuration.ORIENTATION_PORTRAIT){
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+                .offset(y = (-100).dp),
+            contentAlignment = Alignment.BottomEnd
+        ) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalAlignment = Alignment.End
+            ) {
+                // SOS Button
+                val LighterRed = Color(0xFFCC444B)
+                val infoColor = Color(0xFF4169E1)
+                Box(
+                    modifier = Modifier
+                        .size(60.dp)
+                        .clip(RoundedCornerShape(25))
+                        .background(LighterRed)
+                        .semantics {
+                            contentDescription = "Tilkalles redningstjenester"
+                        }
+                ) {
+                    IconButton(
+                        onClick = {
+                            isSOSOpen =!isSOSOpen
+                        },
+                        modifier = Modifier
+                            .size(48.dp)
+                            .align(Alignment.Center)
+                    ) {
+                        Text(
+                            text = "SOS",
+                            fontSize = 14.sp,
+                            color = Color.White,
+
+                            )
+
+                    }
+                }
+                // Information button
+                FloatingActionButton(
+                    onClick = {
+                        isInfoOpen = !isInfoOpen
+                    },
+                    contentColor = Color.White,
+                    containerColor = infoColor,
+                    modifier = Modifier
+                        .size(60.dp)
+                ) {
+                    Icon(
+                        painterResource(id = R.drawable.info_circle),
+                        contentDescription = "Weather information"
+                    )
+                }
+
+                // Weather information button
+                FloatingActionButton(
+                    onClick = {
+                        isWeatherOpen=true
+                    },
+                    contentColor = Color.White,
+                    modifier = Modifier
+                        .size(60.dp)
+                ) {
+                    Icon(
+                        painterResource(id = R.drawable.cloud_sunny),
+                        contentDescription = "Weather information"
+                    )
+                }
+                // Centering button
+                FloatingActionButton(
+                    onClick = {
+                        mapViewModel.getMapboxView().value?.mapboxMap?.let {
+                            mapViewContainer.setCameraLocation(
+                                it, mapViewModel.getLastUserLocation().value)
+                        }
+                    },
+                    //backgroundColor = Color.Blue, // Customize FAB background color
+                    contentColor = Color.White, // Customize FAB content color
+                    modifier = Modifier
+                        .size(60.dp) // Set size of the FAB
+                ) {
+                    Icon(
+                        painterResource(id = R.drawable.center),
+                        contentDescription = null
+                    )
+                }
             }
-        )
-    }
-    if (isInfoOpen) {
-        InformationCard(onClose = {
-            isInfoOpen = false // Close the information card
-        })
+        }
+        if(isWeatherOpen){
+            WeatherCard(mapViewModel, appViewModel)
+        }
+        if (isSOSOpen) {
+            SOSCard(
+                onConfirm = {
+                    // Handle confirmation action here
+                    // For example, you can trigger a function to send SOS message
+                },
+                onClose = {
+                    isSOSOpen = false // Close the SOS card
+                }
+            )
+        }
+        if (isInfoOpen) {
+            InformationCard(onClose = {
+                isInfoOpen = false // Close the information card
+            })
+        }
     }
 }
 
@@ -454,3 +507,4 @@ fun InformationItem(icon: Painter, description: String) {
         )
     }
 }
+
