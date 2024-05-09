@@ -1,5 +1,6 @@
 package com.example.IN2000_prosjekt.ui.screens
 
+import NavigationMenu
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -17,7 +18,6 @@ import com.example.IN2000_prosjekt.model.weather.MapViewModel
 import com.example.IN2000_prosjekt.ui.map.MapViewContainer
 import com.example.IN2000_prosjekt.ui.map.MapboxMapComponent
 import com.example.IN2000_prosjekt.ui.map.addDybdedataLayer
-import com.example.IN2000_prosjekt.ui.navigationbar.NavigationMenu
 import com.mapbox.geojson.Point
 import com.mapbox.maps.CameraOptions
 import androidx.compose.foundation.layout.*
