@@ -32,6 +32,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -63,7 +65,8 @@ fun HomeScreen(navController: NavController, activity: MainActivity){
         )
         Text(
             modifier = Modifier
-                .offset(y = (screenHeight * -0.01).dp),
+                .offset(y = (screenHeight * -0.01).dp)
+                .semantics { heading() },
             text = "GOD SIKT",
             fontSize = 70.sp,
             fontWeight = FontWeight.ExtraLight,
