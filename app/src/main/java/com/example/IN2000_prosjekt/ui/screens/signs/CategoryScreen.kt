@@ -28,6 +28,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -50,7 +52,9 @@ fun CategoryScreen(
                 text = "Skilt og regler",
                 fontSize = 30.sp,
                 style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier.align(Alignment.CenterHorizontally),
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .semantics { heading() },
                 color = Color.White
             )
 
@@ -102,7 +106,7 @@ fun makeCategory(
             ) {
                 Icon(
                     painter = painterResource(id = category.getIcon()),
-                    contentDescription = "Icon of ${category.getNameString()}",
+                    contentDescription = null,
                     modifier = Modifier.size(24.dp),
                     tint = Color.Unspecified
                 )
@@ -118,7 +122,7 @@ fun makeCategory(
             )
             Icon(
                 imageVector =  Icons.Default.ArrowForward,
-                contentDescription = "Arrow Forward",
+                contentDescription = null,
                 tint = Color.Gray,
                 modifier = Modifier.align(Alignment.CenterVertically)
             )
