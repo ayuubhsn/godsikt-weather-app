@@ -5,6 +5,7 @@ import NavigationMenu
 import android.content.res.Configuration
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Icon
@@ -23,6 +24,7 @@ import com.example.IN2000_prosjekt.ui.map.addDybdedataLayer
 import com.mapbox.geojson.Point
 import com.mapbox.maps.CameraOptions
 import androidx.compose.foundation.layout.*
+
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.IconButton
 import androidx.compose.material3.BottomSheetScaffold
@@ -46,12 +48,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.invisibleToUser
+import androidx.compose.ui.semantics.isTraversalGroup
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -67,7 +73,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-@OptIn(DelicateCoroutinesApi::class)
+@OptIn(DelicateCoroutinesApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun showMap(
     navController: NavController,
@@ -194,7 +200,11 @@ fun showMap(
         ) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
-                horizontalAlignment = Alignment.End
+                horizontalAlignment = Alignment.End,
+                modifier = Modifier.semantics {
+                    isTraversalGroup = true
+                    contentDescription = "knapper for kart"
+                }
             ) {
                 // SOS Button
                 val LighterRed = Color(0xFFCC444B)
@@ -204,22 +214,26 @@ fun showMap(
                         .size(60.dp)
                         .clip(RoundedCornerShape(25))
                         .background(LighterRed)
+                        .clickable {
+                            isSOSOpen = !isSOSOpen
+                        }
                         .semantics {
-                            contentDescription = "Tilkalles redningstjenester"
+                            contentDescription = "S O S, knapp 1 av 4"
+                            traversalIndex = 1F
                         }
                 ) {
-                    IconButton(
-                        onClick = {
-                            isSOSOpen =!isSOSOpen
-                        },
+                    Box(
                         modifier = Modifier
-                            .size(48.dp)
-                            .align(Alignment.Center)
+                            .fillMaxSize()
+                            .padding(8.dp)
                     ) {
                         Text(
                             text = "SOS",
                             fontSize = 14.sp,
                             color = Color.White,
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                                .semantics { invisibleToUser() }
 
                             )
 
@@ -234,10 +248,13 @@ fun showMap(
                     containerColor = infoColor,
                     modifier = Modifier
                         .size(60.dp)
+                        .semantics {
+                            traversalIndex = 2F
+                        }
                 ) {
                     Icon(
                         painterResource(id = R.drawable.info_circle),
-                        contentDescription = "Weather information"
+                        contentDescription = "Instruksjoner om app, knapp 2 av 4"
                     )
                 }
 
@@ -249,12 +266,17 @@ fun showMap(
                     contentColor = Color.White,
                     modifier = Modifier
                         .size(60.dp)
+                        .semantics {
+                            traversalIndex = 3F
+                        }
                 ) {
                     Icon(
                         painterResource(id = R.drawable.cloud_sunny),
-                        contentDescription = "Weather information"
+                        contentDescription = "Værmelding og farevarsler, knapp 3 av 4"
                     )
                 }
+
+
                 // Centering button
                 FloatingActionButton(
                     onClick = {
@@ -267,10 +289,13 @@ fun showMap(
                     contentColor = Color.White, // Customize FAB content color
                     modifier = Modifier
                         .size(60.dp) // Set size of the FAB
+                        .semantics {
+                            traversalIndex = 4F
+                        }
                 ) {
                     Icon(
                         painterResource(id = R.drawable.center),
-                        contentDescription = null
+                        contentDescription = "Sentrer skjerm, knapp 4 av 4"
                     )
                 }
             }
