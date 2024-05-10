@@ -37,6 +37,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.material3.Divider
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavController
 import com.example.IN2000_prosjekt.R
@@ -79,7 +81,7 @@ fun SignDescriptionScreen(
             ) {
                 Icon(
                     imageVector = Icons.Default.Close,
-                    contentDescription = "Close",
+                    contentDescription = "Tilbake",
                     tint = Color.White
                 )
             }
@@ -103,7 +105,7 @@ fun SignDescriptionScreen(
                 ) {
                     Image(
                         painter = painterResource(signViewModel.getPicture(sign.id)),
-                        contentDescription = "Image of ${sign.name}",
+                        contentDescription = "${sign.name}",
                         modifier = Modifier.size(150.dp)
                     )
                 }
@@ -118,7 +120,11 @@ fun SignDescriptionScreen(
                     style = MaterialTheme.typography.headlineSmall,
                     color = Color.White,
                     fontSize = 30.sp,
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                    .semantics {
+                        heading()
+                    }
                 )
 
                 Spacer(Modifier.height(8.dp))
@@ -174,7 +180,7 @@ fun SignDescriptionScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Add,
-                                contentDescription = "Increase Text Size",
+                                contentDescription = "Øk tekststørrelse",
                                 tint = Color.Black
                             )
                         }
@@ -187,7 +193,7 @@ fun SignDescriptionScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Remove,
-                                contentDescription = "Decrease Text Size",
+                                contentDescription = "Senk tekststørrelse",
                                 tint = Color.Black
                             )
                         }
