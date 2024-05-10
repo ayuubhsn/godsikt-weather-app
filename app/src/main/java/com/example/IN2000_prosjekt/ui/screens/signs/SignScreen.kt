@@ -38,6 +38,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -68,7 +70,7 @@ fun SignScreen(
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = "ArrowBack",
+                            contentDescription = "Tilbake",
                             tint = Color.White
                         )
                     }
@@ -127,7 +129,7 @@ fun SignItem(
         ){
             Image(
                 painter = painterResource(id = signViewModel.getPicture(sign.id)),
-                contentDescription = "Image of ${sign.name}",
+                contentDescription = null,
                 modifier = Modifier
                     .size(55.dp)
                     .align(Alignment.Center)
@@ -140,12 +142,13 @@ fun SignItem(
             fontSize = 25.sp,
             modifier = Modifier
                 .weight(1f)
-                .align(Alignment.CenterVertically),
+                .align(Alignment.CenterVertically)
+                .semantics { heading() },
 
         )
         Icon(
             imageVector =  Icons.Default.ArrowForward,
-            contentDescription = "Arrow Forward",
+            contentDescription = null,
             tint = Color.Gray,
             modifier = Modifier.align(Alignment.CenterVertically)
         )
