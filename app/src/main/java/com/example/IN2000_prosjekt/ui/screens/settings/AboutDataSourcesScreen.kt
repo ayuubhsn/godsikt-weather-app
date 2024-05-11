@@ -119,7 +119,7 @@ fun AboutDataSourcesScreen(
                             textAlign = TextAlign.Center,
                         )
                         Text(
-                            text = "Informasjonen for kart og vær er hentet fra MetAlerts og LocationForecast ",
+                            text = "Data for vær er hentet fra MetAlerts API og Locationforecast API",
                             style = MaterialTheme.typography.bodyMedium.copy(
                                 fontSize = textSize,
                                 lineHeight = 40.sp,
@@ -128,6 +128,8 @@ fun AboutDataSourcesScreen(
                             color = Color.White,
                             textAlign = TextAlign.Start,
                         )
+                        Spacer(modifier = Modifier.height(30.dp))
+
                         Text(
                             text = "Kart",
                             modifier = Modifier
@@ -141,7 +143,7 @@ fun AboutDataSourcesScreen(
                             textAlign = TextAlign.Center,
                         )
                         Text(
-                            text = "Kartet er hentet fra MapBoxSDK",
+                            text = "Kartet er hentet fra MapBox SDK",
                             style = MaterialTheme.typography.bodyMedium.copy(
                                 fontSize = textSize,
                                 lineHeight = 40.sp,
@@ -150,6 +152,7 @@ fun AboutDataSourcesScreen(
                             color = Color.White,
                             textAlign = TextAlign.Start,
                         )
+                        Spacer(modifier = Modifier.height(30.dp))
                         Text(
                             text = "Skilt ",
                             modifier = Modifier
@@ -163,7 +166,7 @@ fun AboutDataSourcesScreen(
                             textAlign = TextAlign.Center,
                         )
                         Text(
-                            text = "Informasjonen om farvannsskiltene er hentet fra Kystverkets offisielle nettside om farvannsskilt",
+                            text = "Informasjon om farvannsskiltene er hentet fra Kystverkets offisielle nettside om farvannsskilt",
                             style = MaterialTheme.typography.bodyMedium.copy(
                                 fontSize = textSize,
                                 lineHeight = 40.sp,
@@ -182,39 +185,55 @@ fun AboutDataSourcesScreen(
             Box(
                 modifier = Modifier
                     .background(Color(0xFFD0BCFF))
-                    .padding(8.dp)
-                    .clip(RoundedCornerShape(50.dp))
+                    .padding(15.dp)
+                    .clip(RoundedCornerShape(20.dp))
             ) {
-                Row(
-                    horizontalArrangement = Arrangement.SpaceAround
-                ) {
-                    androidx.compose.material3.IconButton(
-                        onClick = { textSize = (textSize.value + 1).sp },
+                Row (modifier = Modifier.padding(horizontal = 8.dp)
+                ){
+                    Box(
                         modifier = Modifier
-                            .padding(end = 8.dp)
-                            .size(35.dp)
+                            .weight(1f)
+                            .clickable { textSize = (textSize.value + 1).sp },
+                        contentAlignment = Alignment.Center
                     ) {
-                        androidx.compose.material3.Icon(
-                            imageVector = Icons.Default.Add,
-                            contentDescription = "Øk tekststørrelse",
-                            tint = Color.Black
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(20.dp))
-                    androidx.compose.material3.IconButton(
-                        onClick = { textSize = (textSize.value - 1).sp },
-                        modifier = Modifier
-                            .padding(start = 8.dp)
-                            .size(35.dp)
+                        androidx.compose.material3.IconButton(
+                            onClick = { textSize = (textSize.value + 1).sp },
+                            modifier = Modifier
+                                .padding(end = 8.dp)
+                                .size(35.dp)
+                        ) {
+                            androidx.compose.material3.Icon(
+                                imageVector = Icons.Default.Add,
+                                contentDescription = "Øk tekststørrelse",
+                                tint = Color.Black,
+                                modifier = Modifier.size(50.dp)
 
+                            )
+                        }
+                    }
+
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .clickable { textSize = (textSize.value - 1).sp },
+                        contentAlignment = Alignment.Center
                     ) {
-                        androidx.compose.material3.Icon(
-                            imageVector = Icons.Default.Remove,
-                            contentDescription = "Senk tekststørrelse",
-                            tint = Color.Black
-                        )
+                        androidx.compose.material3.IconButton(
+                            onClick = { textSize = (textSize.value - 1).sp },
+                            modifier = Modifier
+                                .padding(start = 8.dp)
+                                .size(35.dp)
+                        ) {
+                            androidx.compose.material3.Icon(
+                                imageVector = Icons.Default.Remove,
+                                contentDescription = "Reduser tekststørrelse",
+                                tint = Color.Black,
+                                modifier = Modifier.size(50.dp)
+                            )
+                        }
                     }
                 }
+
             }
 
 

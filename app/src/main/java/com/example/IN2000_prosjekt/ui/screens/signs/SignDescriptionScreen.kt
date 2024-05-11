@@ -2,6 +2,7 @@ package com.example.IN2000_prosjekt.ui.screens.signs
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -50,127 +51,124 @@ import com.example.IN2000_prosjekt.model.signs.SignViewModel
 fun SignDescriptionScreen(
     signViewModel: SignViewModel,
     navController: NavController
-    ) {
-    var textSize by remember { mutableStateOf(20.sp) }
+) {
+    var textSize by remember { mutableStateOf(30.sp) }
     val sign = signViewModel._selectedSign.value?: return // Return early if sign is null
+    var textBoxHeight = 400.dp
 
     Box(
         modifier = Modifier
-            .background(Color(0xFF17161E), RoundedCornerShape(8.dp))
-            .fillMaxSize(),
-        contentAlignment = Alignment.Center
+            .height(680.dp)
+            .background(
+                Color(0xFF2B2930),
+                RoundedCornerShape(8.dp)
+            )
+            .padding(horizontal = 20.dp, vertical = 20.dp)
     ) {
-        Box( //
+
+        IconButton(
+            onClick = { navController.popBackStack() },
             modifier = Modifier
-                .width(350.dp)
-                .height(680.dp)
-                .background(
-                    Color(0xFF2B2930),
-                    RoundedCornerShape(8.dp)
-                )
-                .padding(horizontal = 20.dp, vertical = 8.dp)
-            ,
+                .align(Alignment.TopEnd)
+                .padding(top = 0.dp, end = 0.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Default.Close,
+                contentDescription = "Tilbake",
+                tint = Color.White,
+                modifier = Modifier.size(100.dp)
+            )
+        }
+
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top,
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .padding(top = 60.dp)
         ) {
 
-            // Close Icon at the top
-            IconButton(
-                onClick = { navController.popBackStack()}, //Closing The screen
+            Box(
                 modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(top = 0.dp, end = 0.dp)
+                    .size(150.dp)
+                    .clip(RoundedCornerShape(10.dp))
+                    .background(Color.White)
+                ,
+                contentAlignment = Alignment.Center
             ) {
-                Icon(
-                    imageVector = Icons.Default.Close,
-                    contentDescription = "Tilbake",
-                    tint = Color.White
+                Image(
+                    painter = painterResource(signViewModel.getPicture(sign.id)),
+                    contentDescription = "${sign.name}",
+                    modifier = Modifier.size(150.dp)
                 )
             }
 
+            Spacer(Modifier.height(20.dp))
 
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Top,
+            Text(
+                text = sign.name,
+                style = MaterialTheme.typography.headlineLarge,
+                color = Color.White,
+                fontSize = 40.sp,
+                textAlign = TextAlign.Center,
                 modifier = Modifier
-                    .align(Alignment.TopCenter)
-                    .padding(top = 60.dp)
-            ) {
-
-                Box(
-                    modifier = Modifier
-                        .size(150.dp)
-                        .clip(RoundedCornerShape(10.dp))
-                        .background(Color.White)
-                    ,
-                    contentAlignment = Alignment.Center
-                ) {
-                    Image(
-                        painter = painterResource(signViewModel.getPicture(sign.id)),
-                        contentDescription = "${sign.name}",
-                        modifier = Modifier.size(150.dp)
-                    )
-                }
-
-
-
-                Spacer(Modifier.height(20.dp))
-
-                // Title Text
-                Text(
-                    text = sign.name,
-                    style = MaterialTheme.typography.headlineSmall,
-                    color = Color.White,
-                    fontSize = 30.sp,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
                     .semantics {
                         heading()
                     }
-                )
+            )
 
-                Spacer(Modifier.height(8.dp))
-                Divider(
-                    color = Color.White,
-                    thickness = 1.dp,
-                    modifier = Modifier.width(100.dp)
-                )
-                Spacer(Modifier.height(8.dp))
+            //this is to account for extra long titles that occur
+            if(signViewModel.getCharacters(sign.name)>40)textBoxHeight = 350.dp
 
+            Spacer(Modifier.height(8.dp))
+            Divider(
+                color = Color.White,
+                thickness = 1.dp,
+                modifier = Modifier.width(100.dp)
+            )
+            Spacer(Modifier.height(8.dp))
 
-                Box(
+            Box(
+                modifier = Modifier
+                    .height(textBoxHeight)
+                    .clip(RoundedCornerShape(10.dp))
+                    .background(Color(0xFF2B2930))
+                    .padding(30.dp,0.dp)
+            ) {
+                LazyColumn(
                     modifier = Modifier
-                        .size(300.dp, 300.dp)
-                        .clip(RoundedCornerShape(10.dp))
-                        .background(Color(0xFF2B2930))
+                        .fillMaxSize()
                 ) {
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillMaxSize()
-                    ) {
-                        item {
-                            Text(
-                                text = sign.description,
-                                style = MaterialTheme.typography.bodyMedium.copy(
-                                    fontSize = textSize,
-                                    lineHeight = 40.sp,
-                                    fontWeight = FontWeight.Light
-                                ),
-                                color = Color.White,
-                                textAlign = TextAlign.Center,
-                            )
-                        }
+                    item {
+                        Text(
+                            text = sign.description,
+                            style = MaterialTheme.typography.bodyMedium.copy(
+                                fontSize = textSize,
+                                lineHeight = 40.sp,
+                                fontWeight = FontWeight.Light
+                            ),
+                            color = Color.White,
+                            textAlign = TextAlign.Center,
+                        )
                     }
                 }
+            }
 
-                Spacer(Modifier.weight(1f)) //placing button on bottom
+            Spacer(Modifier.weight(1f))
 
-                Box(
-                    modifier = Modifier
-                        .background(Color(0xFFD0BCFF))
-                        .padding(8.dp)
-                        .clip(RoundedCornerShape(20.dp))
-                ) {
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceAround
+            Box(
+                modifier = Modifier
+                    .background(Color(0xFFD0BCFF))
+                    .padding(15.dp)
+                    .clip(RoundedCornerShape(20.dp))
+            ) {
+                Row (modifier = Modifier.padding(horizontal = 8.dp)
+                ){
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .clickable { textSize = (textSize.value + 1).sp },
+                        contentAlignment = Alignment.Center
                     ) {
                         IconButton(
                             onClick = { textSize = (textSize.value + 1).sp },
@@ -181,24 +179,35 @@ fun SignDescriptionScreen(
                             Icon(
                                 imageVector = Icons.Default.Add,
                                 contentDescription = "Øk tekststørrelse",
-                                tint = Color.Black
+                                tint = Color.Black,
+                                modifier = Modifier.size(50.dp)
+
                             )
                         }
+                    }
+
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .clickable { textSize = (textSize.value - 1).sp },
+                        contentAlignment = Alignment.Center
+                    ) {
                         IconButton(
                             onClick = { textSize = (textSize.value - 1).sp },
                             modifier = Modifier
                                 .padding(start = 8.dp)
                                 .size(35.dp)
-
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Remove,
-                                contentDescription = "Senk tekststørrelse",
-                                tint = Color.Black
+                                contentDescription = "Reduser tekststørrelse",
+                                tint = Color.Black,
+                                modifier = Modifier.size(50.dp)
                             )
                         }
                     }
                 }
+
             }
         }
     }

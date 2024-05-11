@@ -195,39 +195,55 @@ fun TermsAndConditionsScreen(
             Box(
                 modifier = Modifier
                     .background(Color(0xFFD0BCFF))
-                    .padding(8.dp)
-                    .clip(RoundedCornerShape(50.dp))
+                    .padding(15.dp)
+                    .clip(RoundedCornerShape(20.dp))
             ) {
-                Row(
-                    horizontalArrangement = Arrangement.SpaceAround
-                ) {
-                    androidx.compose.material3.IconButton(
-                        onClick = { textSize = (textSize.value + 1).sp },
+                Row (modifier = Modifier.padding(horizontal = 8.dp)
+                ){
+                    Box(
                         modifier = Modifier
-                            .padding(end = 8.dp)
-                            .size(35.dp)
+                            .weight(1f)
+                            .clickable { textSize = (textSize.value + 1).sp },
+                        contentAlignment = Alignment.Center
                     ) {
-                        androidx.compose.material3.Icon(
-                            imageVector = Icons.Default.Add,
-                            contentDescription = "Øk tekststørrelse",
-                            tint = Color.Black
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(20.dp))
-                    androidx.compose.material3.IconButton(
-                        onClick = { textSize = (textSize.value - 1).sp },
-                        modifier = Modifier
-                            .padding(start = 8.dp)
-                            .size(35.dp)
+                        androidx.compose.material3.IconButton(
+                            onClick = { textSize = (textSize.value + 1).sp },
+                            modifier = Modifier
+                                .padding(end = 8.dp)
+                                .size(35.dp)
+                        ) {
+                            androidx.compose.material3.Icon(
+                                imageVector = Icons.Default.Add,
+                                contentDescription = "Øk tekststørrelse",
+                                tint = Color.Black,
+                                modifier = Modifier.size(50.dp)
 
+                            )
+                        }
+                    }
+
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .clickable { textSize = (textSize.value - 1).sp },
+                        contentAlignment = Alignment.Center
                     ) {
-                        androidx.compose.material3.Icon(
-                            imageVector = Icons.Default.Remove,
-                            contentDescription = "Senk tekststørrelse",
-                            tint = Color.Black
-                        )
+                        androidx.compose.material3.IconButton(
+                            onClick = { textSize = (textSize.value - 1).sp },
+                            modifier = Modifier
+                                .padding(start = 8.dp)
+                                .size(35.dp)
+                        ) {
+                            androidx.compose.material3.Icon(
+                                imageVector = Icons.Default.Remove,
+                                contentDescription = "Reduser tekststørrelse",
+                                tint = Color.Black,
+                                modifier = Modifier.size(50.dp)
+                            )
+                        }
                     }
                 }
+
             }
 
 

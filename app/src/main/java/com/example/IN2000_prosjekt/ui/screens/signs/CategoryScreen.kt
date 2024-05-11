@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -50,7 +51,7 @@ fun CategoryScreen(
 
             Text(
                 text = "Skilt og regler",
-                fontSize = 30.sp,
+                fontSize = 40.sp,
                 style = MaterialTheme.typography.headlineSmall,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
@@ -60,9 +61,14 @@ fun CategoryScreen(
 
             Spacer(modifier = Modifier.height(30.dp))
 
-            SignCategories.values().forEach { category ->
-                makeCategory(SignCategory(category), navController, signViewModel)
+            LazyColumn{
+                item {
+                    SignCategories.values().forEach { category ->
+                        makeCategory(SignCategory(category), navController, signViewModel)
+                    }
+                }
             }
+
             Spacer(modifier = Modifier.weight(1f))
 
         }
