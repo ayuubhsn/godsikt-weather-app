@@ -42,9 +42,9 @@ import com.example.IN2000_prosjekt.model.SplashScreenDelayer
 import com.example.IN2000_prosjekt.model.signs.SignViewModel
 import com.example.IN2000_prosjekt.ui.AppViewModel
 import com.example.IN2000_prosjekt.ui.screens.settings.AboutDataSourcesScreen
+import com.example.IN2000_prosjekt.ui.screens.settings.AboutScreen
 import com.example.IN2000_prosjekt.ui.screens.settings.AboutUsScreen
 import com.example.IN2000_prosjekt.ui.screens.settings.PrivacyInfoScreen
-import com.example.IN2000_prosjekt.ui.screens.settings.SettingsScreen
 import com.example.IN2000_prosjekt.ui.screens.settings.TermsAndConditionsScreen
 import com.example.IN2000_prosjekt.ui.screens.signs.CategoryScreen
 import com.example.IN2000_prosjekt.ui.screens.signs.SignDescriptionScreen
@@ -220,8 +220,8 @@ fun Screen(activity : MainActivity,  signDao: SignDao) {
         }
 
         //settings
-        composable("SettingsScreen"){
-            SettingsScreen(navController)
+        composable("AboutScreen") {
+            AboutScreen(navController)
         }
         composable("AboutDataSourcesScreen"){
             AboutDataSourcesScreen(navController)

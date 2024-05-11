@@ -50,7 +50,7 @@ import com.example.IN2000_prosjekt.R
 fun AboutUsScreen(
     navController: NavController
 ) {
-    var textSize by remember { mutableStateOf(20.sp) }
+    var textSize by remember { mutableStateOf(15.sp) }
 
     Surface(color = Color(0xFF17161E), modifier = Modifier.fillMaxSize()) {
         Column (
@@ -97,7 +97,7 @@ fun AboutUsScreen(
 
             Image(
                 painter = painterResource(id = R.drawable.omoss),
-                contentDescription = "Medlemmer av God Sikt",
+                contentDescription = "Medlemmer av Team God Sikt",
                 modifier = Modifier
                     .size(width = 250.dp, height = 200.dp) // Størrelsen på bildet
                     .padding(16.dp) // Padding rundt bildet
@@ -118,7 +118,10 @@ fun AboutUsScreen(
                 ) {
                     item {
                         Text(
-                            text = "Vi er 6 dudes som går linjene Digøk og Design hos IFI, vi prøver å lever oppgaven i tide fr.",
+                            text = "Vi er en gruppe engasjerte informatikk-studenter fra Universitetet i Oslo. Denne appen er et produkt av vårt engasjement i faget IN2000, våren 2024. \nTakk for at du velger å bruke vår app, vi håper den bidrar til ditt vann-eventyr!\n" +
+                                    "\n" +
+                                    "Hiv o’hoi,\n" +
+                                    "Team God Sikt ⚓ ",
                             style = MaterialTheme.typography.bodyMedium.copy(
                                 fontSize = textSize,
                                 lineHeight = 40.sp,
@@ -136,39 +139,55 @@ fun AboutUsScreen(
             Box(
                 modifier = Modifier
                     .background(Color(0xFFD0BCFF))
-                    .padding(8.dp)
-                    .clip(RoundedCornerShape(50.dp))
+                    .padding(15.dp)
+                    .clip(RoundedCornerShape(20.dp))
             ) {
-                Row(
-                    horizontalArrangement = Arrangement.SpaceAround
-                ) {
-                    androidx.compose.material3.IconButton(
-                        onClick = { textSize = (textSize.value + 1).sp },
+                Row (modifier = Modifier.padding(horizontal = 8.dp)
+                ){
+                    Box(
                         modifier = Modifier
-                            .padding(end = 8.dp)
-                            .size(35.dp)
+                            .weight(1f)
+                            .clickable { textSize = (textSize.value + 1).sp },
+                        contentAlignment = Alignment.Center
                     ) {
-                        androidx.compose.material3.Icon(
-                            imageVector = Icons.Default.Add,
-                            contentDescription = "Øk tekststørrelse",
-                            tint = Color.Black
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(20.dp))
-                    androidx.compose.material3.IconButton(
-                        onClick = { textSize = (textSize.value - 1).sp },
-                        modifier = Modifier
-                            .padding(start = 8.dp)
-                            .size(35.dp)
+                        androidx.compose.material3.IconButton(
+                            onClick = { textSize = (textSize.value + 1).sp },
+                            modifier = Modifier
+                                .padding(end = 8.dp)
+                                .size(35.dp)
+                        ) {
+                            androidx.compose.material3.Icon(
+                                imageVector = Icons.Default.Add,
+                                contentDescription = "Øk tekststørrelse",
+                                tint = Color.Black,
+                                modifier = Modifier.size(50.dp)
 
+                            )
+                        }
+                    }
+
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .clickable { textSize = (textSize.value - 1).sp },
+                        contentAlignment = Alignment.Center
                     ) {
-                        androidx.compose.material3.Icon(
-                            imageVector = Icons.Default.Remove,
-                            contentDescription = "Senk tekststørrelse",
-                            tint = Color.Black
-                        )
+                        androidx.compose.material3.IconButton(
+                            onClick = { textSize = (textSize.value - 1).sp },
+                            modifier = Modifier
+                                .padding(start = 8.dp)
+                                .size(35.dp)
+                        ) {
+                            androidx.compose.material3.Icon(
+                                imageVector = Icons.Default.Remove,
+                                contentDescription = "Reduser tekststørrelse",
+                                tint = Color.Black,
+                                modifier = Modifier.size(50.dp)
+                            )
+                        }
                     }
                 }
+
             }
 
 

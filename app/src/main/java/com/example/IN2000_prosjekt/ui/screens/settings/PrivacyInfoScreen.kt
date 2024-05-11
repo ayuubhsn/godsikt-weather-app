@@ -50,7 +50,7 @@ import com.example.IN2000_prosjekt.R
 fun PrivacyInfoScreen(
     navController: NavController
 ) {
-    var textSize by remember { mutableStateOf(14.sp) }
+    var textSize by remember { mutableStateOf(25.sp) }
 
     Surface(color = Color(0xFF17161E), modifier = Modifier.fillMaxSize()) {
         Column (
@@ -71,6 +71,7 @@ fun PrivacyInfoScreen(
                             modifier = Modifier
                                 .size(50.dp) // Set the size of the icon here. Adjust the value as needed.
                                 .clickable {navController.popBackStack() }
+                                .align(Alignment.CenterHorizontally)
                         )
 
                     }
@@ -103,168 +104,81 @@ fun PrivacyInfoScreen(
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
+                        .padding(horizontal = 16.dp),
+                    verticalArrangement = Arrangement.Center
                 ) {
                     item {
+                        Spacer(modifier = Modifier.height(20.dp))
                         Text(
-                            text ="1. Informasjon vi samler inn",
-                            modifier = Modifier
-                                .semantics { heading() },
-                            style = MaterialTheme.typography.bodyMedium.copy(
-                                fontSize = textSize,
-                                lineHeight = 25.sp,
-                                fontWeight = FontWeight.Medium
-                            ),
-                            color = Color.White,
-                            textAlign = TextAlign.Center,
-                        )
-                        Text(
-                            text ="• Kontaktinformasjon (e-post og telefon) ved registrering.\n" +
-                                    "• Lokasjonsdata for å tilby lokasjonsbaserte tjenester.\n" +
-                                    "• Bruksdata om hvordan appen brukes.",
+                            text ="Kommer snart!",
                             style = MaterialTheme.typography.bodyMedium.copy(
                                 fontSize = textSize,
                                 lineHeight = 25.sp,
                                 fontWeight = FontWeight.Light
                             ),
                             color = Color.White,
-                            textAlign = TextAlign.Start,
-                        )
-                        Text(
-                            text ="2. Vi bruker din informasjon til å:",
-                            modifier = Modifier
-                                .semantics { heading() },
-                            style = MaterialTheme.typography.bodyMedium.copy(
-                                fontSize = textSize,
-                                lineHeight = 25.sp,
-                                fontWeight = FontWeight.Medium
-                            ),
-                            color = Color.White,
                             textAlign = TextAlign.Center,
-                        )
-                        Text(
-                            text ="• Levere og forbedre tjenestene våre.\n" +
-                                    "• Kommunisere med deg om oppdateringer eller svar på forespørsler.\n" +
-                                    "•Overholde juridiske forpliktelser.",
-                            style = MaterialTheme.typography.bodyMedium.copy(
-                                fontSize = textSize,
-                                lineHeight = 25.sp,
-                                fontWeight = FontWeight.Light
-                            ),
-                            color = Color.White,
-                            textAlign = TextAlign.Start,
-                        )
-                        Text(
-                            text ="3. Vi deler informasjon kun med:",
-                            modifier = Modifier
-                                .semantics { heading() },
-                            style = MaterialTheme.typography.bodyMedium.copy(
-                                fontSize = textSize,
-                                lineHeight = 25.sp,
-                                fontWeight = FontWeight.Medium
-                            ),
-                            color = Color.White,
-                            textAlign = TextAlign.Center,
-                        )
-
-                        Text(
-                            text ="• Våre serviceleverandører for drift av tjenestene.\n" +
-                                    "• Myndigheter hvis lovpålagt.",
-                            style = MaterialTheme.typography.bodyMedium.copy(
-                                fontSize = textSize,
-                                lineHeight = 25.sp,
-                                fontWeight = FontWeight.Light
-                            ),
-                            color = Color.White,
-                            textAlign = TextAlign.Start,
-                        )
-                        Text(
-                            text ="4. Du har rett til å:",
-                            modifier = Modifier
-                                .semantics { heading() },
-                            style = MaterialTheme.typography.bodyMedium.copy(
-                                fontSize = textSize,
-                                lineHeight = 25.sp,
-                                fontWeight = FontWeight.Medium
-                            ),
-                            color = Color.White,
-                            textAlign = TextAlign.Center,
-                        )
-                        Text(
-                            text ="• Be om tilgang til, retting eller sletting av dine personopplysninger.\n" +
-                                    "• Begrense eller protestere mot vår behandling av dine data.\n" +
-                                    "• Motta en kopi av dine data i et overføringsvennlig format.",
-                            style = MaterialTheme.typography.bodyMedium.copy(
-                                fontSize = textSize,
-                                lineHeight = 25.sp,
-                                fontWeight = FontWeight.Light
-                            ),
-                            color = Color.White,
-                            textAlign = TextAlign.Start,
-                        )
-                        Text(
-                            text ="5. For spørsmål, kontakt oss på ",
-                            modifier = Modifier
-                                .semantics { heading() },
-                            style = MaterialTheme.typography.bodyMedium.copy(
-                                fontSize = textSize,
-                                lineHeight = 25.sp,
-                                fontWeight = FontWeight.Medium
-                            ),
-                            color = Color.White,
-                            textAlign = TextAlign.Center,
-                        )
-                        Text(
-                            text ="GodSikt@gmail.com",
-                            style = MaterialTheme.typography.bodyMedium.copy(
-                                fontSize = textSize,
-                                lineHeight = 25.sp,
-                                fontWeight = FontWeight.Light
-                            ),
-                            color = Color.White,
-                            textAlign = TextAlign.Start,
+                            modifier = Modifier.fillMaxWidth().semantics { heading() }
                         )
                     }
                 }
             }
+
 
             Spacer(modifier = Modifier.height(30.dp))
 
             Box(
                 modifier = Modifier
                     .background(Color(0xFFD0BCFF))
-                    .padding(8.dp)
-                    .clip(RoundedCornerShape(50.dp))
+                    .padding(15.dp)
+                    .clip(RoundedCornerShape(20.dp))
             ) {
-                Row(
-                    horizontalArrangement = Arrangement.SpaceAround
-                ) {
-                    androidx.compose.material3.IconButton(
-                        onClick = { textSize = (textSize.value + 1).sp },
+                Row (modifier = Modifier.padding(horizontal = 8.dp)
+                ){
+                    Box(
                         modifier = Modifier
-                            .padding(end = 8.dp)
-                            .size(35.dp)
+                            .weight(1f)
+                            .clickable { textSize = (textSize.value + 1).sp },
+                        contentAlignment = Alignment.Center
                     ) {
-                        androidx.compose.material3.Icon(
-                            imageVector = Icons.Default.Add,
-                            contentDescription = "Øk tekststørrelse",
-                            tint = Color.Black
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(20.dp))
-                    androidx.compose.material3.IconButton(
-                        onClick = { textSize = (textSize.value - 1).sp },
-                        modifier = Modifier
-                            .padding(start = 8.dp)
-                            .size(35.dp)
+                        androidx.compose.material3.IconButton(
+                            onClick = { textSize = (textSize.value + 1).sp },
+                            modifier = Modifier
+                                .padding(end = 8.dp)
+                                .size(35.dp)
+                        ) {
+                            androidx.compose.material3.Icon(
+                                imageVector = Icons.Default.Add,
+                                contentDescription = "Øk tekststørrelse",
+                                tint = Color.Black,
+                                modifier = Modifier.size(50.dp)
 
+                            )
+                        }
+                    }
+
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .clickable { textSize = (textSize.value - 1).sp },
+                        contentAlignment = Alignment.Center
                     ) {
-                        androidx.compose.material3.Icon(
-                            imageVector = Icons.Default.Remove,
-                            contentDescription = "Senk tekststørrelse",
-                            tint = Color.Black
-                        )
+                        androidx.compose.material3.IconButton(
+                            onClick = { textSize = (textSize.value - 1).sp },
+                            modifier = Modifier
+                                .padding(start = 8.dp)
+                                .size(35.dp)
+                        ) {
+                            androidx.compose.material3.Icon(
+                                imageVector = Icons.Default.Remove,
+                                contentDescription = "Reduser tekststørrelse",
+                                tint = Color.Black,
+                                modifier = Modifier.size(50.dp)
+                            )
+                        }
                     }
                 }
+
             }
 
 
@@ -283,3 +197,5 @@ fun PrivacyInfoScreenPreview(){
 }
 
  */
+
+

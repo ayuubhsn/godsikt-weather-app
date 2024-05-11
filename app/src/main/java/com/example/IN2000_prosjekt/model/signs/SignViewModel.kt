@@ -43,4 +43,9 @@ class SignViewModel(
         }
     }
 
+    fun getCharacters(string :String):Int {
+        var numberOfCharacters = 0
+        string.forEach { numberOfCharacters++ }
+        return numberOfCharacters
+    }
 }
