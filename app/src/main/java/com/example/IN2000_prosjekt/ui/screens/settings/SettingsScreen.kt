@@ -22,6 +22,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.isTraversalGroup
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,16 +41,24 @@ fun SettingsScreen(
 
     Surface(color = Color(0xFF17161E), modifier = Modifier.fillMaxSize()) {
         Column (
-            modifier = Modifier.padding(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier = Modifier
+                .padding(8.dp)
+                .semantics { isTraversalGroup = true },
+            horizontalAlignment = Alignment.CenterHorizontally,
+
         ){
             Spacer(modifier = Modifier.height(70.dp))
             Text(
                 text = "Instillinger",
-                modifier = Modifier.align(Alignment.CenterHorizontally),
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .semantics {
+                               heading()
+                    },
                 style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold, letterSpacing = 4.sp),
                 color = Color.White,
                 fontSize = 40.sp
+
             )
             Spacer(modifier = Modifier.height(60.dp))
             Divider(
@@ -64,7 +76,6 @@ fun SettingsScreen(
                 .clickable { navController.navigate("AboutUsScreen") }
 
             ){
-              //her kan denne knappen sette
              Text(
                   text = "Om oss",
                   color = Color.Gray,
@@ -72,10 +83,13 @@ fun SettingsScreen(
                   modifier = Modifier
                       .weight(1f)
                       .align(Alignment.CenterVertically)
+                      .semantics {
+                          traversalIndex = 1F
+                      },
              )
              Icon(
                      imageVector = Icons.Default.ArrowForward,
-                     contentDescription = "ArrowForward Om oss",
+                     contentDescription = null,
                      tint = Color.Gray,
                      modifier = Modifier
                          .align(Alignment.CenterVertically)
@@ -99,10 +113,13 @@ fun SettingsScreen(
                   modifier = Modifier
                       .weight(1f)
                       .align(Alignment.CenterVertically)
+                      .semantics {
+                          traversalIndex = 2F
+                      },
              )
              Icon(
                      imageVector = Icons.Default.ArrowForward,
-                     contentDescription = "ArrowForward Personvern",
+                     contentDescription = null,
                      tint = Color.Gray,
                      modifier = Modifier
                          .align(Alignment.CenterVertically)
@@ -126,10 +143,14 @@ fun SettingsScreen(
                   modifier = Modifier
                       .weight(1f)
                       .align(Alignment.CenterVertically)
+                      .semantics {
+                          traversalIndex = 3F
+                      }
+
              )
              Icon(
                      imageVector = Icons.Default.ArrowForward,
-                     contentDescription = "ArrowForward Vilkår og Betingelser",
+                     contentDescription = null,
                      tint = Color.Gray,
                      modifier = Modifier
                          .align(Alignment.CenterVertically)
@@ -154,10 +175,13 @@ fun SettingsScreen(
                   modifier = Modifier
                       .weight(1f)
                       .align(Alignment.CenterVertically)
+                      .semantics {
+                          traversalIndex = 4F
+                      }
              )
              Icon(
                      imageVector = Icons.Default.ArrowForward,
-                     contentDescription = "ArrowForward Om datakilder",
+                     contentDescription = null,
                      tint = Color.Gray,
                      modifier = Modifier
                          .align(Alignment.CenterVertically)

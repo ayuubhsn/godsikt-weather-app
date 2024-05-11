@@ -36,6 +36,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -64,7 +66,7 @@ fun PrivacyInfoScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Back",
+                            contentDescription = "Tilbake",
                             tint = Color.Gray,
                             modifier = Modifier
                                 .size(50.dp) // Set the size of the icon here. Adjust the value as needed.
@@ -81,7 +83,9 @@ fun PrivacyInfoScreen(
 
             Text(
                 text = "Personvern",
-                modifier = Modifier.align(Alignment.CenterHorizontally),
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .semantics { heading() },
                 style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold, letterSpacing = 4.sp),
                 color = Color.White,
                 fontSize = 40.sp
@@ -103,6 +107,8 @@ fun PrivacyInfoScreen(
                     item {
                         Text(
                             text ="1. Informasjon vi samler inn",
+                            modifier = Modifier
+                                .semantics { heading() },
                             style = MaterialTheme.typography.bodyMedium.copy(
                                 fontSize = textSize,
                                 lineHeight = 25.sp,
@@ -125,6 +131,8 @@ fun PrivacyInfoScreen(
                         )
                         Text(
                             text ="2. Vi bruker din informasjon til å:",
+                            modifier = Modifier
+                                .semantics { heading() },
                             style = MaterialTheme.typography.bodyMedium.copy(
                                 fontSize = textSize,
                                 lineHeight = 25.sp,
@@ -147,6 +155,8 @@ fun PrivacyInfoScreen(
                         )
                         Text(
                             text ="3. Vi deler informasjon kun med:",
+                            modifier = Modifier
+                                .semantics { heading() },
                             style = MaterialTheme.typography.bodyMedium.copy(
                                 fontSize = textSize,
                                 lineHeight = 25.sp,
@@ -169,6 +179,8 @@ fun PrivacyInfoScreen(
                         )
                         Text(
                             text ="4. Du har rett til å:",
+                            modifier = Modifier
+                                .semantics { heading() },
                             style = MaterialTheme.typography.bodyMedium.copy(
                                 fontSize = textSize,
                                 lineHeight = 25.sp,
@@ -191,6 +203,8 @@ fun PrivacyInfoScreen(
                         )
                         Text(
                             text ="5. For spørsmål, kontakt oss på ",
+                            modifier = Modifier
+                                .semantics { heading() },
                             style = MaterialTheme.typography.bodyMedium.copy(
                                 fontSize = textSize,
                                 lineHeight = 25.sp,
@@ -232,7 +246,7 @@ fun PrivacyInfoScreen(
                     ) {
                         androidx.compose.material3.Icon(
                             imageVector = Icons.Default.Add,
-                            contentDescription = "Increase Text Size",
+                            contentDescription = "Øk tekststørrelse",
                             tint = Color.Black
                         )
                     }
@@ -246,7 +260,7 @@ fun PrivacyInfoScreen(
                     ) {
                         androidx.compose.material3.Icon(
                             imageVector = Icons.Default.Remove,
-                            contentDescription = "Decrease Text Size",
+                            contentDescription = "Senk tekststørrelse",
                             tint = Color.Black
                         )
                     }

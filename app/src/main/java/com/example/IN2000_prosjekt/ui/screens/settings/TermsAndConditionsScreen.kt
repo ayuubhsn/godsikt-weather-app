@@ -36,6 +36,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -64,7 +66,7 @@ fun TermsAndConditionsScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Back",
+                            contentDescription = "Tilbake",
                             tint = Color.Gray,
                             modifier = Modifier
                                 .size(50.dp) // Set the size of the icon here. Adjust the value as needed.
@@ -82,7 +84,9 @@ fun TermsAndConditionsScreen(
 
             Text(
                 text = "Vilkår og betingelser",
-                modifier = Modifier.align(Alignment.CenterHorizontally),
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .semantics { heading() },
                 style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold, letterSpacing = 4.sp),
                 color = Color.White,
                 fontSize = 25.sp
@@ -205,7 +209,7 @@ fun TermsAndConditionsScreen(
                     ) {
                         androidx.compose.material3.Icon(
                             imageVector = Icons.Default.Add,
-                            contentDescription = "Increase Text Size",
+                            contentDescription = "Øk tekststørrelse",
                             tint = Color.Black
                         )
                     }
@@ -219,7 +223,7 @@ fun TermsAndConditionsScreen(
                     ) {
                         androidx.compose.material3.Icon(
                             imageVector = Icons.Default.Remove,
-                            contentDescription = "Decrease Text Size",
+                            contentDescription = "Senk tekststørrelse",
                             tint = Color.Black
                         )
                     }
