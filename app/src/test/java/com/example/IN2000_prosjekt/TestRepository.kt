@@ -1,7 +1,7 @@
 package com.example.IN2000_prosjekt
 
 
-import com.example.IN2000_prosjekt.data.weather.WeatherRepository
+import com.example.IN2000_prosjekt.model.weather.WeatherRepository
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue

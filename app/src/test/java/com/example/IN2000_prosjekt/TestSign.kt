@@ -1,8 +1,8 @@
 package com.example.IN2000_prosjekt
 
 
-import com.example.IN2000_prosjekt.model.signs.SignCategories
-import com.example.IN2000_prosjekt.model.signs.SignCategory
+import com.example.IN2000_prosjekt.viewmodel.signs.SignCategories
+import com.example.IN2000_prosjekt.viewmodel.signs.SignCategory
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
 
