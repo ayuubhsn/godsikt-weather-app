@@ -1,8 +1,7 @@
 package com.example.IN2000_prosjekt
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.IN2000_prosjekt.data.weather.DataSourceLocationforecast
-import com.example.IN2000_prosjekt.data.weather.DataSourceMetAlert
+import com.example.IN2000_prosjekt.model.weather.DataSourceLocationforecast
+import com.example.IN2000_prosjekt.model.weather.DataSourceMetAlert
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.runBlocking
 import org.junit.Test

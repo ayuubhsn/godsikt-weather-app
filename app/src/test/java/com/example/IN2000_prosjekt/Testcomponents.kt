@@ -2,10 +2,10 @@ package com.example.IN2000_prosjekt
 
 import android.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import com.example.IN2000_prosjekt.model.components.fargeOppmerksomhet
-import com.example.IN2000_prosjekt.model.components.getCategoryIcon
-import com.example.IN2000_prosjekt.model.components.getPictureSign
-import com.example.IN2000_prosjekt.model.signs.SignCategories
+import com.example.IN2000_prosjekt.view.components.fargeOppmerksomhet
+import com.example.IN2000_prosjekt.view.components.getCategoryIcon
+import com.example.IN2000_prosjekt.view.components.getPictureSign
+import com.example.IN2000_prosjekt.viewmodel.signs.SignCategories
 import junit.framework.TestCase
 import org.junit.Test
 

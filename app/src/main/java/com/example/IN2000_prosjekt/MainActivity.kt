@@ -19,11 +19,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.runtime.livedata.observeAsState
-import com.example.IN2000_prosjekt.model.weather.MapViewModel
-import com.example.IN2000_prosjekt.ui.screens.HomeScreen
-import com.example.IN2000_prosjekt.ui.screens.WeatherScreen
-import com.example.IN2000_prosjekt.ui.screens.showMap
-import com.example.IN2000_prosjekt.ui.theme.IN2000_prosjektTheme
+import com.example.IN2000_prosjekt.viewmodel.weather.MapViewModel
+import com.example.IN2000_prosjekt.view.screens.HomeScreen
+import com.example.IN2000_prosjekt.view.screens.showMap
+import com.example.IN2000_prosjekt.view.theme.IN2000_prosjektTheme
 import android.Manifest
 import android.animation.ObjectAnimator
 import android.view.View
@@ -36,19 +35,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.room.Room
-import com.example.IN2000_prosjekt.data.signs.SignDao
-import com.example.IN2000_prosjekt.data.signs.SignDatabase
-import com.example.IN2000_prosjekt.model.SplashScreenDelayer
-import com.example.IN2000_prosjekt.model.signs.SignViewModel
-import com.example.IN2000_prosjekt.ui.AppViewModel
-import com.example.IN2000_prosjekt.ui.screens.settings.AboutDataSourcesScreen
-import com.example.IN2000_prosjekt.ui.screens.settings.AboutScreen
-import com.example.IN2000_prosjekt.ui.screens.settings.AboutUsScreen
-import com.example.IN2000_prosjekt.ui.screens.settings.PrivacyInfoScreen
-import com.example.IN2000_prosjekt.ui.screens.settings.TermsAndConditionsScreen
-import com.example.IN2000_prosjekt.ui.screens.signs.CategoryScreen
-import com.example.IN2000_prosjekt.ui.screens.signs.SignDescriptionScreen
-import com.example.IN2000_prosjekt.ui.screens.signs.SignScreen
+import com.example.IN2000_prosjekt.model.signs.SignDao
+import com.example.IN2000_prosjekt.model.signs.SignDatabase
+import com.example.IN2000_prosjekt.viewmodel.splashScreen.SplashScreenDelayer
+import com.example.IN2000_prosjekt.viewmodel.signs.SignViewModel
+import com.example.IN2000_prosjekt.viewmodel.weather.AppViewModel
+import com.example.IN2000_prosjekt.view.screens.settings.AboutDataSourcesScreen
+import com.example.IN2000_prosjekt.view.screens.settings.AboutScreen
+import com.example.IN2000_prosjekt.view.screens.settings.AboutUsScreen
+import com.example.IN2000_prosjekt.view.screens.settings.PrivacyInfoScreen
+import com.example.IN2000_prosjekt.view.screens.settings.TermsAndConditionsScreen
+import com.example.IN2000_prosjekt.view.screens.signs.CategoryScreen
+import com.example.IN2000_prosjekt.view.screens.signs.SignDescriptionScreen
+import com.example.IN2000_prosjekt.view.screens.signs.SignScreen
+import com.example.IN2000_prosjekt.viewmodel.weather.WeatherScreenContent
 
 open class Event<out T>(private val content: T) {
 
@@ -216,7 +216,7 @@ fun Screen(activity : MainActivity,  signDao: SignDao) {
             showMap(navController, mapViewModel, appViewModel, activity)
         }
         composable("WeatherScreen"){
-            WeatherScreen(mapViewModel = mapViewModel, appViewModel = appViewModel)
+            WeatherScreenContent(mapViewModel = mapViewModel, appViewModel = appViewModel)
         }
 
         //settings
