@@ -49,7 +49,7 @@ fun AboutScreen(
         ){
             Spacer(modifier = Modifier.height(85.dp))
             Text(
-                text = "Instillinger",
+                text = "Om",
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .semantics {
@@ -79,7 +79,7 @@ fun AboutScreen(
                     ){
                         Text(
                             text = "Om oss",
-                            color = Color.Gray,
+                            color = Color.White,
                             fontSize = 25.sp,
                             modifier = Modifier
                                 .weight(1f)
@@ -91,7 +91,7 @@ fun AboutScreen(
                         Icon(
                             imageVector = Icons.Default.ArrowForward,
                             contentDescription = null,
-                            tint = Color.Gray,
+                            tint = Color.White,
                             modifier = Modifier
                                 .align(Alignment.CenterVertically)
                                 .size(30.dp)
@@ -109,7 +109,7 @@ fun AboutScreen(
 
                         Text(
                             text = "Personvern",
-                            color = Color.Gray,
+                            color = Color.White,
                             fontSize = 25.sp,
                             modifier = Modifier
                                 .weight(1f)
@@ -121,7 +121,7 @@ fun AboutScreen(
                         Icon(
                             imageVector = Icons.Default.ArrowForward,
                             contentDescription = null,
-                            tint = Color.Gray,
+                            tint = Color.White,
                             modifier = Modifier
                                 .align(Alignment.CenterVertically)
                                 .size(30.dp)
@@ -139,7 +139,7 @@ fun AboutScreen(
 
                         Text(
                             text = "Vilkår og Betingelser",
-                            color = Color.Gray,
+                            color = Color.White,
                             fontSize = 25.sp,
                             modifier = Modifier
                                 .weight(1f)
@@ -151,7 +151,7 @@ fun AboutScreen(
                         Icon(
                             imageVector = Icons.Default.ArrowForward,
                             contentDescription = null,
-                            tint = Color.Gray,
+                            tint = Color.White,
                             modifier = Modifier
                                 .align(Alignment.CenterVertically)
                                 .size(30.dp)
@@ -170,7 +170,7 @@ fun AboutScreen(
 
                         Text(
                             text = "Om datakilder",
-                            color = Color.Gray,
+                            color = Color.White,
                             fontSize = 25.sp,
                             modifier = Modifier
                                 .weight(1f)
@@ -182,7 +182,7 @@ fun AboutScreen(
                         Icon(
                             imageVector = Icons.Default.ArrowForward,
                             contentDescription = null,
-                            tint = Color.Gray,
+                            tint = Color.White,
                             modifier = Modifier
                                 .align(Alignment.CenterVertically)
                                 .size(30.dp)
