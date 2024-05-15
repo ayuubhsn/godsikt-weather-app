@@ -46,6 +46,14 @@
     <!-- NetworkStatusScreen strings -->
     <string name="network_message">For å bruke denne skjermen må du koble til internett.</string>
 
+    <!-- WeatherCard Component Strings -->
+    <string name="fog">Tåke</string>
+    <string name="precipitation">Nedbør</string>
+    <string name="wind">Vind</string>
+    <string name="wind_direction">Vindretning</string>
+    <string name="position">posisjon</string>
+    <string name="weather_icon">vær ikon</string>
+
 
 
     <!-- navbar strings -->
