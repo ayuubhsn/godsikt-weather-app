@@ -36,11 +36,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.IN2000_prosjekt.R
 import com.example.IN2000_prosjekt.viewmodel.signs.Sign
 import com.example.IN2000_prosjekt.viewmodel.signs.SignCategory
 import com.example.IN2000_prosjekt.viewmodel.signs.SignViewModel
@@ -50,7 +52,7 @@ fun SignScreen(
     signViewModel: SignViewModel,
     navController: NavController
 ) {
-    val category : SignCategory? = signViewModel.selectedCategory.observeAsState().value
+    val category: SignCategory? = signViewModel.selectedCategory.observeAsState().value
     var signList by remember { mutableStateOf<List<Sign>>(emptyList()) } // Initialize an empty list
 
     LaunchedEffect(category) {
@@ -60,15 +62,17 @@ fun SignScreen(
     }
 
     Surface(color = Color(0xFF17161E), modifier = Modifier.fillMaxSize()) {
-        Column(modifier = Modifier.padding(20.dp),
-            verticalArrangement = Arrangement.spacedBy(3.dp)) {
+        Column(
+            modifier = Modifier.padding(20.dp),
+            verticalArrangement = Arrangement.spacedBy(3.dp)
+        ) {
             TopAppBar(
-                title = {  },
+                title = {},
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = "Tilbake",
+                            contentDescription = stringResource(id = R.string.back_button_description),
                             tint = Color.White
                         )
                     }
@@ -88,18 +92,17 @@ fun SignScreen(
             Spacer(modifier = Modifier.height(30.dp))
             LazyColumn(
                 modifier = Modifier.height(600.dp), // Set specific width and height
-                verticalArrangement = Arrangement.SpaceBetween){
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
                 item {
-                    signList.forEach{
-                        SignItem(it,signViewModel, navController)
+                    signList.forEach {
+                        SignItem(it, signViewModel, navController)
                     }
-
                 }
             }
         }
     }
 }
-
 
 @Composable
 fun SignItem(
@@ -117,14 +120,13 @@ fun SignItem(
             .background(Color(0xFF2b2930), RoundedCornerShape(8.dp))
             .padding(horizontal = 20.dp, vertical = 24.dp)
     ) {
-
         Spacer(modifier = Modifier.width(4.dp))
 
         Box(
             modifier = Modifier
                 .size(75.dp)
                 .background(Color(0xFFD0BCFF), RoundedCornerShape(4.dp))
-        ){
+        ) {
             Image(
                 painter = painterResource(id = signViewModel.getPicture(sign.id)),
                 contentDescription = null,
@@ -141,11 +143,10 @@ fun SignItem(
             modifier = Modifier
                 .weight(1f)
                 .align(Alignment.CenterVertically)
-                .semantics { heading() },
-
+                .semantics { heading() }
         )
         Icon(
-            imageVector =  Icons.Default.ArrowForward,
+            imageVector = Icons.Default.ArrowForward,
             contentDescription = null,
             tint = Color.Gray,
             modifier = Modifier.align(Alignment.CenterVertically)

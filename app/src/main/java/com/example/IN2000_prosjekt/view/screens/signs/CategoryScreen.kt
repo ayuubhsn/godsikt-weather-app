@@ -29,11 +29,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.IN2000_prosjekt.R
 import com.example.IN2000_prosjekt.viewmodel.signs.SignCategories
 import com.example.IN2000_prosjekt.viewmodel.signs.SignCategory
 import com.example.IN2000_prosjekt.viewmodel.signs.SignViewModel
@@ -41,7 +43,8 @@ import com.example.IN2000_prosjekt.viewmodel.signs.SignViewModel
 @Composable
 fun CategoryScreen(
     navController: NavController,
-    signViewModel: SignViewModel) {
+    signViewModel: SignViewModel
+) {
     Surface(color = Color(0xFF17161E), modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier.padding(20.dp),
@@ -50,7 +53,7 @@ fun CategoryScreen(
             Spacer(modifier = Modifier.height(70.dp))
 
             Text(
-                text = "Skilt og regler",
+                text = stringResource(id = R.string.signs_and_rules),
                 fontSize = 40.sp,
                 style = MaterialTheme.typography.headlineSmall,
                 modifier = Modifier
@@ -61,7 +64,7 @@ fun CategoryScreen(
 
             Spacer(modifier = Modifier.height(30.dp))
 
-            LazyColumn{
+            LazyColumn {
                 item {
                     SignCategories.values().forEach { category ->
                         makeCategory(SignCategory(category), navController, signViewModel)
@@ -70,12 +73,12 @@ fun CategoryScreen(
             }
 
             Spacer(modifier = Modifier.weight(1f))
-
         }
         Box {
             NavigationMenu(
                 navController = navController,
-                modifier = Modifier.align(Alignment.BottomCenter))
+                modifier = Modifier.align(Alignment.BottomCenter)
+            )
         }
     }
 }
@@ -127,7 +130,7 @@ fun makeCategory(
                     .align(Alignment.CenterVertically)
             )
             Icon(
-                imageVector =  Icons.Default.ArrowForward,
+                imageVector = Icons.Default.ArrowForward,
                 contentDescription = null,
                 tint = Color.Gray,
                 modifier = Modifier.align(Alignment.CenterVertically)

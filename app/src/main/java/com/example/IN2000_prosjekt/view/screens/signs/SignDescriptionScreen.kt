@@ -31,18 +31,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.material3.Divider
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.compose.material3.Divider
+import androidx.compose.ui.draw.clip
+import com.example.IN2000_prosjekt.R
 import com.example.IN2000_prosjekt.viewmodel.signs.SignViewModel
-
 
 @Composable
 fun SignDescriptionScreen(
@@ -50,7 +51,7 @@ fun SignDescriptionScreen(
     navController: NavController
 ) {
     var textSize by remember { mutableStateOf(30.sp) }
-    val sign = signViewModel._selectedSign.value?: return // Return early if sign is null
+    val sign = signViewModel._selectedSign.value ?: return // Return early if sign is null
     var textBoxHeight = 400.dp
 
     Box(
@@ -71,7 +72,7 @@ fun SignDescriptionScreen(
         ) {
             Icon(
                 imageVector = Icons.Default.Close,
-                contentDescription = "Tilbake",
+                contentDescription = stringResource(id = R.string.back_button_description),
                 tint = Color.White,
                 modifier = Modifier.size(100.dp)
             )
@@ -89,13 +90,12 @@ fun SignDescriptionScreen(
                 modifier = Modifier
                     .size(150.dp)
                     .clip(RoundedCornerShape(10.dp))
-                    .background(Color.White)
-                ,
+                    .background(Color.White),
                 contentAlignment = Alignment.Center
             ) {
                 Image(
                     painter = painterResource(signViewModel.getPicture(sign.id)),
-                    contentDescription = "${sign.name}",
+                    contentDescription = sign.name,
                     modifier = Modifier.size(150.dp)
                 )
             }
@@ -109,13 +109,11 @@ fun SignDescriptionScreen(
                 fontSize = 40.sp,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
-                    .semantics {
-                        heading()
-                    }
+                    .semantics { heading() }
             )
 
-            //this is to account for extra long titles that occur
-            if(signViewModel.getCharacters(sign.name)>40)textBoxHeight = 350.dp
+            // This is to account for extra long titles that occur
+            if (signViewModel.getCharacters(sign.name) > 40) textBoxHeight = 350.dp
 
             Spacer(Modifier.height(8.dp))
             Divider(
@@ -130,11 +128,10 @@ fun SignDescriptionScreen(
                     .height(textBoxHeight)
                     .clip(RoundedCornerShape(10.dp))
                     .background(Color(0xFF2B2930))
-                    .padding(30.dp,0.dp)
+                    .padding(30.dp, 0.dp)
             ) {
                 LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
+                    modifier = Modifier.fillMaxSize()
                 ) {
                     item {
                         Text(
@@ -159,8 +156,7 @@ fun SignDescriptionScreen(
                     .padding(15.dp)
                     .clip(RoundedCornerShape(20.dp))
             ) {
-                Row (modifier = Modifier.padding(horizontal = 8.dp)
-                ){
+                Row(modifier = Modifier.padding(horizontal = 8.dp)) {
                     Box(
                         modifier = Modifier
                             .weight(1f)
@@ -175,10 +171,9 @@ fun SignDescriptionScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Add,
-                                contentDescription = "Øk tekststørrelse",
+                                contentDescription = stringResource(id = R.string.increase_text_size),
                                 tint = Color.Black,
                                 modifier = Modifier.size(50.dp)
-
                             )
                         }
                     }
@@ -197,14 +192,13 @@ fun SignDescriptionScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Remove,
-                                contentDescription = "Reduser tekststørrelse",
+                                contentDescription = stringResource(id = R.string.decrease_text_size),
                                 tint = Color.Black,
                                 modifier = Modifier.size(50.dp)
                             )
                         }
                     }
                 }
-
             }
         }
     }

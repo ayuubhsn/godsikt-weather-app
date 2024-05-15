@@ -34,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
@@ -50,10 +51,10 @@ fun AboutUsScreen(
     var textSize by remember { mutableStateOf(15.sp) }
 
     Surface(color = Color(0xFF17161E), modifier = Modifier.fillMaxSize()) {
-        Column (
+        Column(
             modifier = Modifier.padding(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
-        ){
+        ) {
             // Top Bar with Back Button
             TopAppBar(
                 title = {},
@@ -63,13 +64,12 @@ fun AboutUsScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Tilbake",
+                            contentDescription = stringResource(id = R.string.back_button_description),
                             tint = Color.Gray,
                             modifier = Modifier
                                 .size(50.dp) // Set the size of the icon here. Adjust the value as needed.
-                                .clickable {navController.popBackStack() }
+                                .clickable { navController.popBackStack() }
                         )
-
                     }
                 },
                 backgroundColor = Color.Transparent,
@@ -79,30 +79,24 @@ fun AboutUsScreen(
             Spacer(modifier = Modifier.height(20.dp))
 
             Text(
-                text = "Om oss",
+                text = stringResource(id = R.string.about_us),
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .semantics {
-                               heading()
-                    },
+                    .semantics { heading() },
                 style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold, letterSpacing = 4.sp),
                 color = Color.White,
                 fontSize = 40.sp
             )
 
-            //bilde her
-
             Image(
                 painter = painterResource(id = R.drawable.omoss),
-                contentDescription = "Medlemmer av Team God Sikt",
+                contentDescription = stringResource(id = R.string.team_members_image_description),
                 modifier = Modifier
                     .size(width = 250.dp, height = 200.dp) // Størrelsen på bildet
                     .padding(16.dp) // Padding rundt bildet
             )
 
-
             Spacer(modifier = Modifier.height(5.dp))
-
 
             Box(
                 modifier = Modifier
@@ -115,10 +109,7 @@ fun AboutUsScreen(
                 ) {
                     item {
                         Text(
-                            text = "Vi er en gruppe engasjerte informatikk-studenter fra Universitetet i Oslo. Denne appen er et produkt av vårt engasjement i faget IN2000, våren 2024. \nTakk for at du velger å bruke vår app, vi håper den bidrar til ditt vann-eventyr!\n" +
-                                    "\n" +
-                                    "Hiv o’hoi,\n" +
-                                    "Team God Sikt ⚓ ",
+                            text = stringResource(id = R.string.about_us_text),
                             style = MaterialTheme.typography.bodyMedium.copy(
                                 fontSize = textSize,
                                 lineHeight = 40.sp,
@@ -139,8 +130,7 @@ fun AboutUsScreen(
                     .padding(15.dp)
                     .clip(RoundedCornerShape(20.dp))
             ) {
-                Row (modifier = Modifier.padding(horizontal = 8.dp)
-                ){
+                Row(modifier = Modifier.padding(horizontal = 8.dp)) {
                     Box(
                         modifier = Modifier
                             .weight(1f)
@@ -155,10 +145,9 @@ fun AboutUsScreen(
                         ) {
                             androidx.compose.material3.Icon(
                                 imageVector = Icons.Default.Add,
-                                contentDescription = "Øk tekststørrelse",
+                                contentDescription = stringResource(id = R.string.increase_text_size),
                                 tint = Color.Black,
                                 modifier = Modifier.size(50.dp)
-
                             )
                         }
                     }
@@ -177,22 +166,18 @@ fun AboutUsScreen(
                         ) {
                             androidx.compose.material3.Icon(
                                 imageVector = Icons.Default.Remove,
-                                contentDescription = "Reduser tekststørrelse",
+                                contentDescription = stringResource(id = R.string.decrease_text_size),
                                 tint = Color.Black,
                                 modifier = Modifier.size(50.dp)
                             )
                         }
                     }
                 }
-
             }
-
-
-
         }
     }
-
 }
+
 
 
 /*

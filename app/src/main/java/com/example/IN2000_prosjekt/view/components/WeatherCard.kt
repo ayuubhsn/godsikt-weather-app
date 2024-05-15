@@ -31,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -81,16 +82,16 @@ fun WeatherCard(locationInfo: LocationInfo, metAlertInfo: MetAlert, mapCoordinat
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        WeatherCardContent("Tåke", locationInfo.fog_area_fraction, R.drawable.t_ke)
-                        WeatherCardContent("Nedbør", locationInfo.precipitation_amount, R.drawable.rainy)
+                        WeatherCardContent(stringResource(id = R.string.fog), locationInfo.fog_area_fraction, R.drawable.t_ke)
+                        WeatherCardContent(stringResource(id = R.string.precipitation), locationInfo.precipitation_amount, R.drawable.rainy)
                     }
                     Spacer(modifier = Modifier.height(10.dp))
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        WeatherCardContent("Vind", locationInfo.wind_speed , R.drawable.wind)
-                        WeatherCardContent("Vind retning", locationInfo.wind_from_direction, R.drawable.t_ke)        //endre ikonet
+                        WeatherCardContent(stringResource(id = R.string.wind), locationInfo.wind_speed , R.drawable.wind)
+                        WeatherCardContent(stringResource(id = R.string.wind_direction), locationInfo.wind_from_direction, R.drawable.t_ke)        //endre ikonet
                     }
                     Spacer(modifier = Modifier.height(10.dp))
                     WeatherCardContentAlert(
@@ -116,7 +117,7 @@ fun DisplayCoordinates(mapCoordinates: MapUIState.mapCoordinates) {
 
         Image(
             painter = painterResource(id = R.drawable.location_white),
-            contentDescription = "posisjon",
+            contentDescription = stringResource(id = R.string.position),
             modifier = Modifier
                 .size(24.dp) // Juster størrelsen etter behov
                 .offset(x = (-16).dp) // Juster offset-verdien etter behov
@@ -167,7 +168,7 @@ fun Weather(temp: Int, symbolCode: String?) {
 
             Image(
                 painter = painterResource(id = resourceId),
-                contentDescription = "Weather Icon",
+                contentDescription = stringResource(id = R.string.weather_icon),
                 modifier = Modifier.size(130.dp) // Juster størrelsen etter behov
             )
         }

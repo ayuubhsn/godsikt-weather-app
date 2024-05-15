@@ -23,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.isTraversalGroup
 import androidx.compose.ui.semantics.semantics
@@ -31,30 +32,25 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-
-
+import com.example.IN2000_prosjekt.R
 
 @Composable
 fun AboutScreen(
     navController: NavController
 ) {
-
     Surface(color = Color(0xFF17161E), modifier = Modifier.fillMaxSize()) {
-        Column (
+        Column(
             modifier = Modifier
                 .padding(8.dp)
                 .semantics { isTraversalGroup = true },
             horizontalAlignment = Alignment.CenterHorizontally,
-
-        ){
+        ) {
             Spacer(modifier = Modifier.height(85.dp))
             Text(
-                text = "Om",
+                text = stringResource(id = R.string.about),
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .semantics {
-                               heading()
-                    },
+                    .semantics { heading() },
                 style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold, letterSpacing = 4.sp),
                 color = Color.White,
                 fontSize = 40.sp
@@ -69,24 +65,22 @@ fun AboutScreen(
             )
             Spacer(modifier = Modifier.height(35.dp))
 
-            LazyColumn{
+            LazyColumn {
                 item {
-
-                    Row(modifier = Modifier
-                        .padding(60.dp, 10.dp)
-                        .height(70.dp)
-                        .clickable { navController.navigate("AboutUsScreen") }
-                    ){
+                    Row(
+                        modifier = Modifier
+                            .padding(60.dp, 10.dp)
+                            .height(70.dp)
+                            .clickable { navController.navigate("AboutUsScreen") }
+                    ) {
                         Text(
-                            text = "Om oss",
+                            text = stringResource(id = R.string.about_us),
                             color = Color.White,
                             fontSize = 25.sp,
                             modifier = Modifier
                                 .weight(1f)
                                 .align(Alignment.CenterVertically)
-                                .semantics {
-                                    traversalIndex = 1F
-                                }
+                                .semantics { traversalIndex = 1F }
                         )
                         Icon(
                             imageVector = Icons.Default.ArrowForward,
@@ -96,27 +90,22 @@ fun AboutScreen(
                                 .align(Alignment.CenterVertically)
                                 .size(30.dp)
                                 .clickable { navController.navigate("AboutUsScreen") }
-
                         )
-
                     }
-                    Row(modifier = Modifier
-                        .padding(60.dp, 10.dp)
-                        .height(70.dp)
-                        .clickable { navController.navigate("PrivacyInfoScreen") }
-
-                    ){
-
+                    Row(
+                        modifier = Modifier
+                            .padding(60.dp, 10.dp)
+                            .height(70.dp)
+                            .clickable { navController.navigate("PrivacyInfoScreen") }
+                    ) {
                         Text(
-                            text = "Personvern",
+                            text = stringResource(id = R.string.privacy),
                             color = Color.White,
                             fontSize = 25.sp,
                             modifier = Modifier
                                 .weight(1f)
                                 .align(Alignment.CenterVertically)
-                                .semantics {
-                                    traversalIndex = 2F
-                                }
+                                .semantics { traversalIndex = 2F }
                         )
                         Icon(
                             imageVector = Icons.Default.ArrowForward,
@@ -126,27 +115,22 @@ fun AboutScreen(
                                 .align(Alignment.CenterVertically)
                                 .size(30.dp)
                                 .clickable { navController.navigate("PrivacyInfoScreen") }
-
                         )
-
                     }
-                    Row(modifier = Modifier
-                        .padding(60.dp, 10.dp)
-                        .height(70.dp)
-                        .clickable { navController.navigate("TermsAndConditionsScreen") }
-
-                    ){
-
+                    Row(
+                        modifier = Modifier
+                            .padding(60.dp, 10.dp)
+                            .height(70.dp)
+                            .clickable { navController.navigate("TermsAndConditionsScreen") }
+                    ) {
                         Text(
-                            text = "Vilkår og Betingelser",
+                            text = stringResource(id = R.string.terms_and_conditions),
                             color = Color.White,
                             fontSize = 25.sp,
                             modifier = Modifier
                                 .weight(1f)
                                 .align(Alignment.CenterVertically)
-                                .semantics {
-                                    traversalIndex = 3F
-                                }
+                                .semantics { traversalIndex = 3F }
                         )
                         Icon(
                             imageVector = Icons.Default.ArrowForward,
@@ -156,28 +140,22 @@ fun AboutScreen(
                                 .align(Alignment.CenterVertically)
                                 .size(30.dp)
                                 .clickable { navController.navigate("TermsAndConditionsScreen") }
-
-
                         )
-
                     }
-                    Row(modifier = Modifier
-                        .padding(60.dp, 10.dp)
-                        .height(70.dp)
-                        .clickable { navController.navigate("AboutDataSourcesScreen") }
-
-                    ){
-
+                    Row(
+                        modifier = Modifier
+                            .padding(60.dp, 10.dp)
+                            .height(70.dp)
+                            .clickable { navController.navigate("AboutDataSourcesScreen") }
+                    ) {
                         Text(
-                            text = "Om datakilder",
+                            text = stringResource(id = R.string.about_data_sources),
                             color = Color.White,
                             fontSize = 25.sp,
                             modifier = Modifier
                                 .weight(1f)
                                 .align(Alignment.CenterVertically)
-                                .semantics {
-                                    traversalIndex = 4F
-                                }
+                                .semantics { traversalIndex = 4F }
                         )
                         Icon(
                             imageVector = Icons.Default.ArrowForward,
@@ -187,28 +165,22 @@ fun AboutScreen(
                                 .align(Alignment.CenterVertically)
                                 .size(30.dp)
                                 .clickable { navController.navigate("AboutDataSourcesScreen") }
-
-
                         )
-
                     }
                     Spacer(modifier = Modifier.weight(1f))
-
                 }
             }
         }
 
-
         Box {
             NavigationMenu(
                 navController = navController,
-                modifier = Modifier.align(Alignment.BottomCenter))
+                modifier = Modifier.align(Alignment.BottomCenter)
+            )
         }
-
-
     }
-
 }
+
 
 /*
 @Preview
