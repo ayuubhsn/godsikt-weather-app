@@ -21,7 +21,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.compose.runtime.livedata.observeAsState
 import com.example.IN2000_prosjekt.viewmodel.weather.MapViewModel
 import com.example.IN2000_prosjekt.view.screens.HomeScreen
-import com.example.IN2000_prosjekt.view.screens.showMap
 import com.example.IN2000_prosjekt.view.theme.IN2000_prosjektTheme
 import android.Manifest
 import android.animation.ObjectAnimator
@@ -29,14 +28,19 @@ import android.view.View
 import android.view.animation.OvershootInterpolator
 import androidx.activity.viewModels
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.room.Room
+import com.example.IN2000_prosjekt.model.Internett.NetworkConnectionObserver
+import com.example.IN2000_prosjekt.model.Internett.NetworkObserver
 import com.example.IN2000_prosjekt.model.signs.SignDao
 import com.example.IN2000_prosjekt.model.signs.SignDatabase
+import com.example.IN2000_prosjekt.view.screens.NetworkStatusScreen
 import com.example.IN2000_prosjekt.viewmodel.splashScreen.SplashScreenDelayer
 import com.example.IN2000_prosjekt.viewmodel.signs.SignViewModel
 import com.example.IN2000_prosjekt.viewmodel.weather.AppViewModel
@@ -45,6 +49,7 @@ import com.example.IN2000_prosjekt.view.screens.settings.AboutScreen
 import com.example.IN2000_prosjekt.view.screens.settings.AboutUsScreen
 import com.example.IN2000_prosjekt.view.screens.settings.PrivacyInfoScreen
 import com.example.IN2000_prosjekt.view.screens.settings.TermsAndConditionsScreen
+import com.example.IN2000_prosjekt.view.screens.showMap
 import com.example.IN2000_prosjekt.view.screens.signs.CategoryScreen
 import com.example.IN2000_prosjekt.view.screens.signs.SignDescriptionScreen
 import com.example.IN2000_prosjekt.view.screens.signs.SignScreen
@@ -84,6 +89,7 @@ class SharedViewModel : ViewModel() {
 
 class MainActivity : ComponentActivity() {
     private val sharedViewModel: SharedViewModel by viewModels()
+    private lateinit var observernettverk: NetworkObserver
 
     //creating new database og copies from oceanSign-database
     private val db by lazy {
@@ -131,6 +137,7 @@ class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        observernettverk = NetworkConnectionObserver(applicationContext)
         //splashScreen starts
         installSplashScreen().apply {
             setKeepOnScreenCondition{
@@ -164,13 +171,17 @@ class MainActivity : ComponentActivity() {
         }
         setContent {
             IN2000_prosjektTheme (darkTheme = true){
+                val status by observernettverk.oberrver().collectAsState(initial = NetworkObserver.Status.Utilgjengelig)
+
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
                     // Greeting("Android")
-                    Screen(this, db.dao)
+                    Screen(this, db.dao, status, observernettverk)
+
+
                 }
             }
         }
@@ -194,12 +205,13 @@ fun GreetingPreview() {
 }
 
 @Composable
-fun Screen(activity : MainActivity,  signDao: SignDao) {
+fun Screen(activity : MainActivity, signDao: SignDao, status: NetworkObserver.Status, networkObserver:NetworkObserver) {
     val navController = rememberNavController()
     val mapViewModel = viewModel<MapViewModel>()
     val sharedViewModel: SharedViewModel = viewModel()
     val appViewModel: AppViewModel = viewModel<AppViewModel>()
     val signViewModel: SignViewModel = SignViewModel(signDao)
+
 
 
     NavHost(
@@ -213,7 +225,12 @@ fun Screen(activity : MainActivity,  signDao: SignDao) {
 
         //map
         composable("MapScreen") {
-            showMap(navController, mapViewModel, appViewModel, activity)
+            val statuss by networkObserver.oberrver().collectAsState(initial = NetworkObserver.Status.Utilgjengelig)
+            if (statuss == NetworkObserver.Status.Tilgjengelig) {
+                showMap(navController, mapViewModel, appViewModel, activity)
+            } else {
+                NetworkStatusScreen(status = "Utilgjengelig", navController = navController)
+            }
         }
         composable("WeatherScreen"){
             WeatherScreenContent(mapViewModel = mapViewModel, appViewModel = appViewModel)
@@ -245,6 +262,10 @@ fun Screen(activity : MainActivity,  signDao: SignDao) {
         }
         composable("SignDescriptionScreen"){
             SignDescriptionScreen(signViewModel,navController)
+        }
+
+        composable("NetworkStatusScreen"){
+            NetworkStatusScreen(status.toString(),navController)
         }
     }
 
