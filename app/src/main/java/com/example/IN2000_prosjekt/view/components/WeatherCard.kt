@@ -1,4 +1,4 @@
-package com.example.IN2000_prosjekt.view.screens
+package com.example.IN2000_prosjekt.view.components
 
 
 import android.util.Log
@@ -20,9 +20,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -35,19 +37,17 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.IN2000_prosjekt.R
-import com.example.IN2000_prosjekt.view.components.windDirectionIcon
 import com.example.IN2000_prosjekt.view.uistate.LocationInfo
 import com.example.IN2000_prosjekt.view.uistate.MetAlert
 import com.example.IN2000_prosjekt.view.theme.AppBackground
 import com.example.IN2000_prosjekt.view.theme.DarkGreyColor
 import com.example.IN2000_prosjekt.view.theme.PurpleColor
 import com.example.IN2000_prosjekt.view.uistate.MapUIState
-
-
+import com.example.IN2000_prosjekt.viewmodel.weather.MapViewModel
 
 
 @Composable
-fun WeatherCard(locationInfo: LocationInfo, metAlertInfo: MetAlert, mapCoordinates: MapUIState.mapCoordinates // Legg til denne linjen
+fun WeatherCard(locationInfo: LocationInfo, metAlertInfo: MetAlert, mapCoordinates: MapUIState.mapCoordinates
 ) {
     Box(
         modifier = Modifier
@@ -219,7 +219,7 @@ fun WeatherCardContent(title: String, data: Double, icon: Int) {
         ) {
             Text(
                 text = title,
-                color = Color.Gray,
+                color = Color.White,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 15.sp
             )

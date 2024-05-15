@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.IN2000_prosjekt.model.weather.WeatherRepository
 import com.example.IN2000_prosjekt.view.uistate.AppUiState
-import com.example.IN2000_prosjekt.view.screens.WeatherCard
+import com.example.IN2000_prosjekt.view.components.WeatherCard
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow

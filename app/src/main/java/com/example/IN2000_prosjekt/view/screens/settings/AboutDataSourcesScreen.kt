@@ -137,7 +137,7 @@ fun AboutDataSourcesScreen(
                             textAlign = TextAlign.Center,
                         )
                         Text(
-                            text = "Kartet er hentet fra MapBox SDK",
+                            text = "Kartene er hentet fra MapBox SDK og Geonorge",
                             style = MaterialTheme.typography.bodyMedium.copy(
                                 fontSize = textSize,
                                 lineHeight = 40.sp,

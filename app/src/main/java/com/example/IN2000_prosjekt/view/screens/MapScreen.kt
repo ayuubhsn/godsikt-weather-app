@@ -95,7 +95,6 @@ fun showMap(
 
     //  val locationComponentEnabled by mapViewModel.locationComponentEnabled.collectAsState()
     val mapViewContainer = MapViewContainer()
-    val mapCoordinates by mapViewModel.mapClickedCoordinates.collectAsState()
     var isWeatherOpen by rememberSaveable {
         mutableStateOf(false)
     }
@@ -367,7 +366,7 @@ fun SOSCard(onConfirm: () -> Unit, onClose: () -> Unit) {
                             showConfirmation = true // Show confirmation message
                         },
                         colors = ButtonDefaults.buttonColors(
-                            contentColor = Color.White,
+                            contentColor = Color.Black,
                             containerColor = Color.Red
                         ),
                         modifier = Modifier
@@ -464,8 +463,8 @@ fun InformationCard(onClose: () -> Unit) {
                 color = Color.White.copy(alpha = 0.25f)
             )
             InformationItem(
-                icon = painterResource(id = R.drawable.settingsicon),
-                description = "Innstillinger for appen"
+                icon = painterResource(id = R.drawable.logo),
+                description = "Viser informasjon om appen"
             )
             HorizontalDivider(
                 thickness = 1.dp,
