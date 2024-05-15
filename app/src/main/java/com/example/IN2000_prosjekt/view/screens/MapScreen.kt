@@ -54,11 +54,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.IN2000_prosjekt.R
+import com.example.IN2000_prosjekt.model.Internett.NetworkObserver
 import com.example.IN2000_prosjekt.viewmodel.weather.AppViewModel
 import com.example.IN2000_prosjekt.view.components.mapComponents.MapboxPin
 import com.example.IN2000_prosjekt.view.components.mapComponents.MapboxUserLocation
 import com.example.IN2000_prosjekt.viewmodel.weather.WeatherCardInfo
 import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 
 @OptIn(DelicateCoroutinesApi::class, ExperimentalComposeUiApi::class)
 @Composable
@@ -67,9 +70,7 @@ fun showMap(
     mapViewModel: MapViewModel,
     appViewModel: AppViewModel,
     activity: MainActivity,
-    modifier: Modifier = Modifier,) {
-
-
+    modifier: Modifier = Modifier) {
     var lastOrientation by remember { mutableIntStateOf(Configuration.ORIENTATION_UNDEFINED) }
     val configuration = LocalConfiguration.current
 
@@ -503,3 +504,37 @@ fun InformationItem(icon: Painter, description: String) {
     }
 }
 
+
+@Composable
+fun NetworkStatusScreen(status: String, navController: NavController) {
+    Log.d("mapscreen", "jeg blir kalt 1")
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Box(modifier = Modifier.padding(16.dp)) { // Add padding to the Box
+            Text(
+                text = "Nettverkstatus: $status",
+                modifier = Modifier.align(Alignment.Center)
+            )
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+        Box(modifier = Modifier.padding(start = 32.dp)) { // Increase left padding
+            Text(
+                text = "For å brukke denne skjermen må du koble til internett.",
+                modifier = Modifier.align(Alignment.Center)
+            )
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+    }
+
+    Box {
+        NavigationMenu(
+            navController = navController,
+            modifier = Modifier.align(Alignment.BottomCenter)
+        )
+    }
+}
