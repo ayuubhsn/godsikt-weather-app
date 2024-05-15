@@ -1,4 +1,3 @@
-
 package com.example.IN2000_prosjekt.view.screens
 
 import NavigationMenu
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,7 +22,6 @@ import com.example.IN2000_prosjekt.view.components.mapComponents.addDybdedataLay
 import com.mapbox.geojson.Point
 import com.mapbox.maps.CameraOptions
 import androidx.compose.foundation.layout.*
-
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -44,6 +41,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.invisibleToUser
 import androidx.compose.ui.semantics.isTraversalGroup
@@ -54,14 +52,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.IN2000_prosjekt.R
-import com.example.IN2000_prosjekt.model.Internett.NetworkObserver
 import com.example.IN2000_prosjekt.viewmodel.weather.AppViewModel
 import com.example.IN2000_prosjekt.view.components.mapComponents.MapboxPin
 import com.example.IN2000_prosjekt.view.components.mapComponents.MapboxUserLocation
 import com.example.IN2000_prosjekt.viewmodel.weather.WeatherCardInfo
 import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
 
 @OptIn(DelicateCoroutinesApi::class, ExperimentalComposeUiApi::class)
 @Composable
@@ -92,8 +87,6 @@ fun showMap(
         }
     }
 
-
-    //  val locationComponentEnabled by mapViewModel.locationComponentEnabled.collectAsState()
     val mapViewContainer = MapViewContainer()
     var isWeatherOpen by rememberSaveable {
         mutableStateOf(false)
@@ -126,7 +119,7 @@ fun showMap(
                         8.3,
                         62.0
                     )
-                ) // Example: New York City coordinates
+                )
                 .zoom(4.6)
                 .bearing(0.0)
                 .pitch(0.0)
@@ -161,6 +154,12 @@ fun showMap(
     }
 
     if(configuration.orientation == Configuration.ORIENTATION_PORTRAIT){
+        val buttonsForMap = stringResource(id = R.string.buttons_for_map)
+        val sosButtonDescription = stringResource(id = R.string.sos_button_description)
+        val infoButtonDescription = stringResource(id = R.string.info_button_description)
+        val weatherButtonDescription = stringResource(id = R.string.weather_button_description)
+        val centerButtonDescription = stringResource(id = R.string.center_button_description)
+        val sosTextDescription = stringResource(id = R.string.sos_text_description)
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -173,7 +172,7 @@ fun showMap(
                 horizontalAlignment = Alignment.End,
                 modifier = Modifier.semantics {
                     isTraversalGroup = true
-                    contentDescription = "knapper for kart"
+                    contentDescription = buttonsForMap
                 }
             ) {
                 // SOS Button
@@ -184,11 +183,9 @@ fun showMap(
                         .size(60.dp)
                         .clip(RoundedCornerShape(25))
                         .background(LighterRed)
-                        .clickable {
-                            isSOSOpen = !isSOSOpen
-                        }
+                        .clickable { isSOSOpen = !isSOSOpen }
                         .semantics {
-                            contentDescription = "S O S, knapp 1 av 4"
+                            contentDescription = sosButtonDescription
                             traversalIndex = 1F
                         }
                 ) {
@@ -198,7 +195,7 @@ fun showMap(
                             .padding(8.dp)
                     ) {
                         Text(
-                            text = "SOS",
+                            text = sosTextDescription,
                             fontSize = 14.sp,
                             color = Color.White,
                             modifier = Modifier
@@ -206,7 +203,6 @@ fun showMap(
                                 .semantics { invisibleToUser() }
 
                             )
-
                     }
                 }
                 // Information button
@@ -224,7 +220,7 @@ fun showMap(
                 ) {
                     Icon(
                         painterResource(id = R.drawable.info_circle),
-                        contentDescription = "Instruksjoner om app, knapp 2 av 4"
+                        contentDescription = infoButtonDescription
                     )
                 }
 
@@ -242,7 +238,7 @@ fun showMap(
                 ) {
                     Icon(
                         painterResource(id = R.drawable.cloud_sunny),
-                        contentDescription = "Værmelding og farevarsler, knapp 3 av 4"
+                        contentDescription = weatherButtonDescription
                     )
                 }
 
@@ -255,17 +251,16 @@ fun showMap(
                                 it, mapViewModel.getLastUserLocation().value)
                         }
                     },
-                    //backgroundColor = Color.Blue, // Customize FAB background color
-                    contentColor = Color.White, // Customize FAB content color
+                    contentColor = Color.White, 
                     modifier = Modifier
-                        .size(60.dp) // Set size of the FAB
+                        .size(60.dp)
                         .semantics {
                             traversalIndex = 4F
                         }
                 ) {
                     Icon(
                         painterResource(id = R.drawable.center),
-                        contentDescription = "Sentrer skjerm, knapp 4 av 4"
+                        contentDescription = centerButtonDescription
                     )
                 }
             }
@@ -277,7 +272,6 @@ fun showMap(
             SOSCard(
                 onConfirm = {
                     // Handle confirmation action here
-                    // For example, you can trigger a function to send SOS message
                 },
                 onClose = {
                     isSOSOpen = false // Close the SOS card
@@ -312,7 +306,7 @@ fun SOSCard(onConfirm: () -> Unit, onClose: () -> Unit) {
         ) {
             if (showConfirmation) {
                 Text(
-                    text = "Kystvakten er varslet!",
+                    text = stringResource(id = R.string.sos_confirmed_message),
                     color = Color.White,
                     textAlign = TextAlign.Center
                 )
@@ -329,7 +323,7 @@ fun SOSCard(onConfirm: () -> Unit, onClose: () -> Unit) {
                         .width(120.dp)
                         .padding(vertical = 8.dp)
                 ) {
-                    Text(text = "Lukk")
+                    Text(text = stringResource(id = R.string.close))
                 }
             } else {
                 Row(
@@ -339,19 +333,19 @@ fun SOSCard(onConfirm: () -> Unit, onClose: () -> Unit) {
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.warning_fill0_wght400_grad0_opsz24),
-                        contentDescription = "Warning",
+                        contentDescription = null,
                         tint = Color.White,
                         modifier = Modifier.size(24.dp)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "ADVARSEL",
+                        text = stringResource(id = R.string.sos_warning),
                         color = Color.White
                     )
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = "Bekreft at du ønsker å dele din GPS posisjon med kystvakten.",
+                    text = stringResource(id = R.string.sos_confirm_message),
                     color = Color.White,
                     textAlign = TextAlign.Center
                 )
@@ -373,7 +367,7 @@ fun SOSCard(onConfirm: () -> Unit, onClose: () -> Unit) {
                             .width(120.dp)
                             .padding(vertical = 8.dp)
                     ) {
-                        Text(text = "BEKREFT")
+                        Text(text = stringResource(id = R.string.confirm))
                     }
                     Button(
                         onClick = {
@@ -387,7 +381,7 @@ fun SOSCard(onConfirm: () -> Unit, onClose: () -> Unit) {
                             .width(120.dp)
                             .padding(vertical = 8.dp)
                     ) {
-                        Text(text = "Avbryt")
+                        Text(text = stringResource(id = R.string.cancel))
                     }
                 }
             }
@@ -412,19 +406,19 @@ fun InformationCard(onClose: () -> Unit) {
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Text(
-                text = "App instrukser",
+                text = stringResource(id = R.string.app_instructions),
                 color = Color.White ,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold
             )
             Text(
-                text = "Her er alle knappene i appen og hva de gjør:",
+                text = stringResource(id = R.string.app_instructions_intro),
                 color = Color.White
             )
             Spacer(modifier = Modifier.height(8.dp))
             InformationItem(
                 icon = painterResource(id = R.drawable.sos_fill0_wght400_grad0_opsz24__1_),
-                description = "SOS tilkaller kystvakten i faresituasjoner"
+                description = stringResource(id = R.string.sos_description)
             )
             HorizontalDivider(
                 thickness = 1.dp,
@@ -432,7 +426,7 @@ fun InformationCard(onClose: () -> Unit) {
             )
             InformationItem(
                 icon = painterResource(id = R.drawable.cloud_sunny),
-                description = "Viser til været i valgt lokasjon (trykk på kart)"
+                description = stringResource(id = R.string.info_weather_button_description)
             )
             HorizontalDivider(
                 thickness = 1.dp,
@@ -440,7 +434,7 @@ fun InformationCard(onClose: () -> Unit) {
             )
             InformationItem(
                 icon = painterResource(id = R.drawable.center),
-                description = "Sentrerer kartet i forhold til posisjon"
+                description = stringResource(id = R.string.center_description)
             )
             HorizontalDivider(
                 thickness = 1.dp,
@@ -448,7 +442,7 @@ fun InformationCard(onClose: () -> Unit) {
             )
             InformationItem(
                 icon = painterResource(id = R.drawable.mapicon),
-                description = "Viser kartet"
+                description = stringResource(id = R.string.map_button_description)
             )
             HorizontalDivider(
                 thickness = 1.dp,
@@ -456,7 +450,7 @@ fun InformationCard(onClose: () -> Unit) {
             )
             InformationItem(
                 icon = painterResource(id = R.drawable.signicon),
-                description = "Viser viktige skilt og regler"
+                description = stringResource(id = R.string.sign_button_description)
             )
             HorizontalDivider(
                 thickness = 1.dp,
@@ -464,7 +458,7 @@ fun InformationCard(onClose: () -> Unit) {
             )
             InformationItem(
                 icon = painterResource(id = R.drawable.logo),
-                description = "Viser informasjon om appen"
+                description = stringResource(id = R.string.about_app_description)
             )
             HorizontalDivider(
                 thickness = 1.dp,
@@ -478,12 +472,11 @@ fun InformationCard(onClose: () -> Unit) {
                 ),
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             ) {
-                Text(text = "Lukk")
+                Text(text = stringResource(id = R.string.close_button_text))
             }
         }
     }
 }
-
 
 @Composable
 fun InformationItem(icon: Painter, description: String) {
@@ -522,7 +515,7 @@ fun NetworkStatusScreen(status: String, navController: NavController) {
         Spacer(modifier = Modifier.height(16.dp))
         Box(modifier = Modifier.padding(start = 32.dp)) { // Increase left padding
             Text(
-                text = "For å brukke denne skjermen må du koble til internett.",
+                text = stringResource(id = R.string.network_message),
                 modifier = Modifier.align(Alignment.Center)
             )
         }

@@ -1,4 +1,5 @@
 package com.example.IN2000_prosjekt.view.screens.settings
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -31,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
@@ -38,6 +40,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.IN2000_prosjekt.R
 
 @Composable
 fun AboutDataSourcesScreen(
@@ -59,13 +62,12 @@ fun AboutDataSourcesScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Tilbake",
+                            contentDescription = stringResource(id = R.string.back_button_description),
                             tint = Color.Gray,
                             modifier = Modifier
                                 .size(50.dp) // Set the size of the icon here. Adjust the value as needed.
-                                .clickable { navController.popBackStack()}
+                                .clickable { navController.popBackStack() }
                         )
-
                     }
                 },
                 backgroundColor = Color.Transparent,
@@ -74,7 +76,7 @@ fun AboutDataSourcesScreen(
             )
             Spacer(modifier = Modifier.height(20.dp))
             Text(
-                text = "Om datakildene",
+                text = stringResource(id = R.string.about_data_sources),
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .semantics { heading() },
@@ -83,12 +85,7 @@ fun AboutDataSourcesScreen(
                 fontSize = 40.sp
             )
 
-            //bilde her
-
-
-
             Spacer(modifier = Modifier.height(30.dp))
-
 
             Box(
                 modifier = Modifier
@@ -101,7 +98,7 @@ fun AboutDataSourcesScreen(
                 ) {
                     item {
                         Text(
-                            text = "Vær",
+                            text = stringResource(id = R.string.weather_heading),
                             modifier = Modifier
                                 .semantics { heading() },
                             style = MaterialTheme.typography.bodyMedium.copy(
@@ -113,7 +110,7 @@ fun AboutDataSourcesScreen(
                             textAlign = TextAlign.Center,
                         )
                         Text(
-                            text = "Data for vær er hentet fra MetAlerts API og Locationforecast API",
+                            text = stringResource(id = R.string.weather_description),
                             style = MaterialTheme.typography.bodyMedium.copy(
                                 fontSize = textSize,
                                 lineHeight = 40.sp,
@@ -125,7 +122,7 @@ fun AboutDataSourcesScreen(
                         Spacer(modifier = Modifier.height(30.dp))
 
                         Text(
-                            text = "Kart",
+                            text = stringResource(id = R.string.map_heading),
                             modifier = Modifier
                                 .semantics { heading() },
                             style = MaterialTheme.typography.bodyMedium.copy(
@@ -137,7 +134,7 @@ fun AboutDataSourcesScreen(
                             textAlign = TextAlign.Center,
                         )
                         Text(
-                            text = "Kartene er hentet fra MapBox SDK og Geonorge",
+                            text = stringResource(id = R.string.map_description),
                             style = MaterialTheme.typography.bodyMedium.copy(
                                 fontSize = textSize,
                                 lineHeight = 40.sp,
@@ -147,8 +144,9 @@ fun AboutDataSourcesScreen(
                             textAlign = TextAlign.Start,
                         )
                         Spacer(modifier = Modifier.height(30.dp))
+
                         Text(
-                            text = "Skilt ",
+                            text = stringResource(id = R.string.sign_heading),
                             modifier = Modifier
                                 .semantics { heading() },
                             style = MaterialTheme.typography.bodyMedium.copy(
@@ -160,7 +158,7 @@ fun AboutDataSourcesScreen(
                             textAlign = TextAlign.Center,
                         )
                         Text(
-                            text = "Informasjon om farvannsskiltene er hentet fra Kystverkets offisielle nettside om farvannsskilt",
+                            text = stringResource(id = R.string.sign_description),
                             style = MaterialTheme.typography.bodyMedium.copy(
                                 fontSize = textSize,
                                 lineHeight = 40.sp,
@@ -169,7 +167,6 @@ fun AboutDataSourcesScreen(
                             color = Color.White,
                             textAlign = TextAlign.Start,
                         )
-
                     }
                 }
             }
@@ -182,8 +179,7 @@ fun AboutDataSourcesScreen(
                     .padding(15.dp)
                     .clip(RoundedCornerShape(20.dp))
             ) {
-                Row (modifier = Modifier.padding(horizontal = 8.dp)
-                ){
+                Row(modifier = Modifier.padding(horizontal = 8.dp)) {
                     Box(
                         modifier = Modifier
                             .weight(1f)
@@ -198,10 +194,9 @@ fun AboutDataSourcesScreen(
                         ) {
                             androidx.compose.material3.Icon(
                                 imageVector = Icons.Default.Add,
-                                contentDescription = "Øk tekststørrelse",
+                                contentDescription = stringResource(id = R.string.increase_text_size),
                                 tint = Color.Black,
                                 modifier = Modifier.size(50.dp)
-
                             )
                         }
                     }
@@ -220,22 +215,18 @@ fun AboutDataSourcesScreen(
                         ) {
                             androidx.compose.material3.Icon(
                                 imageVector = Icons.Default.Remove,
-                                contentDescription = "Reduser tekststørrelse",
+                                contentDescription = stringResource(id = R.string.decrease_text_size),
                                 tint = Color.Black,
                                 modifier = Modifier.size(50.dp)
                             )
                         }
                     }
                 }
-
             }
-
-
-
         }
     }
-
 }
+
 
 
 /*

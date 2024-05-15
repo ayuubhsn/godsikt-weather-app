@@ -33,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
@@ -40,6 +41,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.IN2000_prosjekt.R
 
 @Composable
 fun PrivacyInfoScreen(
@@ -48,10 +50,10 @@ fun PrivacyInfoScreen(
     var textSize by remember { mutableStateOf(25.sp) }
 
     Surface(color = Color(0xFF17161E), modifier = Modifier.fillMaxSize()) {
-        Column (
+        Column(
             modifier = Modifier.padding(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
-        ){
+        ) {
             // Top Bar with Back Button
             TopAppBar(
                 title = {},
@@ -61,14 +63,13 @@ fun PrivacyInfoScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Tilbake",
+                            contentDescription = stringResource(id = R.string.back_button_description),
                             tint = Color.Gray,
                             modifier = Modifier
                                 .size(50.dp) // Set the size of the icon here. Adjust the value as needed.
-                                .clickable {navController.popBackStack() }
+                                .clickable { navController.popBackStack() }
                                 .align(Alignment.CenterHorizontally)
                         )
-
                     }
                 },
                 backgroundColor = Color.Transparent,
@@ -78,7 +79,7 @@ fun PrivacyInfoScreen(
             Spacer(modifier = Modifier.height(10.dp))
 
             Text(
-                text = "Personvern",
+                text = stringResource(id = R.string.privacy),
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .semantics { heading() },
@@ -87,9 +88,7 @@ fun PrivacyInfoScreen(
                 fontSize = 40.sp
             )
 
-
             Spacer(modifier = Modifier.height(20.dp))
-
 
             Box(
                 modifier = Modifier
@@ -105,7 +104,7 @@ fun PrivacyInfoScreen(
                     item {
                         Spacer(modifier = Modifier.height(20.dp))
                         Text(
-                            text ="Kommer snart!",
+                            text = stringResource(id = R.string.coming_soon),
                             style = MaterialTheme.typography.bodyMedium.copy(
                                 fontSize = textSize,
                                 lineHeight = 25.sp,
@@ -113,12 +112,13 @@ fun PrivacyInfoScreen(
                             ),
                             color = Color.White,
                             textAlign = TextAlign.Center,
-                            modifier = Modifier.fillMaxWidth().semantics { heading() }
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .semantics { heading() }
                         )
                     }
                 }
             }
-
 
             Spacer(modifier = Modifier.height(30.dp))
 
@@ -128,8 +128,7 @@ fun PrivacyInfoScreen(
                     .padding(15.dp)
                     .clip(RoundedCornerShape(20.dp))
             ) {
-                Row (modifier = Modifier.padding(horizontal = 8.dp)
-                ){
+                Row(modifier = Modifier.padding(horizontal = 8.dp)) {
                     Box(
                         modifier = Modifier
                             .weight(1f)
@@ -144,10 +143,9 @@ fun PrivacyInfoScreen(
                         ) {
                             androidx.compose.material3.Icon(
                                 imageVector = Icons.Default.Add,
-                                contentDescription = "Øk tekststørrelse",
+                                contentDescription = stringResource(id = R.string.increase_text_size),
                                 tint = Color.Black,
                                 modifier = Modifier.size(50.dp)
-
                             )
                         }
                     }
@@ -166,22 +164,18 @@ fun PrivacyInfoScreen(
                         ) {
                             androidx.compose.material3.Icon(
                                 imageVector = Icons.Default.Remove,
-                                contentDescription = "Reduser tekststørrelse",
+                                contentDescription = stringResource(id = R.string.decrease_text_size),
                                 tint = Color.Black,
                                 modifier = Modifier.size(50.dp)
                             )
                         }
                     }
                 }
-
             }
-
-
-
         }
     }
-
 }
+
 
 
 /*

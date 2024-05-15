@@ -33,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
@@ -40,6 +41,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.IN2000_prosjekt.R
 
 @Composable
 fun TermsAndConditionsScreen(
@@ -48,10 +50,10 @@ fun TermsAndConditionsScreen(
     var textSize by remember { mutableStateOf(16.sp) }
 
     Surface(color = Color(0xFF17161E), modifier = Modifier.fillMaxSize()) {
-        Column (
+        Column(
             modifier = Modifier.padding(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
-        ){
+        ) {
             // Top Bar with Back Button
             TopAppBar(
                 title = {},
@@ -61,13 +63,12 @@ fun TermsAndConditionsScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Tilbake",
+                            contentDescription = stringResource(id = R.string.back_button_description),
                             tint = Color.Gray,
                             modifier = Modifier
                                 .size(50.dp) // Set the size of the icon here. Adjust the value as needed.
-                                .clickable { navController.popBackStack()}
+                                .clickable { navController.popBackStack() }
                         )
-
                     }
                 },
                 backgroundColor = Color.Transparent,
@@ -78,7 +79,7 @@ fun TermsAndConditionsScreen(
             Spacer(modifier = Modifier.height(20.dp))
 
             Text(
-                text = "Vilkår og betingelser",
+                text = stringResource(id = R.string.terms_and_conditions),
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .semantics { heading() },
@@ -87,12 +88,7 @@ fun TermsAndConditionsScreen(
                 fontSize = 25.sp
             )
 
-            //bilde her
-
-
-
             Spacer(modifier = Modifier.height(30.dp))
-
 
             Box(
                 modifier = Modifier
@@ -104,10 +100,9 @@ fun TermsAndConditionsScreen(
                         .fillMaxSize()
                 ) {
                     item {
-
                         Row {
                             Text(
-                                text ="1.",
+                                text = "1.",
                                 style = MaterialTheme.typography.bodyMedium.copy(
                                     fontSize = textSize,
                                     lineHeight = 25.sp,
@@ -118,7 +113,7 @@ fun TermsAndConditionsScreen(
                             )
                             Spacer(modifier = Modifier.width(10.dp))
                             Text(
-                                text ="Velkommen til God Sikt, en mobilapplikasjon som tilbyr verktøy og funksjoner for økt sikkerhet og effektivitet for båtbrukere. Tjenesten tilbys av God sikt, en gruppe elever som utvikler en første versjon av en Havvarsel applikasjon. Ved å bruke Tjenesten, aksepterer du disse vilkårene og betingelsene. Vennligst les dem nøye.",
+                                text = stringResource(id = R.string.terms_1),
                                 style = MaterialTheme.typography.bodyMedium.copy(
                                     fontSize = textSize,
                                     lineHeight = 25.sp,
@@ -131,7 +126,7 @@ fun TermsAndConditionsScreen(
                         Spacer(modifier = Modifier.height(5.dp))
                         Row {
                             Text(
-                                text ="2.",
+                                text = "2.",
                                 style = MaterialTheme.typography.bodyMedium.copy(
                                     fontSize = textSize,
                                     lineHeight = 25.sp,
@@ -142,7 +137,7 @@ fun TermsAndConditionsScreen(
                             )
                             Spacer(modifier = Modifier.width(10.dp))
                             Text(
-                                text ="Tjenesten tilbys \"som den er\" og \"som tilgjengelig\". Vi gir ingen garantier, hverken uttrykt eller underforstått, med hensyn til nøyaktigheten eller fullstendigheten av Tjenesten eller innholdet på Tjenesten.",
+                                text = stringResource(id = R.string.terms_2),
                                 style = MaterialTheme.typography.bodyMedium.copy(
                                     fontSize = textSize,
                                     lineHeight = 25.sp,
@@ -153,10 +148,9 @@ fun TermsAndConditionsScreen(
                             )
                         }
                         Spacer(modifier = Modifier.height(5.dp))
-
                         Row {
                             Text(
-                                text ="3.",
+                                text = "3.",
                                 style = MaterialTheme.typography.bodyMedium.copy(
                                     fontSize = textSize,
                                     lineHeight = 25.sp,
@@ -167,7 +161,7 @@ fun TermsAndConditionsScreen(
                             )
                             Spacer(modifier = Modifier.width(10.dp))
                             Text(
-                                text ="God Sikt skal ikke være ansvarlig for indirekte, tilfeldige, spesielle, følgeskader eller eksemplariske skader, inkludert, men ikke begrenset til, tap av fortjeneste, goodwill, bruk, data eller andre immaterielle tap.",
+                                text = stringResource(id = R.string.terms_3),
                                 style = MaterialTheme.typography.bodyMedium.copy(
                                     fontSize = textSize,
                                     lineHeight = 25.sp,
@@ -177,10 +171,6 @@ fun TermsAndConditionsScreen(
                                 textAlign = TextAlign.Start,
                             )
                         }
-
-
-
-
                     }
                 }
             }
@@ -193,8 +183,7 @@ fun TermsAndConditionsScreen(
                     .padding(15.dp)
                     .clip(RoundedCornerShape(20.dp))
             ) {
-                Row (modifier = Modifier.padding(horizontal = 8.dp)
-                ){
+                Row(modifier = Modifier.padding(horizontal = 8.dp)) {
                     Box(
                         modifier = Modifier
                             .weight(1f)
@@ -209,10 +198,9 @@ fun TermsAndConditionsScreen(
                         ) {
                             androidx.compose.material3.Icon(
                                 imageVector = Icons.Default.Add,
-                                contentDescription = "Øk tekststørrelse",
+                                contentDescription = stringResource(id = R.string.increase_text_size),
                                 tint = Color.Black,
                                 modifier = Modifier.size(50.dp)
-
                             )
                         }
                     }
@@ -231,22 +219,18 @@ fun TermsAndConditionsScreen(
                         ) {
                             androidx.compose.material3.Icon(
                                 imageVector = Icons.Default.Remove,
-                                contentDescription = "Reduser tekststørrelse",
+                                contentDescription = stringResource(id = R.string.decrease_text_size),
                                 tint = Color.Black,
                                 modifier = Modifier.size(50.dp)
                             )
                         }
                     }
                 }
-
             }
-
-
-
         }
     }
-
 }
+
 
 
 /*
