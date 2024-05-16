@@ -93,27 +93,6 @@ class Testcomponents {
     }
 
 
-    /*
-    @Test
-    fun testRedColor() {
-
-
-        val actualColorRed = fargeOppmerksomhet("Red").toArgb()
-        val actualColorGreen = fargeOppmerksomhet("Green").toArgb()
-        val actualColorYellow = fargeOppmerksomhet("Yellow").toArgb()
-        val actualColorBlue = fargeOppmerksomhet("Blue").toArgb()
-
-
-
-        TestCase.assertEquals(fargenivaaTest("Red"), actualColorRed)
-        TestCase.assertEquals(fargenivaaTest("Green"), actualColorGreen)
-        TestCase.assertEquals(fargenivaaTest("Yellow"), actualColorYellow)
-        TestCase.assertEquals(fargenivaaTest("Blue"), actualColorBlue)
-
-    }
-
-*/
-
     private fun fargenivaaTest(farge: String): Int {
         return when (farge) {
             "Yellow" -> Color.YELLOW
