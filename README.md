@@ -35,8 +35,8 @@ For ytterligere informasjon prosjektet henivses det til:
 ### Archietecture
 ARCHITECTURE.md beskriver arkitekturen som er benyttet i appen, inklusivt objektorienterte prisnipper og design patterns. 
 
-### Modeling
-MODELING.md har beskrivelse og diagrammer for et funksjonelt krav, samt et flytskjema for hele appen.
+### Modelling
+MODELLING.md har beskrivelse og diagrammer for et funksjonelt krav, samt et flytskjema for hele appen.
 
 ### Rapport
 Rapporten innlevert sammen med prosjektet inneholder en mer omfattende beskrivelse av:
