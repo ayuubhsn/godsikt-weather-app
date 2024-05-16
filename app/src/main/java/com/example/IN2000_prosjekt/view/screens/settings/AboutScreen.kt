@@ -1,6 +1,8 @@
 package com.example.IN2000_prosjekt.view.screens.settings
 
 import NavigationMenu
+import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,9 +22,15 @@ import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.isTraversalGroup
@@ -38,6 +46,27 @@ import com.example.IN2000_prosjekt.R
 fun AboutScreen(
     navController: NavController
 ) {
+    var lastOrientation by remember { mutableIntStateOf(Configuration.ORIENTATION_UNDEFINED) }
+    val configuration = LocalConfiguration.current
+
+    LaunchedEffect(configuration.orientation) {
+        if (lastOrientation != configuration.orientation) {
+            // Handle orientation change
+            lastOrientation = configuration.orientation
+            when (configuration.orientation) {
+                Configuration.ORIENTATION_LANDSCAPE -> {
+                    Log.d("Orientation", "landscape")
+                }
+                Configuration.ORIENTATION_PORTRAIT -> {
+                    Log.d("Orientation", "portrait")
+                }
+                Configuration.ORIENTATION_UNDEFINED -> {
+                    Log.d("Orientation", "undefined")
+                }
+            }
+        }
+    }
+
     Surface(color = Color(0xFF17161E), modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
@@ -172,11 +201,14 @@ fun AboutScreen(
             }
         }
 
-        Box {
-            NavigationMenu(
-                navController = navController,
-                modifier = Modifier.align(Alignment.BottomCenter)
-            )
+
+        if(configuration.orientation == Configuration.ORIENTATION_PORTRAIT){
+            Box {
+                NavigationMenu(
+                    navController = navController,
+                    modifier = Modifier.align(Alignment.BottomCenter)
+                )
+            }
         }
     }
 }
