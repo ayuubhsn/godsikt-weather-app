@@ -60,44 +60,7 @@ class AppViewModel :ViewModel() {
     }
 }
 
-@Composable
-fun WeatherScreenContent(
-    mapViewModel: MapViewModel,
-    appViewModel: AppViewModel
-) {
 
-    val appUiState by appViewModel.appUiState.collectAsState()
-    val mapCoordinates by mapViewModel.mapClickedCoordinates.collectAsState()
-
-    //val userLocation = mapViewModel.getLastUserLocation()
-
-    Log.d("weatherscreen" , mapCoordinates.currentScreenLat.toString())
-    Log.d("weatherscreen" , mapCoordinates.currentScreenLong.toString())
-
-    // Hent informasjon basert på koordinater når de endres
-    LaunchedEffect(mapCoordinates) {
-        mapCoordinates.let {
-            Log.d("weatherscreen", "getAll")
-            appViewModel.getAll(mapCoordinates.currentScreenLat.toString(), mapCoordinates.currentScreenLong.toString())
-        }
-    }
-
-    when (appUiState){
-        is AppUiState.Loading ->{
-            Text(text = "vent")
-        }
-        is AppUiState.Error ->{
-            Text(text = "feil")
-        }
-        is AppUiState.Success ->{
-            WeatherCard(
-                (appUiState as AppUiState.Success).locationG,
-                (appUiState as AppUiState.Success).metAlertG,
-                mapCoordinates
-            )
-        }
-    }
-}
 
 @Composable
 fun WeatherCardInfo(

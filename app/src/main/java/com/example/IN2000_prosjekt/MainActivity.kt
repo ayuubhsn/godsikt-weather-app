@@ -53,7 +53,7 @@ import com.example.IN2000_prosjekt.view.screens.showMap
 import com.example.IN2000_prosjekt.view.screens.signs.CategoryScreen
 import com.example.IN2000_prosjekt.view.screens.signs.SignDescriptionScreen
 import com.example.IN2000_prosjekt.view.screens.signs.SignScreen
-import com.example.IN2000_prosjekt.viewmodel.weather.WeatherScreenContent
+import com.example.IN2000_prosjekt.viewmodel.weather.WeatherCardInfo
 
 open class Event<out T>(private val content: T) {
 
@@ -100,20 +100,18 @@ class MainActivity : ComponentActivity() {
         ).createFromAsset("database/oceanSigns.db").build()
     }
 
-    // Register the permissions callback, which handles the user's response to the system permissions dialog.
-    private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+    private val requestPermissionsLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+        val isFineLocationGranted = permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false
+        val isCoarseLocationGranted = permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false
         // Permission is denied. Handle the failure to obtain permission.// Permission is granted. Continue with setting up location-based features.
-        if (isGranted){
+        if (isFineLocationGranted || isCoarseLocationGranted){
             Log.d("GPS Test", "Granted")
             sharedViewModel.setPermissionState("MapScreen")
         }else{
             Log.d("GPS Test", "Not granted")
         }
 
-
-        //permissionGranted = isGranted
     }
-
     private val useUserLocation = true
 
     public fun checkAndRequestLocationPermissions() {
@@ -122,11 +120,17 @@ class MainActivity : ComponentActivity() {
             when {
                 shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> {
                     // Explain to the user why you need the permission, and then request it.
-                    requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+                    requestPermissionsLauncher.launch(arrayOf(
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    ))
                 }
                 else -> {
                     // Directly ask for the permission.
-                    requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+                    requestPermissionsLauncher.launch(arrayOf(
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    ))
                 }
             }
         }
@@ -233,7 +237,7 @@ fun Screen(activity : MainActivity, signDao: SignDao, status: NetworkObserver.St
             }
         }
         composable("WeatherScreen"){
-            WeatherScreenContent(mapViewModel = mapViewModel, appViewModel = appViewModel)
+            WeatherCardInfo(mapViewModel = mapViewModel, appViewModel = appViewModel)
         }
 
         //settings

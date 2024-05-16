@@ -20,7 +20,7 @@ fun addDybdedataLayer(mapboxMap: MapboxMap) {
     val sourceId = "dybdedata-source"
     val layerId = "dybdedata-layer"
 
-    val tileUrl = "White"
+    val tileUrl = "https://wms.geonorge.no/skwms1/wms.dybdedata2?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:3857&transparent=true&width=512&height=512&layers=Dybdedata2,Dybdekontur,grunne&styles=default"
 
 
 
