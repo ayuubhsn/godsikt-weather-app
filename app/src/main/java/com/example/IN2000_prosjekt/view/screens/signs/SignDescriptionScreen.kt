@@ -19,6 +19,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -30,6 +31,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -40,11 +42,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.compose.material3.Divider
-import androidx.compose.ui.draw.clip
 import com.example.IN2000_prosjekt.R
 import com.example.IN2000_prosjekt.viewmodel.signs.SignViewModel
 
+// Composable function for displaying the description of a sign
 @Composable
 fun SignDescriptionScreen(
     signViewModel: SignViewModel,
@@ -112,7 +113,7 @@ fun SignDescriptionScreen(
                     .semantics { heading() }
             )
 
-            // This is to account for extra long titles that occur
+            // Adjust the height of the text box if the title is very long
             if (signViewModel.getCharacters(sign.name) > 40) textBoxHeight = 350.dp
 
             Spacer(Modifier.height(8.dp))

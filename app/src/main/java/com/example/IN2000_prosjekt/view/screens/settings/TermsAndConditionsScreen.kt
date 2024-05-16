@@ -1,7 +1,6 @@
 package com.example.IN2000_prosjekt.view.screens.settings
 
 import android.content.res.Configuration
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -48,6 +47,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.IN2000_prosjekt.R
 
+// Composable function for the Terms and Conditions screen
 @Composable
 fun TermsAndConditionsScreen(
     navController: NavController
@@ -56,21 +56,17 @@ fun TermsAndConditionsScreen(
     var lastOrientation by remember { mutableIntStateOf(Configuration.ORIENTATION_UNDEFINED) }
     val configuration = LocalConfiguration.current
 
+    // Handle orientation change
     LaunchedEffect(configuration.orientation) {
         if (lastOrientation != configuration.orientation) {
             // Handle orientation change
             lastOrientation = configuration.orientation
             when (configuration.orientation) {
                 Configuration.ORIENTATION_LANDSCAPE -> {
-                    Log.d("Orientation", "landscape")
                 }
-
                 Configuration.ORIENTATION_PORTRAIT -> {
-                    Log.d("Orientation", "portrait")
                 }
-
                 Configuration.ORIENTATION_UNDEFINED -> {
-                    Log.d("Orientation", "undefined")
                 }
             }
         }
@@ -363,8 +359,6 @@ fun TermsAndConditionsScreen(
                                 textAlign = TextAlign.Start,
                             )
                         }
-
-
                     }
                     Box(
                         modifier = Modifier
@@ -394,24 +388,9 @@ fun TermsAndConditionsScreen(
                                 textAlign = TextAlign.Start,
                             )
                         }
-
-
-                    }}
-
-
-        }
+                    }
                 }
-
             }
-
+        }
+    }
 }
-
-
-/*
-@Preview
-@Composable
-fun TermsAndConditionsScreenPreview(){
-    TermsAndConditionsScreen()
-}
-
- */

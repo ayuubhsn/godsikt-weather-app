@@ -7,7 +7,6 @@ class SignCategory(
     ) {
     var signsOfCategory: List<Sign> = mutableListOf()
 
-
     fun getNameString(): String {
         return when (category) {
             SignCategories.MARKERINGSSKILT -> "Markeringsskilt"

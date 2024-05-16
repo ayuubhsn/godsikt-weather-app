@@ -2,7 +2,6 @@ package com.example.IN2000_prosjekt.view.screens.settings
 
 import NavigationMenu
 import android.content.res.Configuration
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -42,6 +41,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.IN2000_prosjekt.R
 
+
 @Composable
 fun AboutScreen(
     navController: NavController
@@ -49,24 +49,21 @@ fun AboutScreen(
     var lastOrientation by remember { mutableIntStateOf(Configuration.ORIENTATION_UNDEFINED) }
     val configuration = LocalConfiguration.current
 
+    // Handle orientation change
     LaunchedEffect(configuration.orientation) {
         if (lastOrientation != configuration.orientation) {
-            // Handle orientation change
             lastOrientation = configuration.orientation
             when (configuration.orientation) {
                 Configuration.ORIENTATION_LANDSCAPE -> {
-                    Log.d("Orientation", "landscape")
                 }
                 Configuration.ORIENTATION_PORTRAIT -> {
-                    Log.d("Orientation", "portrait")
                 }
                 Configuration.ORIENTATION_UNDEFINED -> {
-                    Log.d("Orientation", "undefined")
                 }
             }
         }
     }
-
+    // Set the background color and fill the screen
     Surface(color = Color(0xFF17161E), modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
@@ -94,6 +91,7 @@ fun AboutScreen(
             )
             Spacer(modifier = Modifier.height(35.dp))
 
+            // Navigation item for the "About Us" screen
             LazyColumn {
                 item {
                     Row(
@@ -121,6 +119,7 @@ fun AboutScreen(
                                 .clickable { navController.navigate("AboutUsScreen") }
                         )
                     }
+                    // Navigation item for the "Privacy" screen
                     Row(
                         modifier = Modifier
                             .padding(60.dp, 10.dp)
@@ -146,6 +145,7 @@ fun AboutScreen(
                                 .clickable { navController.navigate("PrivacyInfoScreen") }
                         )
                     }
+                    // Navigation item for the "Terms and Conditions" screen
                     Row(
                         modifier = Modifier
                             .padding(60.dp, 10.dp)
@@ -171,6 +171,7 @@ fun AboutScreen(
                                 .clickable { navController.navigate("TermsAndConditionsScreen") }
                         )
                     }
+                    // Navigation item for the "About Data Sources" screen
                     Row(
                         modifier = Modifier
                             .padding(60.dp, 10.dp)
@@ -201,7 +202,7 @@ fun AboutScreen(
             }
         }
 
-
+        // Display the navigation menu at the bottom if in portrait mode
         if(configuration.orientation == Configuration.ORIENTATION_PORTRAIT){
             Box {
                 NavigationMenu(
@@ -212,18 +213,6 @@ fun AboutScreen(
         }
     }
 }
-
-
-/*
-@Preview
-@Composable
-fun SettingsScreenPreview() {
-    SettingsScreen()
-}
-
- */
-
-
 
 
 

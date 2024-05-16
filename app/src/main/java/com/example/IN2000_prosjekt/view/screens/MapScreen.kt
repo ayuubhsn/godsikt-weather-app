@@ -1,29 +1,20 @@
 package com.example.IN2000_prosjekt.view.screens
-import androidx.compose.ui.ExperimentalComposeUiApi
 import NavigationMenu
 import android.content.res.Configuration
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Icon
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.navigation.NavController
-import com.example.IN2000_prosjekt.MainActivity
-import com.example.IN2000_prosjekt.viewmodel.weather.MapViewModel
-import com.example.IN2000_prosjekt.view.components.mapComponents.MapViewContainer
-import com.example.IN2000_prosjekt.view.components.mapComponents.MapboxMapComponent
-import com.example.IN2000_prosjekt.view.components.mapComponents.addDybdedataLayer
-import com.mapbox.geojson.Point
-import com.mapbox.maps.CameraOptions
-import androidx.compose.foundation.layout.*
-
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -31,14 +22,21 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
@@ -51,12 +49,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.IN2000_prosjekt.MainActivity
 import com.example.IN2000_prosjekt.R
-import com.example.IN2000_prosjekt.model.Internett.NetworkObserver
-import com.example.IN2000_prosjekt.viewmodel.weather.AppViewModel
+import com.example.IN2000_prosjekt.view.components.mapComponents.MapViewContainer
+import com.example.IN2000_prosjekt.view.components.mapComponents.MapboxMapComponent
 import com.example.IN2000_prosjekt.view.components.mapComponents.MapboxPin
 import com.example.IN2000_prosjekt.view.components.mapComponents.MapboxUserLocation
+import com.example.IN2000_prosjekt.view.components.mapComponents.addDybdedataLayer
+import com.example.IN2000_prosjekt.viewmodel.weather.AppViewModel
+import com.example.IN2000_prosjekt.viewmodel.weather.MapViewModel
 import com.example.IN2000_prosjekt.viewmodel.weather.WeatherCardInfo
+import com.mapbox.geojson.Point
+import com.mapbox.maps.CameraOptions
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 
@@ -67,32 +72,30 @@ fun showMap(
     mapViewModel: MapViewModel,
     appViewModel: AppViewModel,
     activity: MainActivity,
-    modifier: Modifier = Modifier) {
+    ) {
+
+    // State variable to keep track of the last orientation
     var lastOrientation by remember { mutableIntStateOf(Configuration.ORIENTATION_UNDEFINED) }
     val configuration = LocalConfiguration.current
 
+    // Effect to handle orientation changes
     LaunchedEffect(configuration.orientation) {
         if (lastOrientation != configuration.orientation) {
             // Handle orientation change
             lastOrientation = configuration.orientation
             when (configuration.orientation) {
                 Configuration.ORIENTATION_LANDSCAPE -> {
-                    Log.d("Orientation", "landscape")
                 }
                 Configuration.ORIENTATION_PORTRAIT -> {
-                    Log.d("Orientation", "portrait")
                 }
                 Configuration.ORIENTATION_UNDEFINED -> {
-                    Log.d("Orientation", "undefined")
                 }
             }
         }
     }
 
 
-    //  val locationComponentEnabled by mapViewModel.locationComponentEnabled.collectAsState()
     val mapViewContainer = MapViewContainer()
-    val mapCoordinates by mapViewModel.mapClickedCoordinates.collectAsState()
     var isWeatherOpen by rememberSaveable {
         mutableStateOf(false)
     }
@@ -103,11 +106,10 @@ fun showMap(
         mutableStateOf(false)
     }
 
+    // Initialize user location component
     val userLocation = MapboxUserLocation().apply{
         onLastLocation = { point ->
-            // Handle the position change here
-            // For example, update your UI or perform other actions based on the new location
-            Log.d("UserLocation", "New position: $point")
+
             // Ignore emulator position that is less than 0 (outside norway)
             mapViewModel.setLastUserLocation(point)
         }
@@ -124,33 +126,29 @@ fun showMap(
                         8.3,
                         62.0
                     )
-                ) // Example: New York City coordinates
+                )
                 .zoom(4.6)
                 .bearing(0.0)
                 .pitch(0.0)
                 .build(),
             onMapReady = {
-                // This block will be executed once the map is ready
 
-                Log.d("MapboxMapComponent", "Map is ready!") // Log that the map is ready
-                Log.d("Mapscreen" , "Map is ready")
                 val mapboxMap = mapViewContainer.mapView?.mapboxMap
                 mapViewContainer.mapView?.let { mapViewModel.setMapboxView(it) }
 
                 if (mapboxMap != null) {
                     addDybdedataLayer(mapboxMap)
-                    Log.d("mapscreen", "mapboxmap if test check")
-
                     userLocation.initUserLocationComponent(mapViewContainer.mapView!!)
 
+                    // Add pin to map and handle map click events
                     MapboxPin(mapViewContainer.mapView!!, activity , R.drawable.location_blue) { point ->
-                        Log.d("MapScreen", "Map clicked at: ${point.longitude()}, ${point.latitude()}")
                         isWeatherOpen=false
                         mapViewModel.updateCoordinates(lat = point.latitude(), long = point.longitude())
                     }
                 }
             }
         )
+        // Display navigation menu if in portrait orientation
         if(configuration.orientation == Configuration.ORIENTATION_PORTRAIT){
             NavigationMenu(
                 navController = navController,
@@ -158,6 +156,7 @@ fun showMap(
         }
     }
 
+    // Display buttons and cards if in portrait orientation
     if(configuration.orientation == Configuration.ORIENTATION_PORTRAIT){
         Box(
             modifier = Modifier
@@ -268,20 +267,22 @@ fun showMap(
                 }
             }
         }
+        // Display weather card if the weather button is open
         if(isWeatherOpen){
             WeatherCardInfo(mapViewModel, appViewModel)
         }
+
+        // Display SOS card if the SOS button is open
         if (isSOSOpen) {
             SOSCard(
                 onConfirm = {
-                    // Handle confirmation action here
-                    // For example, you can trigger a function to send SOS message
                 },
                 onClose = {
                     isSOSOpen = false // Close the SOS card
                 }
             )
         }
+        // Display information card if the information button is open
         if (isInfoOpen) {
             InformationCard(onClose = {
                 isInfoOpen = false // Close the information card
@@ -290,6 +291,7 @@ fun showMap(
     }
 }
 
+// Composable function to display the SOS card
 @Composable
 fun SOSCard(onConfirm: () -> Unit, onClose: () -> Unit) {
     var showConfirmation by rememberSaveable { mutableStateOf(false) }
@@ -393,6 +395,7 @@ fun SOSCard(onConfirm: () -> Unit, onClose: () -> Unit) {
     }
 }
 
+// Composable function to display the information card
 @Composable
 fun InformationCard(onClose: () -> Unit) {
     Card(
@@ -482,7 +485,7 @@ fun InformationCard(onClose: () -> Unit) {
     }
 }
 
-
+// Composable function to display information items in the information card
 @Composable
 fun InformationItem(icon: Painter, description: String) {
     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -501,10 +504,8 @@ fun InformationItem(icon: Painter, description: String) {
     }
 }
 
-
 @Composable
 fun NetworkStatusScreen(status: String, navController: NavController) {
-    Log.d("mapscreen", "jeg blir kalt 1")
     Column(
         modifier = Modifier.fillMaxSize().background(Color(0xFF17161E)),
         verticalArrangement = Arrangement.Center,
