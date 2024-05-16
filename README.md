@@ -11,11 +11,6 @@ Dette prosjektet var laget av
 - Samatar Abdi Hassan (samatarh@ifi.uio.no)
 - Yusuf Ali Ismail Sheik Nuur (yasheikn@ifi.uio.no)
 
----
-
-
-Skjermbilder fra appen kjørende på en Android emulator
-
 ## GodSiktApp
 Android appen for prosjektet GodSikt ble skrevet  med Jetpack Compose (API-nivå 33)
 
@@ -72,7 +67,6 @@ For å kjøre `GodSiktApp` på en Android-enhet eller emulator, må du ha Androi
 
 Husk at for å få mest mulig ut av denne appen, bør du ha en stabil internettforbindelse siden appen bruker nettverkskommunikasjon for å hente data.
 
-```
 
 
 
