@@ -76,8 +76,6 @@ fun AboutUsScreen(
                 elevation = 0.dp,
                 modifier = Modifier.fillMaxWidth()
             )
-            Spacer(modifier = Modifier.height(20.dp))
-
             Text(
                 text = stringResource(id = R.string.about_us),
                 modifier = Modifier
@@ -85,18 +83,16 @@ fun AboutUsScreen(
                     .semantics { heading() },
                 style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold, letterSpacing = 4.sp),
                 color = Color.White,
-                fontSize = 40.sp
+                fontSize = 30.sp
             )
 
             Image(
-                painter = painterResource(id = R.drawable.omoss),
+                painter = painterResource(id = R.drawable.team_bilde),
                 contentDescription = stringResource(id = R.string.team_members_image_description),
                 modifier = Modifier
-                    .size(width = 250.dp, height = 200.dp) // Størrelsen på bildet
+                    .size(width = 300.dp, height = 250.dp) // Størrelsen på bildet
                     .padding(16.dp) // Padding rundt bildet
             )
-
-            Spacer(modifier = Modifier.height(5.dp))
 
             Box(
                 modifier = Modifier
