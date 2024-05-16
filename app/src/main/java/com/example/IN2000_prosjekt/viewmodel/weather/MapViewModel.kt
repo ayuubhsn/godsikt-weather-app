@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 class MapViewModel : ViewModel() {
 
     private val _lastUserLocation = MutableStateFlow<Point?>(null)
-    private var _mapBoxView = MutableStateFlow<MapView?>(null)
+    var _mapBoxView = MutableStateFlow<MapView?>(null)
 
     private val _mapClickedCoordinatesUIState : MutableStateFlow<MapUIState.mapCoordinates> = MutableStateFlow(MapUIState.mapCoordinates())
     val mapClickedCoordinates: StateFlow<MapUIState.mapCoordinates> = _mapClickedCoordinatesUIState
