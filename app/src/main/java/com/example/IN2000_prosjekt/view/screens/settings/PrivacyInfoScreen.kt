@@ -178,13 +178,3 @@ fun PrivacyInfoScreen(
 
 
 
-/*
-@Preview
-@Composable
-fun PrivacyInfoScreenPreview(){
-    PrivacyInfoScreen()
-}
-
- */
-
-

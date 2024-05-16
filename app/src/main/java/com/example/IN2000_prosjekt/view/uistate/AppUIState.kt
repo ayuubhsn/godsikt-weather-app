@@ -1,6 +1,5 @@
 package com.example.IN2000_prosjekt.view.uistate
 
-
 data class LocationInfo(
     val temperatureL: Int,
     val fog_area_fraction: Double,
@@ -8,16 +7,10 @@ data class LocationInfo(
     val wind_speed: Double,
     val wind_from_direction :Double,
     val symbol_code: String
-
 )
 data class MetAlert(
-//    val title: String,
-    // val awareness_level: String,
     val riskMatrixColor: String,
     val description: String,
-
-
-
     )
 
 sealed interface AppUiState {

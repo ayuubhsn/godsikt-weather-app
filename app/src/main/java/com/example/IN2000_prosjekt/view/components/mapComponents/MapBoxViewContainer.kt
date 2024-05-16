@@ -1,6 +1,5 @@
 package com.example.IN2000_prosjekt.view.components.mapComponents
 
-import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -13,14 +12,15 @@ import com.mapbox.maps.CameraOptions
 import com.mapbox.maps.MapView
 import com.mapbox.maps.MapboxMap
 import com.mapbox.maps.extension.style.atmosphere.generated.atmosphere
-import com.mapbox.maps.extension.style.sources.generated.rasterDemSource
-import com.mapbox.maps.extension.style.style
-import com.mapbox.maps.extension.style.terrain.generated.terrain
 import com.mapbox.maps.extension.style.layers.generated.skyLayer
 import com.mapbox.maps.extension.style.layers.properties.generated.ProjectionName
 import com.mapbox.maps.extension.style.layers.properties.generated.SkyType
 import com.mapbox.maps.extension.style.projection.generated.projection
+import com.mapbox.maps.extension.style.sources.generated.rasterDemSource
+import com.mapbox.maps.extension.style.style
+import com.mapbox.maps.extension.style.terrain.generated.terrain
 
+// Container class for managing MapView instance and state
 class MapViewContainer(initialMapView: MapView? = null, private val onMapReady: () -> Unit = {}) {
     private var _mapView: MapView? = initialMapView
 
@@ -42,12 +42,11 @@ class MapViewContainer(initialMapView: MapView? = null, private val onMapReady: 
     }
 
     fun setCameraLocation(mapboxmap: MapboxMap,point: Point?){
-        Log.d("MapViewController", "set camera location")
         mapboxmap.setCamera(CameraOptions.Builder().center(point).build())
     }
 }
 
-
+// Composable function to create a Mapbox map component
 @Composable
 fun MapboxMapComponent(
     modifier: Modifier = Modifier.fillMaxSize(),
@@ -66,7 +65,7 @@ fun MapboxMapComponent(
             MapView(ctx).also { mapView ->
                 mapViewContainer.setMapViewInstance(mapView)
 
-
+                // Load a custom style for the map
                 mapView.mapboxMap.loadStyle(style(style = "mapbox://styles/mapbox/navigation-night-v1") {
                     +rasterDemSource(SOURCE) {
                         url(TERRAIN_URL_TILE_RESOURCE)
@@ -82,6 +81,7 @@ fun MapboxMapComponent(
                     +atmosphere { }
                     +projection(ProjectionName.GLOBE)
                 })
+                // Apply initial camera options
                 initialCameraOptions?.let { cameraOptions ->
                     mapView.mapboxMap.setCamera(cameraOptions)
                 }

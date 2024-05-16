@@ -1,7 +1,6 @@
 package com.example.IN2000_prosjekt.view.screens.settings
 
 import android.content.res.Configuration
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,7 +17,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -55,27 +53,24 @@ fun AboutUsScreen(
     navController: NavController
 ) {
     var textSize by remember { mutableStateOf(15.sp) }
-
     var lastOrientation by remember { mutableIntStateOf(Configuration.ORIENTATION_UNDEFINED) }
     val configuration = LocalConfiguration.current
 
+    // Handle orientation change
     LaunchedEffect(configuration.orientation) {
         if (lastOrientation != configuration.orientation) {
-            // Handle orientation change
             lastOrientation = configuration.orientation
             when (configuration.orientation) {
                 Configuration.ORIENTATION_LANDSCAPE -> {
-                    Log.d("Orientation", "landscape")
                 }
                 Configuration.ORIENTATION_PORTRAIT -> {
-                    Log.d("Orientation", "portrait")
                 }
                 Configuration.ORIENTATION_UNDEFINED -> {
-                    Log.d("Orientation", "undefined")
                 }
             }
         }
     }
+    // Display the content based on the orientation
     if(configuration.orientation == Configuration.ORIENTATION_PORTRAIT){
         Surface(color = Color(0xFF17161E), modifier = Modifier.fillMaxSize()) {
             Column(
@@ -269,26 +264,10 @@ fun AboutUsScreen(
                                 Spacer(modifier = Modifier.height(10.dp))
                             }
                         }
-                    }}
-
-
-
+                    }
+                }
             }
         }
-
-
     }
-
-
 }
 
-
-
-/*
-@Preview
-@Composable
-fun AboutUsScreenPreview(){
-    AboutUsScreen()
-}
-
- */

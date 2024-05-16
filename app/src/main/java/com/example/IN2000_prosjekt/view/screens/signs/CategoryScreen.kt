@@ -2,7 +2,6 @@ package com.example.IN2000_prosjekt.view.screens.signs
 
 import NavigationMenu
 import android.content.res.Configuration
-import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -62,13 +61,10 @@ fun CategoryScreen(
             lastOrientation = configuration.orientation
             when (configuration.orientation) {
                 Configuration.ORIENTATION_LANDSCAPE -> {
-                    Log.d("Orientation", "landscape")
                 }
                 Configuration.ORIENTATION_PORTRAIT -> {
-                    Log.d("Orientation", "portrait")
                 }
                 Configuration.ORIENTATION_UNDEFINED -> {
-                    Log.d("Orientation", "undefined")
                 }
             }
         }

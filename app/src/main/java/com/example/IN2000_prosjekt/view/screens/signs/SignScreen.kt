@@ -47,14 +47,17 @@ import com.example.IN2000_prosjekt.viewmodel.signs.Sign
 import com.example.IN2000_prosjekt.viewmodel.signs.SignCategory
 import com.example.IN2000_prosjekt.viewmodel.signs.SignViewModel
 
+// Composable function for displaying the sign screen
 @Composable
 fun SignScreen(
     signViewModel: SignViewModel,
     navController: NavController
 ) {
+    // Observe the selected category from the ViewModel
     val category: SignCategory? = signViewModel.selectedCategory.observeAsState().value
     var signList by remember { mutableStateOf<List<Sign>>(emptyList()) } // Initialize an empty list
 
+    // Fetch the list of signs in the selected category
     LaunchedEffect(category) {
         if (category != null) {
             signList = signViewModel.getSignsInCategory(selectedCategory = category.category)
@@ -80,6 +83,7 @@ fun SignScreen(
                 backgroundColor = Color(0xFF17161E),
                 contentColor = Color.White
             )
+            // Display the category name if it is not null
             if (category != null) {
                 Text(
                     text = category.getNameString(),
@@ -104,6 +108,7 @@ fun SignScreen(
     }
 }
 
+// Composable function for displaying an individual sign item
 @Composable
 fun SignItem(
     sign: Sign,
@@ -121,7 +126,8 @@ fun SignItem(
             .padding(horizontal = 20.dp, vertical = 24.dp)
     ) {
         Spacer(modifier = Modifier.width(4.dp))
-
+        
+        // Display the sign image inside a Box
         Box(
             modifier = Modifier
                 .size(75.dp)
@@ -136,6 +142,7 @@ fun SignItem(
             )
         }
         Spacer(modifier = Modifier.width(25.dp))
+        // Display the sign name
         Text(
             text = sign.name,
             color = Color.White,
@@ -145,6 +152,7 @@ fun SignItem(
                 .align(Alignment.CenterVertically)
                 .semantics { heading() }
         )
+        // Display an arrow icon
         Icon(
             imageVector = Icons.Default.ArrowForward,
             contentDescription = null,

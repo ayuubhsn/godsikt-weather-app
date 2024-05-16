@@ -16,13 +16,6 @@ class MapViewModel : ViewModel() {
     private val _mapClickedCoordinatesUIState : MutableStateFlow<MapUIState.mapCoordinates> = MutableStateFlow(MapUIState.mapCoordinates())
     val mapClickedCoordinates: StateFlow<MapUIState.mapCoordinates> = _mapClickedCoordinatesUIState
 
-    private var _showMap = MutableStateFlow(false)
-    var showMap: StateFlow<Boolean> = _showMap
-
-    fun showMap(show: Boolean) {
-        _showMap.value = show
-    }
-
     fun setLastUserLocation(point: Point){
         _lastUserLocation.value = point
         _mapClickedCoordinatesUIState.value = MapUIState.mapCoordinates(point.latitude(), point.longitude())

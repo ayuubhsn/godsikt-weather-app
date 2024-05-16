@@ -1,7 +1,6 @@
 package com.example.IN2000_prosjekt.view.components
 
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -20,11 +19,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -38,15 +35,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.IN2000_prosjekt.R
-import com.example.IN2000_prosjekt.view.uistate.LocationInfo
-import com.example.IN2000_prosjekt.view.uistate.MetAlert
 import com.example.IN2000_prosjekt.view.theme.AppBackground
 import com.example.IN2000_prosjekt.view.theme.DarkGreyColor
 import com.example.IN2000_prosjekt.view.theme.PurpleColor
+import com.example.IN2000_prosjekt.view.uistate.LocationInfo
 import com.example.IN2000_prosjekt.view.uistate.MapUIState
-import com.example.IN2000_prosjekt.viewmodel.weather.MapViewModel
+import com.example.IN2000_prosjekt.view.uistate.MetAlert
 
-
+// Displays weather information in a card
 @Composable
 fun WeatherCard(locationInfo: LocationInfo, metAlertInfo: MetAlert, mapCoordinates: MapUIState.mapCoordinates
 ) {
@@ -99,32 +95,32 @@ fun WeatherCard(locationInfo: LocationInfo, metAlertInfo: MetAlert, mapCoordinat
                         metAlertInfo.riskMatrixColor
                     )
                     Spacer(modifier = Modifier.height(10.dp))
-                    Log.d("screen", "${locationInfo.wind_speed}")
                 }
             }
         }
     }
 }
+// Displays the map coordinates
 @Composable
 fun DisplayCoordinates(mapCoordinates: MapUIState.mapCoordinates) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween, // Legg til denne linjen
+        horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier.padding(16.dp)
     ) {
-        // Legg til litt mellomrom mellom teksten og bildet
+
         Spacer(modifier = Modifier.width(8.dp))
 
+        //Position icon
         Image(
             painter = painterResource(id = R.drawable.location_white),
             contentDescription = stringResource(id = R.string.position),
             modifier = Modifier
-                .size(24.dp) // Juster størrelsen etter behov
-                .offset(x = (-16).dp) // Juster offset-verdien etter behov
-
+                .size(24.dp)
+                .offset(x = (-16).dp)
         )
 
-        // Vis tekst
+        // Coordinates
         Text(
             text = "${String.format("%.2f", mapCoordinates.currentScreenLat)}, ${String.format("%.2f", mapCoordinates.currentScreenLong)}",
             style = TextStyle(
@@ -136,13 +132,14 @@ fun DisplayCoordinates(mapCoordinates: MapUIState.mapCoordinates) {
     }
 }
 
+// Displays temperature and weather icon
 @Composable
 fun Weather(temp: Int, symbolCode: String?) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center // Justerer elementene mot midten av raden
+        horizontalArrangement = Arrangement.Center
     ) {
-        // Vis temperaturen
+        // Temperature
         Text(
             text = "$temp°C",
             style = TextStyle(
@@ -150,20 +147,18 @@ fun Weather(temp: Int, symbolCode: String?) {
                 fontWeight = FontWeight.Bold,
                 color = Color.White
             ),
-            modifier = Modifier.offset(x = 20.dp) // Justerer horisontal posisjon
+            modifier = Modifier.offset(x = 20.dp)
         )
 
-        // Legg til litt ekstra mellomrom mellom teksten og bildet
         Spacer(modifier = Modifier.width(140.dp))
 
-        // Vis bildet basert på symbolCode
+        // Weather icon based on symbolCode
         symbolCode?.let { code ->
             val resourceId = try {
-                // Prøver å finne ressurs-IDen basert på symbolCode
                 val field = R.drawable::class.java.getField(code)
                 field.getInt(null)
             } catch (e: Exception) {
-                R.drawable.t_ke // Returnerer bildet hvis det ikke eksisterer
+                R.drawable.t_ke // Return icon if it exist
             }
 
             Image(
@@ -175,6 +170,7 @@ fun Weather(temp: Int, symbolCode: String?) {
     }
 }
 
+// Displays weather card content
 @Composable
 fun WeatherCardContent(title: String, data: Double, icon: Int) {
     Box(
@@ -201,6 +197,7 @@ fun WeatherCardContent(title: String, data: Double, icon: Int) {
                         .align(Alignment.Center)
                 )
             } else {
+
                 Image(
                     painter = painterResource(id = icon),
                     contentDescription = title,
@@ -224,7 +221,7 @@ fun WeatherCardContent(title: String, data: Double, icon: Int) {
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 15.sp
             )
-            Spacer(modifier = Modifier.height(4.dp)) // Legg til litt mellomrom mellom tekstene
+            Spacer(modifier = Modifier.height(4.dp))
             if (title == "Vind retning") {
                 windDirectionText(data)
             } else {
@@ -244,7 +241,7 @@ fun WeatherCardContent(title: String, data: Double, icon: Int) {
     }
 }
 
-
+// Displays weather alert content
 @Composable
 fun WeatherCardContentAlert(info: String, backgroundColor: String) {
 
@@ -294,6 +291,7 @@ fun WeatherCardContentAlert(info: String, backgroundColor: String) {
     }
 }
 
+// Displays wind direction text
 @Composable
 fun windDirectionText(verdi: Double) {
     val direction = when (verdi) {

@@ -1,6 +1,9 @@
 package com.example.IN2000_prosjekt.model.signs
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Query
+import androidx.room.Upsert
 import com.example.IN2000_prosjekt.viewmodel.signs.Sign
 import kotlinx.coroutines.flow.Flow
 

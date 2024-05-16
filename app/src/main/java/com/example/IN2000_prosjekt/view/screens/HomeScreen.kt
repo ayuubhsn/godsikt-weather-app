@@ -1,7 +1,6 @@
 package com.example.IN2000_prosjekt.view.screens
 
 import android.content.res.Configuration
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -36,7 +35,6 @@ import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -46,6 +44,8 @@ import com.example.IN2000_prosjekt.R
 @Composable
 fun HomeScreen(navController: NavController, activity: MainActivity) {
     val image = painterResource(R.drawable.logo)
+
+    // Get the screen height in pixels
     val screenHeight = with(LocalDensity.current) {
         (LocalConfiguration.current.screenHeightDp * density).toInt()
     }
@@ -58,15 +58,10 @@ fun HomeScreen(navController: NavController, activity: MainActivity) {
             lastOrientation = configuration.orientation
             when (configuration.orientation) {
                 Configuration.ORIENTATION_LANDSCAPE -> {
-                    Log.d("Orientation", "landscape")
                 }
-
                 Configuration.ORIENTATION_PORTRAIT -> {
-                    Log.d("Orientation", "portrait")
                 }
-
                 Configuration.ORIENTATION_UNDEFINED -> {
-                    Log.d("Orientation", "undefined")
                 }
             }
         }
@@ -204,14 +199,4 @@ fun HomeScreen(navController: NavController, activity: MainActivity) {
             }
         }
     }
-
-
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun preview(){
-    //HomeScreen()
-
 }

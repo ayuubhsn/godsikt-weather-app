@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import com.example.IN2000_prosjekt.R
 import com.example.IN2000_prosjekt.viewmodel.signs.SignCategories
 
+
 fun getPictureSign(id : Int) : Int{
      return when(id) {
          0 -> R.drawable.annen_fare

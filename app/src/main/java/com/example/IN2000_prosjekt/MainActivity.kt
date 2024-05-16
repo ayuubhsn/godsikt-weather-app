@@ -1,49 +1,42 @@
 package com.example.IN2000_prosjekt
 
-import android.os.Build
+import android.Manifest
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.animation.OvershootInterpolator
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import androidx.compose.runtime.livedata.observeAsState
-import com.example.IN2000_prosjekt.viewmodel.weather.MapViewModel
-import com.example.IN2000_prosjekt.view.screens.HomeScreen
-import com.example.IN2000_prosjekt.view.theme.IN2000_prosjektTheme
-import android.Manifest
-import android.animation.ObjectAnimator
-import android.view.View
-import android.view.animation.OvershootInterpolator
-import androidx.activity.viewModels
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import androidx.room.Room
 import com.example.IN2000_prosjekt.model.Internett.NetworkConnectionObserver
 import com.example.IN2000_prosjekt.model.Internett.NetworkObserver
 import com.example.IN2000_prosjekt.model.signs.SignDao
 import com.example.IN2000_prosjekt.model.signs.SignDatabase
+import com.example.IN2000_prosjekt.view.screens.HomeScreen
 import com.example.IN2000_prosjekt.view.screens.NetworkStatusScreen
-import com.example.IN2000_prosjekt.viewmodel.splashScreen.SplashScreenDelayer
-import com.example.IN2000_prosjekt.viewmodel.signs.SignViewModel
-import com.example.IN2000_prosjekt.viewmodel.weather.AppViewModel
 import com.example.IN2000_prosjekt.view.screens.settings.AboutDataSourcesScreen
 import com.example.IN2000_prosjekt.view.screens.settings.AboutScreen
 import com.example.IN2000_prosjekt.view.screens.settings.AboutUsScreen
@@ -53,12 +46,16 @@ import com.example.IN2000_prosjekt.view.screens.showMap
 import com.example.IN2000_prosjekt.view.screens.signs.CategoryScreen
 import com.example.IN2000_prosjekt.view.screens.signs.SignDescriptionScreen
 import com.example.IN2000_prosjekt.view.screens.signs.SignScreen
+import com.example.IN2000_prosjekt.view.theme.IN2000_prosjektTheme
+import com.example.IN2000_prosjekt.viewmodel.signs.SignViewModel
+import com.example.IN2000_prosjekt.viewmodel.splashScreen.SplashScreenDelayer
+import com.example.IN2000_prosjekt.viewmodel.weather.AppViewModel
+import com.example.IN2000_prosjekt.viewmodel.weather.MapViewModel
 import com.example.IN2000_prosjekt.viewmodel.weather.WeatherCardInfo
 
 open class Event<out T>(private val content: T) {
 
-    var hasBeenHandled = false
-        private set // Allow external read but not write
+    private var hasBeenHandled = false
 
     /**
      * Returns the content and prevents its use again.
@@ -72,10 +69,7 @@ open class Event<out T>(private val content: T) {
         }
     }
 
-    /**
-     * Returns the content, even if it's already been handled.
-     */
-    fun peekContent(): T = content
+
 }
 
 class SharedViewModel : ViewModel() {
@@ -138,9 +132,9 @@ class MainActivity : ComponentActivity() {
 
     private val viewModel by viewModels<SplashScreenDelayer>()
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+       // observernettverk = NetworkConnectionObserver(applicationContext)
         observernettverk = NetworkConnectionObserver(applicationContext)
         //splashScreen starts
         installSplashScreen().apply {
@@ -175,7 +169,7 @@ class MainActivity : ComponentActivity() {
         }
         setContent {
             IN2000_prosjektTheme (darkTheme = true){
-                val status by observernettverk.oberrver().collectAsState(initial = NetworkObserver.Status.Utilgjengelig)
+                val status by observernettverk.observer().collectAsState(initial = NetworkObserver.Status.Unavailable)
 
                 // A surface container using the 'background' color from the theme
                 Surface(
@@ -229,8 +223,8 @@ fun Screen(activity : MainActivity, signDao: SignDao, status: NetworkObserver.St
 
         //map
         composable("MapScreen") {
-            val statuss by networkObserver.oberrver().collectAsState(initial = NetworkObserver.Status.Utilgjengelig)
-            if (statuss == NetworkObserver.Status.Tilgjengelig) {
+            val statuss by networkObserver.observer().collectAsState(initial = NetworkObserver.Status.Unavailable)
+            if (statuss == NetworkObserver.Status.Available) {
                 showMap(navController, mapViewModel, appViewModel, activity)
             } else {
                 NetworkStatusScreen(status = "Utilgjengelig", navController = navController)

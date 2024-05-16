@@ -1,6 +1,3 @@
-
-
-
 package com.example.IN2000_prosjekt.view.components.mapComponents
 
 
@@ -19,9 +16,7 @@ import com.mapbox.maps.extension.style.sources.generated.rasterSource
 fun addDybdedataLayer(mapboxMap: MapboxMap) {
     val sourceId = "dybdedata-source"
     val layerId = "dybdedata-layer"
-
     val tileUrl = "https://wms.geonorge.no/skwms1/wms.dybdedata2?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:3857&transparent=true&width=512&height=512&layers=Dybdedata2,Dybdekontur,grunne&styles=default"
-
 
 
     // Obtain the current style from the MapboxMap instance
@@ -38,7 +33,6 @@ fun addDybdedataLayer(mapboxMap: MapboxMap) {
                 }
             )
         }
-
 
         // Ensure the layer does not already exist before adding it
         if (!style.styleLayerExists(layerId)) {
