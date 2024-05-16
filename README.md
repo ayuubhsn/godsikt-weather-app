@@ -74,7 +74,5 @@ Husk at for å få mest mulig ut av denne appen, bør du ha en stabil internettf
 
 ```
 
-```
-
 
 

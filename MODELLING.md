@@ -1,16 +1,18 @@
 
 ## Tekstlig beskrivelse av use case
-Navn: værdata for valgt posisjon 	
+**Navn:** værdata for valgt posisjon 	
+
 **Aktør:**
 -	Bruker
 -	Applikasjon
--	API
-     o	Locationforecast
-     o	MetAlert
+-	API 
+  - Locationforecast 
+  - MetAlert
 -	Mapbox
 
 **Prebetingelser:** 
 - Appen må ha tilgang til internett
+
 **Postbetingelser:**
 - Brukeren trykker på en annen posisjon på kartet
 
@@ -26,19 +28,22 @@ Navn: værdata for valgt posisjon
 8.	Kortet presenterer værdata for den valgte posisjonen
 
 **Alternativflyt:**
-      3.1 Hvis bruker velger å ikke gi tillatelse:
-- Applikasjonen gir brukeren en ny sjanse til å gi tillatelse. Hvis brukeren igjen velger å ikke gi tillatelse, avsluttes prosessen
-      7.1 Hvis API-ene ikke henter ut data 
-- Systemet viser en melding i kortet om at værdata ikke kan hentes for den valgte posisjonen.
+
+- Hvis bruker velger å ikke gi tillatelse:
+  - Applikasjonen gir brukeren en ny sjanse til å gi tillatelse. Hvis brukeren igjen velger å ikke gi tillatelse, avsluttes prosessen
+  
+- Hvis API-ene ikke henter ut data 
+    - Systemet viser en melding i kortet om at værdata ikke kan hentes for den valgte posisjonen.
 
 ## Mermaid kode
 **Sekvensdiagram:**
 
 sequenceDiagram
-participant Bruker
-participant Applikasjon
-participant Mapbox
-participant API
+
+        participant Bruker
+        participant Applikasjon
+        participant Mapbox
+        participant API
 
     Bruker->>+Applikasjon: Start applikasjon og trykk på startknappen
     Applikasjon->>-Bruker: Spør om tillatelse til posisjon
@@ -57,17 +62,18 @@ participant API
 **Klassediagram**
 
 classDiagram
-User --> MainActivity
-MainActivity --> PermissionManager
-MainActivity --> MapScreen
-MainActivity --> WeatherDataCard
-PermissionManager --> MainActivity : requestLocationPermission()
-MainActivity : startApp()
-MainActivity : navigateToMapScreen()
-MapScreen : selectLocationOnMap()
-MapScreen : markPosition()
-MapScreen : showWeatherData()
-WeatherDataCard : displayWeatherData()
+
+    User --> MainActivity
+    MainActivity --> PermissionManager
+    MainActivity --> MapScreen
+    MainActivity --> WeatherDataCard
+    PermissionManager --> MainActivity : requestLocationPermission()
+    MainActivity : startApp()
+    MainActivity : navigateToMapScreen()
+    MapScreen : selectLocationOnMap()
+    MapScreen : markPosition()
+    MapScreen : showWeatherData()
+    WeatherDataCard : displayWeatherData()
 
     class User {
         +startApp()
@@ -97,23 +103,28 @@ WeatherDataCard : displayWeatherData()
     }
 
 **Aktivitetsdiagram**
+
+*Flytskjema for hvordan appen fungerer: *
+
+
 flowchart TD
-A[Brukeren starter applikasjonen] --> B[Brukeren trykker på Start-knappen]
-B --> C[Brukeren blir spurt om å gi tillatelse til sin posisjon]
-C --> D{Tillatelse gitt?}
-D -- Ja --> E[Naviger til kartskjermen]
-D -- Nei --> F[Be om tillatelse igjen]
-F --> C
-E --> G[Brukeren velger en posisjon på kartet]
-G --> H[Marker valgt posisjon]
-H --> I[Brukeren trykker på værdataknappen]
-I --> J[Vis kort med værdata fra APIene]
-E --> K[Brukeren trykker på sentreringsknappen]
-K --> L[Sentrer posisjonen til brukeren på kartet]
-E --> M[Brukeren trykker på informasjonsknappen]
-M --> N[Vis hvordan appen fungerer]
-E --> O[Brukeren trykker på SOS-knappen]
-O --> P[Varsler kystvakten]
+
+    A[Brukeren starter applikasjonen] --> B[Brukeren trykker på Start-knappen]
+    B --> C[Brukeren blir spurt om å gi tillatelse til sin posisjon]
+    C --> D{Tillatelse gitt?}
+    D -- Ja --> E[Naviger til kartskjermen]
+    D -- Nei --> F[Be om tillatelse igjen]
+    F --> C
+    E --> G[Brukeren velger en posisjon på kartet]
+    G --> H[Marker valgt posisjon]
+    H --> I[Brukeren trykker på værdataknappen]
+    I --> J[Vis kort med værdata fra APIene]
+    E --> K[Brukeren trykker på sentreringsknappen]
+    K --> L[Sentrer posisjonen til brukeren på kartet]
+    E --> M[Brukeren trykker på informasjonsknappen]
+    M --> N[Vis hvordan appen fungerer]
+    E --> O[Brukeren trykker på SOS-knappen]
+    O --> P[Varsler kystvakten]
 
     E --> Q[Brukeren navigerer til skilt skjerm fra navbaren]
     Q --> R[Brukeren velger hvilken type fareskilt å trykke på]
